@@ -1,8 +1,8 @@
 -- =====================================
 -- 1) Create Admin Principal
 -- =====================================
-INSERT INTO core."principal"(id, txn_id, first_name, last_name, username, email, created_date, last_login_date, is_active, created_by, last_updated, last_updated_by)
-SELECT n, n, 'Admin', 'Principal', 'admin', 'admin@mydomain.com', now(), now(), 1, 'system', now(), 'system'
+INSERT INTO core."principal"(id, txn_id, first_name, last_name, username, email, principal_status_id, created_date, last_login_date, is_active, created_by, last_updated, last_updated_by)
+SELECT n, n, 'Admin', 'Principal', 'admin', 'admin@mydomain.com', 1, now(), now(), 1, 'system', now(), 'system'
 FROM (SELECT nextval('core.principal_identity') n) t;
 
 WITH admin_principal_id AS (

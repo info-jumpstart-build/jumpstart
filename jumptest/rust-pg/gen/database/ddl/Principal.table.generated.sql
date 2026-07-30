@@ -6,7 +6,7 @@ CREATE TABLE core.principal (
 		last_name VARCHAR(50) ,
 		username VARCHAR(50) ,
 		email VARCHAR(100) ,
-		status INTEGER ,
+		principal_status_id INTEGER ,
 		created_date TIMESTAMP ,
 		last_login_date TIMESTAMP ,
 		is_active integer ,

@@ -21,7 +21,7 @@ SELECT n, n,
             op_role_member.last_updated_by,
             op_role_member.txn_id,
             principal.email AS principal_email,
-            principal.status AS principal_status,
+            principal.principal_status_id AS principal_principal_status_id,
             op_role.name AS op_role_name
     FROM core.op_role_member
         LEFT JOIN core.principal principal ON op_role_member.principal_id = principal.id AND principal.is_active = 1
@@ -48,7 +48,7 @@ SELECT n, n,
             op_role_member.last_updated_by,
             op_role_member.txn_id,
             principal.email AS principal_email,
-            principal.status AS principal_status,
+            principal.principal_status_id AS principal_principal_status_id,
             op_role.name AS op_role_name
     FROM core.op_role_member
         LEFT JOIN core.principal principal ON op_role_member.principal_id = principal.id AND principal.is_active = 1
@@ -74,7 +74,7 @@ SELECT n, n,
             op_role_member.last_updated_by,
             op_role_member.txn_id,
             principal.email AS principal_email,
-            principal.status AS principal_status,
+            principal.principal_status_id AS principal_principal_status_id,
             op_role.name AS op_role_name
     FROM core.op_role_member
         LEFT JOIN core.principal principal ON op_role_member.principal_id = principal.id AND principal.is_active = 1

@@ -33,7 +33,7 @@ SELECT n, n,
             test_case.title AS test_case_title,
             test_result_status.name AS test_result_status_name,
             executed_by.email AS executed_by_email,
-            executed_by.status AS executed_by_status
+            executed_by.principal_status_id AS executed_by_principal_status_id
     FROM app.test_result
         LEFT JOIN app.test_run test_run ON test_result.test_run_id = test_run.id AND test_run.is_active = 1
         LEFT JOIN app.test_case test_case ON test_result.test_case_id = test_case.id AND test_case.is_active = 1

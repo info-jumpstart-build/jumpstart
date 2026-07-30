@@ -4,8 +4,8 @@
 -- =====================================
 \set os_user `echo $LOGNAME`
 
-INSERT INTO core."principal"(id, txn_id, first_name, last_name, username, email, created_date, last_login_date, is_active, created_by, last_updated, last_updated_by)
-SELECT n, n, 'Current', 'Principal', :'os_user', :'admin_email', now(), now(), 1, 'system', now(), 'system'
+INSERT INTO core."principal"(id, txn_id, first_name, last_name, username, email, principal_status_id, created_date, last_login_date, is_active, created_by, last_updated, last_updated_by)
+SELECT n, n, 'Current', 'Principal', :'os_user', :'admin_email', 1, now(), now(), 1, 'system', now(), 'system'
 FROM (SELECT nextval('core.principal_identity') n) t;
 
 WITH os_user_principal_id AS (

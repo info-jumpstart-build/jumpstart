@@ -16,7 +16,7 @@ export interface PrincipalOrgView {
   txn_id: number;
   org_name: string;
   principal_email: string;
-  principal_status: number;
+  principal_principal_status_id: number;
 }
 
 const DOMAIN_OBJECT_NAME = "PrincipalOrg";
@@ -29,7 +29,7 @@ const columns: DataTableColumn[] = [
   { key: "last_updated_by", label: "Last Updated By" },
   { key: "org_name", label: "Organization ID" },
   { key: "principal_email", label: "Principal ID Email" },
-  { key: "principal_status", label: "Principal ID Status" },
+  { key: "principal_principal_status_id", label: "Principal ID Status" },
 ];
 
 // Matches the server's PropertyUpdateMessage (see

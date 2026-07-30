@@ -29,9 +29,8 @@ impl PrincipalTest {
         let v = BaseTest::get_test_data(&record, "VARCHAR", "emailAddresses", "100");
         record.set("email", v);
         
-        let v = BaseTest::get_test_data(&record, "INTEGER", "enabled", "NULL");
-        record.set("status", v);
-        
+        record.set("principal_status_id", serde_json::json!(BaseTest::get_last_id("principalstatus")));
+            
         let v = BaseTest::get_test_data(&record, "TIMESTAMP", "random", "NULL");
         record.set("created_date", v);
         
@@ -47,7 +46,7 @@ impl PrincipalTest {
         let mut verify_ctx = LogicContext::for_id(id);
         let persisted = PrincipalLogic::exec("get", &mut verify_ctx)?;
         let verify_fields: &[&str] = &[
-"first_name", "last_name", "username", "email", "status",         ];
+"first_name", "last_name", "username", "email", "principal_status_id",         ];
         BaseTest::assert_persisted("Principal::insert", &ctx.transaction, &persisted, verify_fields)?;
         Ok(())
     }
@@ -75,9 +74,8 @@ impl PrincipalTest {
         let v = BaseTest::get_test_data(&record, "VARCHAR", "emailAddresses", "100");
         record.set("email", v);
         
-        let v = BaseTest::get_test_data(&record, "INTEGER", "enabled", "NULL");
-        record.set("status", v);
-        
+        record.set("principal_status_id", serde_json::json!(BaseTest::get_last_id("principalstatus")));
+            
         let v = BaseTest::get_test_data(&record, "TIMESTAMP", "random", "NULL");
         record.set("created_date", v);
         
@@ -92,7 +90,7 @@ impl PrincipalTest {
         let mut verify_ctx = LogicContext::for_id(last_id);
         let persisted = PrincipalLogic::exec("get", &mut verify_ctx)?;
         let verify_fields: &[&str] = &[
-"first_name", "last_name", "username", "email", "status",         ];
+"first_name", "last_name", "username", "email", "principal_status_id",         ];
         BaseTest::assert_persisted("Principal::update", &ctx.transaction, &persisted, verify_fields)?;
         Ok(())
     }

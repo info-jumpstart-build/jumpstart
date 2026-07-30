@@ -22,7 +22,7 @@ SELECT n, n,
             principal_org.txn_id,
             org.name AS org_name,
             principal.email AS principal_email,
-            principal.status AS principal_status
+            principal.principal_status_id AS principal_principal_status_id
     FROM core.principal_org
         LEFT JOIN core.org org ON principal_org.org_id = org.id AND org.is_active = 1
         LEFT JOIN core.principal principal ON principal_org.principal_id = principal.id AND principal.is_active = 1
@@ -49,7 +49,7 @@ SELECT n, n,
             principal_org.txn_id,
             org.name AS org_name,
             principal.email AS principal_email,
-            principal.status AS principal_status
+            principal.principal_status_id AS principal_principal_status_id
     FROM core.principal_org
         LEFT JOIN core.org org ON principal_org.org_id = org.id AND org.is_active = 1
         LEFT JOIN core.principal principal ON principal_org.principal_id = principal.id AND principal.is_active = 1
@@ -75,7 +75,7 @@ SELECT n, n,
             principal_org.txn_id,
             org.name AS org_name,
             principal.email AS principal_email,
-            principal.status AS principal_status
+            principal.principal_status_id AS principal_principal_status_id
     FROM core.principal_org
         LEFT JOIN core.org org ON principal_org.org_id = org.id AND org.is_active = 1
         LEFT JOIN core.principal principal ON principal_org.principal_id = principal.id AND principal.is_active = 1

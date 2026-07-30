@@ -58,17 +58,21 @@ impl crate::op_role_member_logic::OpRoleMemberLogic {
         let sql = r#"select 1 from
 core.operation op
 inner join core.op_role_map orm on
-    orm.op_id=op.id
+    orm.op_id=op.id 
+	and orm.is_active=1
 inner join core.op_role r on
     r.id=orm.op_role_id
+	and r.is_active=1
 inner join core.op_role_member m on
     m.op_role_id=r.id
+	and m.is_active=1
 inner join core."principal" p on
     p.id=m.principal_id
-where
-    op.objectname = '^(objectname)' and
-    op.methodname = '^(methodname)' and
-    (p.email = '^(email)' OR p.username = '^(username)')"#;
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name='Enabled')
+where op.objectname = '^(objectname)' 
+    and op.methodname = '^(methodname)'
+    and (p.email = '^(email)' OR p.username = '^(username)')"#;
 
         let mut filter = BaseObject::new();
         filter.set("objectname", Value::String(object_name.to_string()));

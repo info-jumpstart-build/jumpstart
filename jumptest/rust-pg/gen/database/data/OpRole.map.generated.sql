@@ -34,7 +34,7 @@ SELECT n, n,
     'core.op_role-map-principal-principal',
     'SELECT
         principal.id AS id,
-        CONCAT_WS('' '', principal.email, principal.status) AS label,
+        CONCAT_WS('' '', principal.email, principal.principal_status_id) AS label,
         CASE WHEN op_role_member.id IS NOT NULL THEN 1 ELSE 0 END AS mapped
     FROM core.principal
     LEFT JOIN core.op_role_member ON op_role_member.principal_id = principal.id AND op_role_member.op_role_id = ^(id) AND op_role_member.is_active = 1

@@ -11,7 +11,7 @@ export interface PrincipalView {
   last_name: string;
   username: string;
   email: string;
-  status: number;
+  principal_status_id: number;
   created_date: string;
   last_login_date: string;
   is_active: number;
@@ -19,7 +19,7 @@ export interface PrincipalView {
   last_updated: string;
   last_updated_by: string;
   txn_id: number;
-  status_name: string;
+  principal_status_name: string;
 }
 
 const DOMAIN_OBJECT_NAME = "Principal";
@@ -30,14 +30,13 @@ const columns: DataTableColumn[] = [
   { key: "last_name", label: "Last" },
   { key: "username", label: "Username" },
   { key: "email", label: "Email" },
-  { key: "status", label: "Status" },
   { key: "created_date", label: "Created" },
   { key: "last_login_date", label: "Last Login" },
   { key: "is_active", label: "Active" },
   { key: "created_by", label: "Created By" },
   { key: "last_updated", label: "Last Updated" },
   { key: "last_updated_by", label: "Last Updated By" },
-  { key: "status_name", label: "Status" },
+  { key: "principal_status_name", label: "Status" },
 ];
 
 // Matches the server's PropertyUpdateMessage (see

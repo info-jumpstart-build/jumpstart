@@ -15,7 +15,7 @@ export interface Principal {
   last_name: string;
   username: string;
   email: string;
-  status: number;
+  principal_status_id: number;
   created_date: string;
   last_login_date: string;
   is_active: number;
@@ -77,7 +77,7 @@ const FORM_FIELDS: FormField[] = [
   { key: "last_name", label: "Last", kind: "string", fkVar: "", isGlobal: false, isId: false },
   { key: "username", label: "Username", kind: "string", fkVar: "", isGlobal: false, isId: false },
   { key: "email", label: "Email", kind: "string", fkVar: "", isGlobal: false, isId: false },
-  { key: "status", label: "Status", kind: "enum", fkVar: "principalstatus", isGlobal: false, isId: false },
+  { key: "principal_status_id", label: "Status", kind: "enum", fkVar: "principalstatus", isGlobal: false, isId: false },
   { key: "created_date", label: "Created", kind: "date", fkVar: "", isGlobal: false, isId: false },
   { key: "last_login_date", label: "Last Login", kind: "date", fkVar: "", isGlobal: false, isId: false },
   { key: "is_active", label: "Active", kind: "number", fkVar: "", isGlobal: true, isId: false },
@@ -93,7 +93,6 @@ const OWN_COLUMNS: DataTableColumn[] = [
   { key: "last_name", label: "Last" },
   { key: "username", label: "Username" },
   { key: "email", label: "Email" },
-  { key: "status", label: "Status" },
   { key: "created_date", label: "Created" },
   { key: "last_login_date", label: "Last Login" },
   { key: "is_active", label: "Active" },
@@ -318,7 +317,7 @@ export default function EditPrincipal() {
     navigate(returnUrl ?? "/principal");
   }
 
-  const rwkString = [formData.email, formData.status]
+  const rwkString = [formData.email]
     .filter((v) => v !== null && v !== undefined && v !== "")
     .join(" ");
 

@@ -37,6 +37,15 @@ server:
 	@$(MAKE) -C ./gen/server/scheduler
 	@$(MAKE) -C ./gen/server/scriptagent
 
+api:
+	@$(MAKE) -C ./gen/server/api
+
+scheduler:
+	@$(MAKE) -C ./gen/server/scheduler
+
+scriptagent:
+	@$(MAKE) -C ./gen/server/scriptagent
+
 web:
 	@$(MAKE) -C ./gen/web
 

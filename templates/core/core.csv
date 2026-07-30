@@ -6,7 +6,7 @@
 ,core,principal,,,last_name,Last,,,lastnames,6,NULL,0,YES,VARCHAR,nvarchar,50,100,NULL,NULL,NULL,NULL,NULL,NULL,UNICODE,NULL,NULL,SQL_Latin1_General_CP1_CI_AS,NULL,NULL,NULL,,1
 ,core,principal,,,username,Username,,,os_user,2,NULL,0,NO,VARCHAR,nvarchar,50,100,NULL,NULL,NULL,NULL,NULL,NULL,UNICODE,NULL,NULL,SQL_Latin1_General_CP1_CI_AS,NULL,NULL,NULL,,1
 ,core,principal,,,email,Email,,,emailAddresses,4,NULL,1,NO,VARCHAR,nvarchar,100,200,NULL,NULL,NULL,NULL,NULL,NULL,UNICODE,NULL,NULL,SQL_Latin1_General_CP1_CI_AS,NULL,NULL,NULL,,1
-,core,principal,,,status,Status,enum,principal_status,enabled,5,NULL,1,NO,INTEGER,int,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,,1,
+,core,principal,,,principal_status_id,Status,enum,principal_status,enabled,5,NULL,1,NO,INTEGER,int,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,,1,
 ,core,principal,,,created_date,Created,,,,7,(getdate()),0,YES,TIMESTAMP,datetime,NULL,NULL,NULL,NULL,NULL,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,,1
 ,core,principal,,,last_login_date,Last Login,,,,8,NULL,0,YES,TIMESTAMP,datetime,NULL,NULL,NULL,NULL,NULL,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,,1
 ,core,principal_org,Principals,,id,Principal Org ID,,,,1,NULL,0,YES,BIGINT,bigint,NULL,NULL,19,10,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,,1

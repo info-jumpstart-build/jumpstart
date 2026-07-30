@@ -15,7 +15,7 @@ export interface OpRoleMemberView {
   last_updated_by: string;
   txn_id: number;
   principal_email: string;
-  principal_status: number;
+  principal_principal_status_id: number;
   op_role_name: string;
 }
 
@@ -28,7 +28,7 @@ const columns: DataTableColumn[] = [
   { key: "last_updated", label: "Last Updated" },
   { key: "last_updated_by", label: "Last Updated By" },
   { key: "principal_email", label: "Username Email" },
-  { key: "principal_status", label: "Username Status" },
+  { key: "principal_principal_status_id", label: "Username Status" },
   { key: "op_role_name", label: "Role" },
 ];
 

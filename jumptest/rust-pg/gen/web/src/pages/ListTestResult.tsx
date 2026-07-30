@@ -26,7 +26,7 @@ export interface TestResultView {
   test_case_title: string;
   test_result_status_name: string;
   executed_by_email: string;
-  executed_by_status: number;
+  executed_by_principal_status_id: number;
 }
 
 const DOMAIN_OBJECT_NAME = "TestResult";
@@ -47,7 +47,7 @@ const columns: DataTableColumn[] = [
   { key: "test_case_title", label: "Test Case Title" },
   { key: "test_result_status_name", label: "Status" },
   { key: "executed_by_email", label: "Executed By Email" },
-  { key: "executed_by_status", label: "Executed By Status" },
+  { key: "executed_by_principal_status_id", label: "Executed By Status" },
 ];
 
 // Matches the server's PropertyUpdateMessage (see

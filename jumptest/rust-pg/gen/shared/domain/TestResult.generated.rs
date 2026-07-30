@@ -376,12 +376,12 @@ impl TestResultView {
     }
                         
     /// Executed By Status
-    pub fn executed_by_status(&self) -> i32 {
-        self.inner.base.get("executed_by_status").as_i64().unwrap_or_default() as i32
+    pub fn executed_by_principal_status_id(&self) -> i32 {
+        self.inner.base.get("executed_by_principal_status_id").as_i64().unwrap_or_default() as i32
     }
 
-    pub fn set_executed_by_status(&mut self, value: i32) {
-        self.inner.base.set("executed_by_status", serde_json::json!(value));
+    pub fn set_executed_by_principal_status_id(&mut self, value: i32) {
+        self.inner.base.set("executed_by_principal_status_id", serde_json::json!(value));
     }
                         }
 

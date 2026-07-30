@@ -14,7 +14,7 @@ SELECT n, n,
     'core.org-map-principal-principal',
     'SELECT
         principal.id AS id,
-        CONCAT_WS('' '', principal.email, principal.status) AS label,
+        CONCAT_WS('' '', principal.email, principal.principal_status_id) AS label,
         CASE WHEN principal_org.id IS NOT NULL THEN 1 ELSE 0 END AS mapped
     FROM core.principal
     LEFT JOIN core.principal_org ON principal_org.principal_id = principal.id AND principal_org.org_id = ^(id) AND principal_org.is_active = 1
