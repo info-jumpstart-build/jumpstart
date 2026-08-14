@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
 using jumpstart;
@@ -9,6 +10,16 @@ namespace jumpstart {
 
     class Program
     {
+        static void PrintUsage()
+        {
+            Console.WriteLine("Usage: jumpstart <model.csv> <template-definition> [--noauth]");
+            Console.WriteLine("   OR: Create a ~/.jumpstart.json file with modelpath and templatedefs");
+            Console.WriteLine();
+            Console.WriteLine("  --noauth   Suppress authentication code generation (no Auth0 login flow");
+            Console.WriteLine("             in the web frontends, no JWT enforcement in the servers).");
+            Console.WriteLine("             Equivalent to \"noauth\": true in ~/.jumpstart.json.");
+        }
+
         static async Task<int> Main(string[] args)
         {
 
@@ -17,8 +28,22 @@ namespace jumpstart {
             List<string> templDefNames = new List<string>();
             string homePath = string.Empty;
             Auth0Config auth0Config = new Auth0Config();   // populated from JSON config if present
+            bool noAuth = false;
             try
             {
+                // Pull --noauth out of the argument list wherever it appears, so it can be
+                // combined with either the explicit <model.csv> <template-def> form or the
+                // zero-argument (~/.jumpstart.json) form.
+                args = args.Where(a =>
+                {
+                    if (string.Equals(a, "--noauth", StringComparison.OrdinalIgnoreCase))
+                    {
+                        noAuth = true;
+                        return false;
+                    }
+                    return true;
+                }).ToArray();
+
                 if (args.Length == 2)
                 {
                     // Command line arguments provided
@@ -41,8 +66,7 @@ namespace jumpstart {
                     if (!File.Exists(jsonPath))
                     {
                         Console.WriteLine($"Error: No command line arguments provided and JSON file '{jsonPath}' not found.");
-                        Console.WriteLine("Usage: jumpstart <model.csv> <template-definition>");
-                        Console.WriteLine("   OR: Create a ~/.jumpstart.json file with modelpath and templatedefs");
+                        PrintUsage();
                         return 2; // Usage error
                     }
 
@@ -81,6 +105,8 @@ namespace jumpstart {
 
                     templDefNames = jumpStartParams.templatedefs ?? new List<string>();
                     auth0Config = jumpStartParams.auth0 ?? new Auth0Config();
+                    // --noauth on the command line always wins; otherwise fall back to the JSON setting.
+                    noAuth = noAuth || jumpStartParams.noauth;
 
                     if (templDefNames.Count == 0)
                     {
@@ -88,16 +114,15 @@ namespace jumpstart {
                         return 2; // Usage error
                     }
                 }
-                else 
+                else
                 {
-                    Console.WriteLine("Usage: jumpstart <model.csv> <template-definition>");
-                    Console.WriteLine("   OR: Create a ~/.jumpstart.json file with modelpath and templatedefs");
+                    PrintUsage();
                     return 2; // Usage error
                 }
 
 
-                Console.WriteLine($"Using model path {modelPath} with template definition(s): {string.Join(", ", templDefNames)}.");
-           
+                Console.WriteLine($"Using model path {modelPath} with template definition(s): {string.Join(", ", templDefNames)}{(noAuth ? " [--noauth]" : "")}.");
+
                 // infer the namespace based on the model filename
                 string _namespace = Path.GetFileNameWithoutExtension(modelPath);
                 var metaModel = new MetaModel(_namespace);
@@ -106,6 +131,14 @@ namespace jumpstart {
                 metaModel.Auth0Domain   = auth0Config.domain;
                 metaModel.Auth0ClientId = auth0Config.clientId;
                 metaModel.Auth0Audience = auth0Config.audience;
+
+                // Wire the --noauth toggle so templates can suppress authentication code generation
+                metaModel.NoAuth = noAuth;
+
+                // Wire the full set of selected registries into the model so
+                // build-level templates (e.g. the root makefile) can see the
+                // whole stack, not just whichever registry they belong to.
+                metaModel.TemplateDefNames = templDefNames;
 
                 // Create an instance of the CSVLoader
                 var csvLoader = new CSVLoader();

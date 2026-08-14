@@ -15,6 +15,7 @@ Blazor wasm content,model,web/blazor/wwwroot/appsettings.json.cshtml,./usr/web/w
 Blazor wasm content,model,web/blazor/wwwroot/index.html.cshtml,./gen/web/wwwroot,TRUE
 Blazor wasm content,model,web/blazor/wwwroot/js/notifications.js,./gen/web/wwwroot/js,TRUE
 Blazor wasm content,model,web/blazor/wwwroot/css/app.css,./gen/web/wwwroot/css,FALSE
+Blazor wasm content,model,web/blazor/wwwroot/css/data-table.css,./gen/web/wwwroot/css,FALSE
 Blazor wasm content,model,web/blazor/wwwroot/icon-192.png,./gen/web/wwwroot,FALSE
 Blazor wasm content,model,web/blazor/wwwroot/favicon.png,./gen/web/wwwroot,FALSE
 Blazor wasm content,model,web/blazor/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css,./gen/web/wwwroot/lib/bootstrap/dist/css,FALSE
@@ -83,7 +84,7 @@ Blazor wasm content,model,web/blazor/template.csproj.cshtml,./gen/web,FALSE
 Blazor wasm content,model,web/blazor/template.sln.cshtml,./gen/web,FALSE
 Blazor wasm content,object,web/blazor/Pages/Edittemplate.razor.cshtml,./gen/web/Pages,TRUE
 Blazor wasm content,object,web/blazor/Pages/Listtemplate.razor.cshtml,./gen/web/Pages,TRUE
-Blazor wasm content,model,web/blazor/Pages/Home.razor,./gen/web/Pages,TRUE
+Blazor wasm content,model,web/blazor/Pages/Home.razor.cshtml,./gen/web/Pages,TRUE
 Blazor wasm content,model,web/blazor/Pages/ListWorkflowCore.razor.cshtml,./gen/web/Pages,TRUE
 Blazor wasm content,model,web/blazor/Auth/LoginDisplay.razor.cshtml,./gen/web/Auth,TRUE
 Blazor wasm content,model,web/blazor/Auth/RedirectToLogin.razor.cshtml,./gen/web/Auth,TRUE

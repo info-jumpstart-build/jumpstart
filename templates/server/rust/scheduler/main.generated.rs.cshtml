@@ -90,7 +90,7 @@ struct Scheduled {
 fn main() {
     init_logging();
 
-    let port = match find_port(START_PORT, END_PORT) {
+    let port = match resolve_port("scheduler", START_PORT, END_PORT) {
         Some(p) => p,
         None => {
             Logger::error(format!("No available port in range {}-{}", START_PORT, END_PORT));
@@ -134,6 +134,36 @@ fn main() {
 
 fn find_port(start: u16, end: u16) -> Option<u16> {
     (start..=end).find(|&p| TcpListener::bind(("0.0.0.0", p)).is_ok())
+}
+
+/// Resolve the port to bind: the fixed port from the `servers.<service>`
+/// section of `~/.<namespace>.json` (see `Config::server_port`) if configured,
+/// otherwise the first free port in `[default_start, default_end]` as before.
+/// A configured port that is already in use (typically a stale process from a
+/// previous run) is *not* silently skipped: it logs a warning and scans
+/// forward from that port instead, so a mismatch between this port and
+/// wherever clients expect the server is visible in the log rather than
+/// discovered later as "nothing updates".
+fn resolve_port(service: &str, default_start: u16, default_end: u16) -> Option<u16> {
+    match common::Config::server_port(service) {
+        Some(configured) => {
+            if TcpListener::bind(("0.0.0.0", configured)).is_ok() {
+                Some(configured)
+            } else {
+                Logger::warning(format!(
+                    "{}: configured port {} (servers.{}.port in ~/.<namespace>.json) is already \
+                     in use -- possibly a stale process from a previous run. Scanning forward \
+                     for a free port instead; kill the stale process if clients expect {} \
+                     specifically.",
+                    service, configured, service, configured
+                ));
+                let scan_width = default_end.saturating_sub(default_start);
+                find_port(configured, configured.saturating_add(scan_width))
+                    .or_else(|| find_port(default_start, default_end))
+            }
+        }
+        None => find_port(default_start, default_end),
+    }
 }
 
 fn init_logging() {

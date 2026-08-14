@@ -254,7 +254,36 @@ namespace jumpstart {
         }
     }
 
-public class EnumRelationship 
+/// <summary>
+/// A many-to-many relationship reached through a junction/mapping table
+/// (FK_TYPE=map, see docs/metadata.md). Populated on the "self" side --
+/// e.g. Principal.MapRelationships holds one entry per other side
+/// reachable through op_role_member (org, in this example). Anchored
+/// from a single "self" row, so the UI-facing query is a LEFT JOIN from
+/// OtherObject to MapObject (not a literal three-way FULL OUTER JOIN --
+/// unnecessary once one side is pinned to a single id).
+/// </summary>
+public class MapRelationship
+{
+    public MetaObject MapObject { get; set; }       // the junction table itself (e.g. op_role_member)
+    public MetaAttribute SelfAttribute { get; set; } // the map-table FK column pointing back at "self" (this object)
+    public MetaAttribute OtherAttribute { get; set; }// the map-table FK column pointing at OtherObject
+    public MetaObject OtherObject { get; set; }      // the other side of the many-to-many relationship
+    public string Role { get; set; }                 // OtherAttribute.Name minus trailing "_id" -- disambiguates multiple map relationships to the same OtherObject
+    public string Label { get; set; }                // display label, defaults to OtherObject.Label
+
+    public MapRelationship(MetaObject mapObject, MetaAttribute selfAttribute, MetaAttribute otherAttribute, MetaObject otherObject, string role, string label)
+    {
+        MapObject = mapObject;
+        SelfAttribute = selfAttribute;
+        OtherAttribute = otherAttribute;
+        OtherObject = otherObject;
+        Role = role;
+        Label = label;
+    }
+}
+
+public class EnumRelationship
 {   public string idColumn {get;set;}
     public string nameColumn {get;set;}
     public MetaAttribute EnumAttribute {get;set;}
@@ -408,6 +437,7 @@ public class ViewRelationship
         public List<ChildRelationship> Children { get; private set; } = new();
         public List<EnumRelationship> EnumAttributes { get; private set; } = new();
         public List<ViewRelationship> ViewRelationships { get; private set; } = new();
+        public List<MapRelationship> MapRelationships { get; private set; } = new();
 
         public List<MetaAttribute> UserAttributes {
             get 
@@ -496,6 +526,57 @@ public class ViewRelationship
                         {
                             parentObject.Children.Add(new ChildRelationship(role, label, this));
                         }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Processes many-to-many ("map") relationships reached through this object
+        /// acting as a junction/mapping table (e.g. op_role_member between principal
+        /// and op_role). Looks for pairs of FK_TYPE=map attributes on this object --
+        /// each ordered pair (selfAttribute, otherAttribute) describes one side of the
+        /// relationship, registered on selfObject.MapRelationships so a many-to-many
+        /// table with more than two map FKs (unusual, but not disallowed) yields one
+        /// MapRelationship per ordered pair rather than assuming exactly two.
+        /// </summary>
+        /// <param name="allObjects">Collection of all MetaObjects to resolve FkTable references against</param>
+        public void ProcessMapRelationships(IEnumerable<MetaObject> allObjects)
+        {
+            var mapAttributes = Attributes.Where(a =>
+                !string.IsNullOrEmpty(a.FkType) &&
+                a.FkType.ToLower() == "map" &&
+                !string.IsNullOrEmpty(a.FkTable)).ToList();
+
+            if (mapAttributes.Count < 2)
+            {
+                // Not a junction table -- a map relationship needs at least two
+                // FK_TYPE=map columns on the same table to pair up.
+                return;
+            }
+
+            foreach (var selfAttribute in mapAttributes)
+            {
+                var selfObject = allObjects.FirstOrDefault(mo => mo.TableName == selfAttribute.FkTable);
+                if (selfObject == null) { continue; }
+
+                foreach (var otherAttribute in mapAttributes)
+                {
+                    if (ReferenceEquals(selfAttribute, otherAttribute)) { continue; }
+
+                    var otherObject = allObjects.FirstOrDefault(mo => mo.TableName == otherAttribute.FkTable);
+                    if (otherObject == null) { continue; }
+
+                    string role = otherAttribute.Name.EndsWith("_id")
+                        ? otherAttribute.Name.Substring(0, otherAttribute.Name.Length - 3)
+                        : otherAttribute.Name;
+
+                    bool alreadyExists = selfObject.MapRelationships.Any(m =>
+                        m.MapObject == this && m.SelfAttribute == selfAttribute && m.OtherAttribute == otherAttribute);
+
+                    if (!alreadyExists)
+                    {
+                        selfObject.MapRelationships.Add(new MapRelationship(this, selfAttribute, otherAttribute, otherObject, role, otherObject.Label));
                     }
                 }
             }
@@ -884,6 +965,21 @@ public class ViewRelationship
         /// <summary>Auth0 API audience, e.g. "https://your-api-identifier"</summary>
         public string Auth0Audience { get; set; } = string.Empty;
 
+        // ── NoAuth toggle (populated from the --noauth CLI flag) ──────────────
+        // When true, templates suppress authentication code generation: no
+        // Auth0 login flow in the web frontends, no JWT enforcement in the
+        // servers. Templates reference this as @Model.NoAuth.
+        public bool NoAuth { get; set; } = false;
+
+        // ── Selected stack (populated from ~/.jumpstart.json "templatedefs") ──
+        // The full list of template registry names requested for this run, e.g.
+        // ["database-pgsql", "server-rust", "web-nodejs", "test-rust", "tools-rust"].
+        // Only meaningful when driven via ~/.jumpstart.json, since that's the only
+        // mode where all registries for a project are known in a single invocation.
+        // Templates reference this as @Model.TemplateDefNames to conditionally emit
+        // stack-specific content (see templates/root/makefile.cshtml).
+        public List<string> TemplateDefNames { get; set; } = new();
+
         public MetaModel(string _namespace)
         {
             Name = _namespace;
@@ -906,6 +1002,7 @@ public class ViewRelationship
            foreach(var obj in Objects)
            {
                 obj.ProcessChildren(Objects);
+                obj.ProcessMapRelationships(Objects);
                 obj.ProcessEnumObjects(Objects);
                 obj.ProcessView(Objects);
            }

@@ -27,6 +27,15 @@ pub struct DataSourceConfig {
     pub password: String,
 }
 
+/// One entry of the `servers` section of `~/.<namespace>.json`: the fixed port
+/// a named service (`"api"`, `"scheduler"`, `"scriptagent"`) should bind on
+/// startup, instead of scanning its default port range. See `Config::server_port`.
+#[derive(Debug, Clone, Deserialize, Default)]
+pub struct ServerConfig {
+    #[serde(default)]
+    pub port: String,
+}
+
 #[derive(Debug, Clone, Deserialize, Default)]
 pub struct NamespaceConfig {
     #[serde(default)]
@@ -35,6 +44,12 @@ pub struct NamespaceConfig {
     pub datasources: HashMap<String, DataSourceConfig>,
     #[serde(default)]
     pub network_interface: Option<usize>,
+    /// Optional fixed listening port per service (`"api"`, `"scheduler"`,
+    /// `"scriptagent"`), read from the `servers` section of
+    /// `~/.<namespace>.json`. Absent or empty means "keep scanning the
+    /// service's default port range", as before. See `Config::server_port`.
+    #[serde(default)]
+    pub servers: HashMap<String, ServerConfig>,
     /// Enabled log level, e.g. "error" | "warning" | "info" | "debug".
     /// Mirrors the .NET appsettings `loglevel` entry.
     #[serde(default)]
@@ -199,6 +214,24 @@ impl Config {
         (None, None)
     }
 
+    /// This service's fixed listening port (`"api"`, `"scheduler"`, or
+    /// `"scriptagent"`), from the `servers` section of `~/.<namespace>.json`.
+    /// `None` when the section, the service's entry, or its `port` is absent,
+    /// empty, or not a valid port number -- callers should then fall back to
+    /// scanning the service's default port range, as before this setting
+    /// existed.
+    pub fn server_port(service: &str) -> Option<u16> {
+        let cfg = Self::load_namespace_config();
+        cfg.servers.get(service).and_then(|s| {
+            let trimmed = s.port.trim();
+            if trimmed.is_empty() {
+                None
+            } else {
+                trimmed.parse::<u16>().ok()
+            }
+        })
+    }
+
     /// This service's own inbound Auth0 settings (tenant domain + this
     /// service's audience) from the `auth0` section of `~/.<namespace>.json`.
     /// `service` is one of `"api"`, `"scheduler"`, `"scriptagent"`. Returns
@@ -356,6 +389,7 @@ fn parse_legacy(content: &str) -> NamespaceConfig {
         loglevel: None,
         logwriters: None,
         auth0: None,
+        servers: HashMap::new(),
     }
 }
 

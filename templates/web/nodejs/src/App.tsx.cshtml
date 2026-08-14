@@ -6,8 +6,27 @@
 // and wires up its generated list/edit pages' imports + <Route>s explicitly.
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
-import ProtectedRoute from "./auth/ProtectedRoute";
+@if (!Model.NoAuth)
+{
+<text>import ProtectedRoute from "./auth/ProtectedRoute";
 import AuthCallback from "./auth/AuthCallback";
+</text>
+}
+else
+{
+<text>import { Navigate } from "react-router-dom";
+
+// --noauth: authentication code generation suppressed -- these inert
+// stand-ins mean the JSX below (<ProtectedRoute>/<AuthCallback />) needs no
+// further changes: no login gate, and the callback route just bounces home.
+function ProtectedRoute({ children }: { children: any }) {
+  return <>{children}</>;
+}
+function AuthCallback() {
+  return <Navigate to="/" replace />;
+}
+</text>
+}
 import Home from "./pages/Home";
 // Custom list page for the "workflow" core table -- linked from the nav
 // menu via its own MetaObject.Uri ("core/workflow") instead of the default

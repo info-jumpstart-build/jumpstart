@@ -86,6 +86,7 @@ The root container for the entire application model.
 | `NavMenus` | `Dictionary<string, List<MetaObject>>` | Objects grouped by nav menu |
 | `GlobalAttributes` | `List<MetaAttribute>` | Audit columns from global.csv |
 | `build` | `MetaBuild` | Output file tracking |
+| `NoAuth` | `bool` | Set from the `--noauth` CLI flag (or `"noauth": true` in `~/.jumpstart.json`). When true, templates suppress authentication code generation -- see [Getting Started](getting-started.md#turning-off-authentication---noauth). |
 
 ### MetaObject
 
@@ -230,6 +231,7 @@ There are ten template registries. Server, web, test, and tools registries come 
 | `web-nodejs.csv` | React + Vite | pages, components, layout, auth, API client, assets |
 | `test-dotnet.csv` / `test-rust.csv` | tests | test-persist, test-script, test-scheduler, test-scriptagent (+ test-api on .NET) |
 | `tools-dotnet.csv` / `tools-rust.csv` | tools | CSV import and export utilities (+ test-impexp and setup-auth0 on .NET) |
+| `root.csv` | project root | The top-level `makefile` that drives `jumpstart` itself across whichever registries you selected |
 
 #### server-dotnet.csv / server-rust.csv (Server Templates)
 
@@ -247,6 +249,7 @@ Each server registry defines the full backend across these layers:
 | **API** | per-object controllers + Program.cs | generic router `main.generated.rs` + `user_api.rs` hook | object/model |
 | **Scheduler** | Program.cs, QuartzSchedulerThread | main.generated.rs (cron crate) | model |
 | **Script agent** | Program.cs, scriptagent.api.core.cs | main.generated.rs | model |
+| **Bin launchers** | `start.sh`/`.cmd`, `stop.sh`/`.cmd` (start/stop api+scheduler+scriptagent+web together) | same, identical across both backends | model |
 
 #### web-blazor.csv / web-nodejs.csv (Web Templates)
 

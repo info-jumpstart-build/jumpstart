@@ -7,40 +7,66 @@ const int StartPort = 5200;
 const int EndPort = 5300;
 const int MaxRetries = 100;
 
-int boundPort = 0;
 //IPAddress boundIP = Config.getNetworkInterfaceIP();
 IPAddress boundIP = IPAddress.Any; // Listen on all interfaces. The actual IP will be determined by the client when it connects.
-var builder = WebApplication.CreateBuilder(args);
 
-// Try to find an available port
-for (int port = StartPort; port <= EndPort && port < StartPort + MaxRetries; port++)
+int boundPort = 0;
+
+// A fixed port from servers.api.port in ~/.<namespace>.json (if configured) is
+// tried first, exactly -- not silently skipped if it's busy. A busy configured
+// port is usually a stale process from a previous run; scanning forward from
+// it (with a warning) instead of silently landing elsewhere keeps that
+// mismatch visible in the log rather than surfacing later as "clients aren't
+// getting updates" (a stale process holding the port clients expect, while a
+// freshly started one on a different port has no connections).
+int? configuredPort = Config.GetServerPort("api");
+if (configuredPort.HasValue)
 {
-    try
+    boundPort = TryBindPort(configuredPort.Value, boundIP);
+    if (boundPort == 0)
     {
-        // Configure Kestrel to listen on the resolved network interface
-        builder.WebHost.UseUrls($"http://{boundIP}:{port}");
-
-        // Test if port is available by trying to bind
-        using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
-        {
-            socket.Bind(new IPEndPoint(boundIP, port));
-        }
-
-        boundPort = port;
-        Console.WriteLine($"API Server will bind to IP: {boundIP}, Port: {boundPort}");
-        break;
+        Console.WriteLine($"WARNING: configured port {configuredPort.Value} (servers.api.port in ~/.<namespace>.json) is already in use -- possibly a stale process from a previous run. Scanning forward for a free port instead; kill the stale process if clients expect {configuredPort.Value} specifically.");
+        boundPort = FindFreePort(configuredPort.Value, configuredPort.Value + (EndPort - StartPort), MaxRetries, boundIP);
     }
-    catch (SocketException)
-    {
-        // Port is in use, try next port
-        continue;
-    }
+}
+
+if (boundPort == 0)
+{
+    boundPort = FindFreePort(StartPort, EndPort, MaxRetries, boundIP);
 }
 
 if (boundPort == 0)
 {
     Console.WriteLine($"ERROR: Could not find available port in range {StartPort}-{EndPort}");
     Environment.Exit(1);
+}
+
+var builder = WebApplication.CreateBuilder(args);
+// Configure Kestrel to listen on the resolved network interface
+builder.WebHost.UseUrls($"http://{boundIP}:{boundPort}");
+Console.WriteLine($"API Server will bind to IP: {boundIP}, Port: {boundPort}");
+
+static int TryBindPort(int port, IPAddress ip)
+{
+    try
+    {
+        using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        socket.Bind(new IPEndPoint(ip, port));
+        return port;
+    }
+    catch (SocketException)
+    {
+        return 0;
+    }
+}
+
+static int FindFreePort(int start, int end, int maxRetries, IPAddress ip)
+{
+    for (int port = start; port <= end && port < start + maxRetries; port++)
+    {
+        if (TryBindPort(port, ip) != 0) return port;
+    }
+    return 0;
 }
 
 // ── Auth0 M2M token provider (outbound calls to Scheduler) ──────────────────
@@ -52,7 +78,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+@if (!Model.NoAuth)
+{
+<text>    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         Name         = "Authorization",
         Type         = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
@@ -72,9 +100,13 @@ builder.Services.AddSwaggerGen(c =>
             Array.Empty<string>()
         }
     });
+</text>
+}
 });
 
-// ── Auth0 JWT Bearer validation (inbound requests) ───────────────────────────
+@if (!Model.NoAuth)
+{
+<text>// ── Auth0 JWT Bearer validation (inbound requests) ───────────────────────────
 builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -82,6 +114,11 @@ builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer
         options.Audience  =  builder.Configuration["Auth0:Audience"];
     });
 builder.Services.AddAuthorization();
+</text>
+}
+// --noauth: authentication generation suppressed. RBAC checks (OpRoleMemberLogic.Authorized)
+// still run, but CurrentUser falls back to the OS user running this process, exactly as it
+// does today for the Scheduler/ScriptAgent/tests -- see OpRoleMemberLogic.core.cs.
 
 // Register the SSE notification service (replaces SignalR + the SignalR-backed
 // EventAggregator). Real-time updates are delivered over Server-Sent Events.
@@ -115,7 +152,9 @@ app.UseCors("AllowBlazorClient");
 
 //app.UseHttpsRedirection();
 
-app.UseAuthentication();
+@if (!Model.NoAuth)
+{
+<text>app.UseAuthentication();
 
 // ── Propagate JWT identity into the logic-layer authorization check ───────────
 // Runs after UseAuthentication so context.User is already populated from the JWT.
@@ -145,6 +184,8 @@ app.Use(async (context, next) =>
 });
 
 app.UseAuthorization();
+</text>
+}
 
 app.MapControllers();
 // Real-time notifications are served by NotificationController's SSE endpoint

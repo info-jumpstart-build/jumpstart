@@ -5,7 +5,11 @@
 // token as a Bearer header, the same way AuthorizationMessageHandler does.
 // (.tsx, not .ts: ApiClientProvider below renders JSX.)
 import { createContext, useContext, useMemo, type ReactNode } from "react";
-import { useAuth0 } from "@@auth0/auth0-react";
+@if (!Model.NoAuth)
+{
+<text>import { useAuth0 } from "@@auth0/auth0-react";
+</text>
+}
 
 export interface ApiClient {
   // Mirrors HttpClient.BaseAddress -- exposed so callers (e.g. list pages
@@ -18,7 +22,9 @@ export interface ApiClient {
   del(path: string): Promise<void>;
 }
 
-function createApiClient(baseUrl: string, getAccessToken: () => Promise<string>): ApiClient {
+@if (!Model.NoAuth)
+{
+<text>function createApiClient(baseUrl: string, getAccessToken: () => Promise<string>): ApiClient {
   async function request<T>(path: string, init?: RequestInit): Promise<T> {
     const token = await getAccessToken();
     const response = await fetch(`${baseUrl}${path}`, {
@@ -49,6 +55,42 @@ function createApiClient(baseUrl: string, getAccessToken: () => Promise<string>)
     del: (path: string) => request<void>(path, { method: "DELETE" }),
   };
 }
+</text>
+}
+else
+{
+<text>// --noauth: authentication code generation suppressed -- no access token to attach.
+function createApiClient(baseUrl: string): ApiClient {
+  async function request<T>(path: string, init?: RequestInit): Promise<T> {
+    const response = await fetch(`${baseUrl}${path}`, {
+      ...init,
+      headers: {
+        ...(init?.body ? { "Content-Type": "application/json" } : {}),
+        ...(init?.headers ?? {}),
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`${init?.method ?? "GET"} ${path} failed: ${response.status} ${response.statusText}`);
+    }
+
+    if (response.status === 204) {
+      return undefined as T;
+    }
+
+    return (await response.json()) as T;
+  }
+
+  return {
+    baseUrl,
+    get: <T,>(path: string) => request<T>(path),
+    post: <T,>(path: string, body: unknown) => request<T>(path, { method: "POST", body: JSON.stringify(body) }),
+    put: <T,>(path: string, body: unknown) => request<T>(path, { method: "PUT", body: JSON.stringify(body) }),
+    del: (path: string) => request<void>(path, { method: "DELETE" }),
+  };
+}
+</text>
+}
 
 const ApiClientContext = createContext<ApiClient | null>(null);
 
@@ -59,12 +101,21 @@ export function ApiClientProvider({
   apiBaseUrl: string;
   children: ReactNode;
 }) {
-  const { getAccessTokenSilently } = useAuth0();
+@if (!Model.NoAuth)
+{
+<text>  const { getAccessTokenSilently } = useAuth0();
 
   const client = useMemo(
     () => createApiClient(apiBaseUrl, getAccessTokenSilently),
     [apiBaseUrl, getAccessTokenSilently],
   );
+</text>
+}
+else
+{
+<text>  const client = useMemo(() => createApiClient(apiBaseUrl), [apiBaseUrl]);
+</text>
+}
 
   return <ApiClientContext.Provider value={client}>{children}</ApiClientContext.Provider>;
 }
@@ -75,4 +126,19 @@ export function useApiClient(): ApiClient {
     throw new Error("useApiClient must be used within an ApiClientProvider");
   }
   return client;
+}
+
+/**
+ * Opens the SSE notification stream. The browser's native EventSource API
+ * cannot attach an Authorization header, so it can't reuse this client's
+ * normal fetch-based auth -- instead it first mints a short-lived,
+ * single-use ticket over a normal (Authorization-header-gated) POST, then
+ * opens the stream with that ticket as a query param. See the API server's
+ * stream-ticket handler (Rust: notification_stream_ticket in
+ * main.generated.rs; .NET: NotificationController.MintStreamTicket) for why
+ * a ticket, not the access token itself, travels in the URL.
+ */
+export async function openNotificationStream(api: ApiClient): Promise<EventSource> {
+  const { ticket } = await api.post<{ ticket: string }>("/api/Notification/stream-ticket", {});
+  return new EventSource(`${api.baseUrl}/api/Notification/stream?ticket=${encodeURIComponent(ticket)}`);
 }
