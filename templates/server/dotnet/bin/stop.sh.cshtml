@@ -1,0 +1,98 @@
+#!/bin/bash
+# Stop all backend components started by start.sh, using the PID+TTY
+# breadcrumb files it leaves behind (api.pid, scheduler.pid, scriptagent.pid,
+# web.pid -- each line is "PID TTY"). For each entry: kill the recorded
+# process, sweep up anything else still attached to the same terminal (e.g.
+# web's npm wrapper alongside the vite process it spawned), and -- on macOS
+# -- close the actual Terminal.app window/tab so it doesn't just sit there
+# showing a finished shell prompt.
+DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$DIR"
+
+# Force-close the Terminal.app window/tab whose tty matches. macOS only --
+# no-op on Linux/other, and a no-op if there's no real tty (e.g. a process
+# that ended up backgrounded via nohup instead of in its own window).
+_close_terminal_window() {
+    local tty="$1"
+    [[ "$OSTYPE" == "darwin"* ]] || return 0
+    [[ -z "$tty" || "$tty" == "?" || "$tty" == "??" ]] && return 0
+    local ttypath="/dev/$tty"
+    osascript - "$ttypath" <<'APPLESCRIPT' >/dev/null 2>&1
+on run argv
+    set targetTTY to item 1 of argv
+    tell application "Terminal"
+        repeat with w in windows
+            repeat with t in tabs of w
+                try
+                    if (tty of t) is targetTTY then
+                        try
+                            close t
+                        on error
+                            try
+                                close w
+                            end try
+                        end try
+                    end if
+                end try
+            end repeat
+        end repeat
+    end tell
+end run
+APPLESCRIPT
+}
+
+TTYS=()
+
+_stop_component() {
+    local label="$1" pidfile="$2"
+    if [[ ! -s "$pidfile" ]]; then
+        echo "  $label: no pid file found (already stopped, or was never captured)"
+        return
+    fi
+    local any=0
+    while read -r pid tty; do
+        [[ -z "$pid" ]] && continue
+        if kill -0 "$pid" 2>/dev/null; then
+            echo "  $label: stopping pid $pid"
+            kill "$pid" 2>/dev/null
+            any=1
+        fi
+        [[ -n "$tty" && "$tty" != "?" && "$tty" != "??" ]] && TTYS+=("$tty")
+    done < "$pidfile"
+    [[ "$any" -eq 0 ]] && echo "  $label: process(es) in pid file were already gone"
+}
+
+echo "Stopping api..."
+_stop_component "api" "$DIR/api.pid"
+
+echo "Stopping scheduler..."
+_stop_component "scheduler" "$DIR/scheduler.pid"
+
+echo "Stopping scriptagent..."
+_stop_component "scriptagent" "$DIR/scriptagent.pid"
+
+echo "Stopping web..."
+_stop_component "web" "$DIR/web.pid"
+
+# Give everything a moment to shut down cleanly, then force-kill stragglers.
+sleep 1
+for pidfile in "$DIR/api.pid" "$DIR/scheduler.pid" "$DIR/scriptagent.pid" "$DIR/web.pid"; do
+    [[ -s "$pidfile" ]] || { rm -f "$pidfile"; continue; }
+    while read -r pid tty; do
+        [[ -z "$pid" ]] && continue
+        if kill -0 "$pid" 2>/dev/null; then
+            echo "  pid $pid still running, sending SIGKILL"
+            kill -9 "$pid" 2>/dev/null
+        fi
+    done < "$pidfile"
+    rm -f "$pidfile"
+done
+
+# Now that the processes are confirmed dead, sweep up anything else still
+# attached to each terminal and close the window itself.
+for tty in "${TTYS[@@]}"; do
+    pkill -9 -t "$tty" 2>/dev/null
+    _close_terminal_window "$tty"
+done
+
+echo "All components stopped."

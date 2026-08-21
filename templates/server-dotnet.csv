@@ -84,3 +84,7 @@ dotnet server templates-scriptagent,model,server/dotnet/scriptagent/scriptagent.
 dotnet server templates-scriptagent,model,server/dotnet/scriptagent/scriptagent.sh.cshtml,./gen/server/scriptagent,TRUE
 dotnet server templates-scriptagent,model,server/dotnet/scriptagent/scriptagent.cmd.cshtml,./gen/server/scriptagent,TRUE
 dotnet server templates-server solution,model,server/dotnet/server.sln.cshtml,./gen/server,TRUE
+dotnet server templates-bin,model,server/dotnet/bin/start.sh.cshtml,./bin,TRUE
+dotnet server templates-bin,model,server/dotnet/bin/start.cmd.cshtml,./bin,TRUE
+dotnet server templates-bin,model,server/dotnet/bin/stop.sh.cshtml,./bin,TRUE
+dotnet server templates-bin,model,server/dotnet/bin/stop.cmd.cshtml,./bin,TRUE

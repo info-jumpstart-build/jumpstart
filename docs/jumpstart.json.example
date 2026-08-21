@@ -1,6 +1,6 @@
 {
   "modelpath": "~/projects/myapp/myapp.csv",
-  "templatedefs": ["database-pgsql", "server-rust", "web-nodejs", "test-rust", "tools-rust"],
+  "templatedefs": ["database-pgsql", "server-rust", "web-nodejs", "test-rust", "tools-rust", "root"],
   "auth0": {
     "domain": "your-tenant.us.auth0.com",
     "clientId": "YOUR_SPA_CLIENT_ID",

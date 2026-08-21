@@ -1,8 +1,7 @@
 *.dll
 *.pdb
-obj
-bin
-Debug
+src/obj
+src/bin
 packages
 *.log
 *.exe
@@ -30,3 +29,4 @@ usr/server/api/appsettings.json
 usr/server/scheduler/appsettings.json
 usr/server/scriptagent/appsettings.json
 .DS_Store
+jumpstart-old/
