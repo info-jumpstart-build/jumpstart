@@ -12,6 +12,11 @@
   },
   "loglevel": "debug",
   "logwriters": "console,file",
+  "servers": {
+    "api": { "port": "5200" },
+    "scheduler": { "port": "5000" },
+    "scriptagent": { "port": "5100" }
+  },
   "auth0": {
     "domain": "your-tenant.us.auth0.com",
     "audiences": {
