@@ -11,6 +11,7 @@ dotnet server templates-common,model,shared/dotnet/common/PostgreSQLProvider.cs.
 dotnet server templates-common,model,shared/dotnet/common/SqlServerProvider.cs.cshtml,./gen/shared/common,TRUE
 dotnet server templates-common,model,shared/dotnet/common/JsonHelper.cs.cshtml,./gen/shared/common,TRUE
 dotnet server templates-common,model,shared/dotnet/common/EnumHelper.cs.cshtml,./gen/shared/common,TRUE
+dotnet server templates-common,model,shared/dotnet/common/MapOption.cs.cshtml,./gen/shared/common,TRUE
 dotnet server templates-common,model,shared/dotnet/common/DatabaseProviderFactory.cs.cshtml,./gen/shared/common,TRUE
 dotnet server templates-common,model,shared/dotnet/common/SessionInfo.core.cs.cshtml,./gen/shared/common,TRUE
 dotnet server templates-common,model,shared/dotnet/common/CSharpCompiler.core.cs.cshtml,./gen/shared/common,TRUE
@@ -57,6 +58,7 @@ dotnet server templates-api,model,server/dotnet/api/Workflow.api.core.cs.cshtml,
 dotnet server templates-api,model,server/dotnet/api/EventAggregator.core.cs.cshtml,./gen/server/api,TRUE
 dotnet server templates-api,model,server/dotnet/api/NotificationHub.core.cs.cshtml,./gen/server/api,TRUE
 dotnet server templates-api,model,server/dotnet/api/NotificationController.core.cs.cshtml,./gen/server/api,TRUE
+dotnet server templates-api,model,server/dotnet/api/AdminController.core.cs.cshtml,./gen/server/api,TRUE
 dotnet server templates-api,model,server/dotnet/api/appsettings.json.cshtml,./usr/server/api,FALSE
 dotnet server templates-api,model,server/dotnet/api/appsettings.Development.json.cshtml,./usr/server/api,FALSE
 dotnet server templates-api,model,server/dotnet/api/Properties/launchSettings.json.cshtml,./usr/server/api/Properties,FALSE

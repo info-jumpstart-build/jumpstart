@@ -36,9 +36,15 @@ namespace @Model.Name
                                    $"AND {provider.FormatColumnName("is_active")} = 1";
             DBPersist.execCmd(deactivateSql, connectionName);
 
+            // Deliberately does NOT force is_active=1 here (unlike insert,
+            // above) -- the new version row must carry whatever is_active
+            // the caller already set on baseObject: Logic.update() sets it
+            // to 1 (a normal save keeps the record active), Logic.delete()
+            // sets it to 0 (soft delete). Forcing it to 1 unconditionally
+            // used to silently undo delete()'s is_active=0, making the Edit
+            // page's Delete button appear to do nothing.
             long newTxnId = DBPersist.identity(baseObject, connectionName);
             baseObject["txn_id"] = newTxnId;
-            baseObject["is_active"] = 1;
             baseObject["last_updated"] = DateTime.UtcNow;
             baseObject["last_updated_by"] = Environment.UserName;
 

@@ -15,3 +15,4 @@ postgresql database-bash load script,build, database/pgsql/data/load.py.cshtml,.
 postgresql database-shell load wrapper,build, database/pgsql/data/load.sh.cshtml,./gen/database/data,true
 postgresql database-query generation,object,database/pgsql/data/template.query.generated.sql.cshtml,./gen/database/data,true
 postgresql database-children query generation,object,database/pgsql/data/template.children.generated.sql.cshtml,./gen/database/data,true
+postgresql database-map query generation,object,database/pgsql/data/template.map.generated.sql.cshtml,./gen/database/data,true

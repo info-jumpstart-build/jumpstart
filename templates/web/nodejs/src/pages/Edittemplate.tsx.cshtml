@@ -29,14 +29,27 @@
     // Every attribute is editable here (unlike the list page's columns,
     // which drop "_id" columns) -- mirrors GetEditFormProperties applying no
     // "_id" filter, since the raw FK id column is exactly what the form edits.
-    var formFields = new List<(string Key, string Label, string Kind, string FkVar)>();
+    // Global/audit columns (is_active, created_by, last_updated,
+    // last_updated_by, txn_id -- see templates/core/global.csv and
+    // MetaAttribute.IsGlobal()) are managed automatically by the persistence
+    // layer, so they're rendered read-only here rather than as editable
+    // inputs -- mirrors ReadOnlyGlobalFields in
+    // web/blazor/Pages/Edittemplate.razor.cshtml.
+    //
+    // The "id" column (primary key) is likewise not user-editable: it's
+    // rendered read-only while editing an existing record, and dropped
+    // entirely from the form while creating a new one (there's no id yet).
+    // Mirrors the same propInfo.Name.ToLower() == "id" check in
+    // web/blazor/Pages/Edittemplate.razor.cshtml.
+    var formFields = new List<(string Key, string Label, string Kind, string FkVar, bool IsGlobal, bool IsId)>();
     foreach (var attr in Model.Attributes)
     {
         bool isFk = !string.IsNullOrEmpty(attr.FkObject) && !string.IsNullOrEmpty(attr.FkType) &&
                     (attr.FkType.ToLower() == "enum" || attr.FkType.ToLower() == "parent");
         string kind = isFk ? "enum" : TypeMapping.ToFormKind(attr.DotNetType);
         string fkVar = isFk ? attr.FkObject.ToLower() : "";
-        formFields.Add((attr.Name, attr.Label, kind, fkVar));
+        bool isId = attr.Name.ToLower() == "id";
+        formFields.Add((attr.Name, attr.Label, kind, fkVar, attr.IsGlobal(), isId));
     }
 
     // "Real World Key" columns, shown next to "Edit" in the page title --
@@ -64,6 +77,14 @@
 
     var children = Model.Children;
 
+    // Many-to-many relationships reachable through a junction table (see
+    // MetaObject.MapRelationships / MetaObject.ProcessMapRelationships) --
+    // rendered as checklist tabs alongside the child-relationship tabs below,
+    // in the same "Related Records" TabControl. Checkbox state is tracked
+    // locally (per-relationship useState<Set<number>>) and only persisted
+    // (inserted/deleted junction rows) when the user clicks Save.
+    var mapRelationships = Model.MapRelationships;
+
     // One raw-attribute row interface + display-column list per distinct
     // child domain object (a table can be a child via more than one
     // FK/role -- e.g. two roles pointing at the same table -- so generate
@@ -71,6 +92,20 @@
     // DomainObj (self-referential FK, e.g. a "parent_id" pointing back at
     // the same table): that shape is already covered by the @(domainObj)
     // interface + ownColumns above.
+    //
+    // Display columns walk childObj.Attributes in metadata (ORDINAL_POSITION)
+    // order, same as ownColumns/OWN_COLUMNS above -- no reordering, so a
+    // raw "_id" FK column is replaced *in place* rather than being dropped
+    // or moved. Every other FK column (parent or enum) is resolved to its
+    // referenced object's RWK column(s), keyed "{alias}_{rwkColumn}" -- the
+    // same alias/key scheme the generated child SQL uses (see
+    // database/*/data/template.children.generated.sql.cshtml, which already
+    // LEFT JOINs and selects these columns) and the same synthesis
+    // Listtemplate.tsx.cshtml performs for its own FK columns. The one FK
+    // that IS this child relationship (child.Role, e.g. "test_run" when
+    // listing TestResult under the TestRun this page is editing) is skipped
+    // entirely rather than resolved -- that value is implied by which Edit
+    // page the table is rendered on, so showing it back would be redundant.
     var childRowFields = new Dictionary<string, List<(string Key, string TsType)>>();
     var childColumns = new Dictionary<string, List<(string Key, string Label)>>();
     foreach (var child in children)
@@ -81,10 +116,42 @@
 
         var fields = new List<(string, string)>();
         var cols = new List<(string, string)>();
+        var usedAliases = new HashSet<string>();
         foreach (var a in childObj.Attributes)
         {
             fields.Add((a.Name, TypeMapping.ToTsType(a.DotNetType)));
-            if (!a.Name.EndsWith("_id")) { cols.Add((a.Name, a.Label)); }
+
+            if (!a.Name.EndsWith("_id"))
+            {
+                cols.Add((a.Name, a.Label));
+                continue;
+            }
+
+            if (string.IsNullOrEmpty(a.FkObject) || string.IsNullOrEmpty(a.FkTable)) { continue; }
+
+            var aliasBase = a.Name.Substring(0, a.Name.Length - 3);
+            if (aliasBase == child.Role) { continue; }
+
+            MetaObject fkObject = null;
+            foreach (var obj in Model.Model.Objects)
+            {
+                if (obj.TableName == a.FkTable) { fkObject = obj; break; }
+            }
+            if (fkObject == null) { continue; }
+
+            var alias = aliasBase;
+            var counter = 1;
+            while (usedAliases.Contains(alias)) { alias = aliasBase + "_" + counter; counter++; }
+            usedAliases.Add(alias);
+
+            foreach (var rwkAttr in fkObject.Attributes)
+            {
+                if (rwkAttr.RWK != "1") { continue; }
+                var key = alias + "_" + rwkAttr.Name;
+                var colLabel = a.Label + (rwkAttr.Name.ToLower().StartsWith("name") ? "" : " " + rwkAttr.Label);
+                fields.Add((key, TypeMapping.ToTsType(rwkAttr.DotNetType)));
+                cols.Add((key, colLabel));
+            }
         }
         childRowFields[childObj.DomainObj] = fields;
         childColumns[childObj.DomainObj] = cols;
@@ -104,6 +171,11 @@ import { useApiClient } from "../api/apiClient";
 import DataTable, { type DataTableColumn } from "../components/DataTable";
 import TabControl, { type TabItem } from "../components/TabControl";
 import "../styles/editForm.css";
+@if (mapRelationships.Count > 0)
+{
+<text>import type { Dispatch, SetStateAction } from "react";
+</text>
+}
 
 // Raw shape sent/received by GET|POST|PUT /api/@(domainVar)[/{id}] -- matches
 // the @(domainObj) domain class generated for the dotnet/rust servers (every
@@ -137,10 +209,39 @@ foreach (var f in kv.Value)
 }
 
 // Matches EnumHelper (shared/dotnet/common/EnumHelper.cs.cshtml): the option
-// list behind every FK/enum <select>.
+// list behind every FK/enum dropdown.
 interface EnumOption {
   id: number;
   rwkString: string;
+}
+
+@if (mapRelationships.Count > 0)
+{
+<text>
+// Matches MapOption (shared/dotnet/common/MapOption.cs.cshtml): one row of a
+// many-to-many relationship checklist tab -- GET /api/@(domainVar)/{id}/map/{other}_{role}.
+interface MapOption {
+  id: number;
+  label: string;
+  mapped: boolean;
+}
+
+// Flips one option's checked state within a Set&lt;id&gt; -- shared by every
+// map-relationship checklist tab below (each backed by its own
+// useState&lt;Set&lt;number&gt;&gt;). Entity-escaped nested generics here --
+// bare nested generic brackets inside this markup excursion get parsed as
+// HTML tags by RazorLight's markup tokenizer, which never finds a matching
+// close and fails. Avoid writing angle brackets literally in comments in
+// this region -- use words instead, or entity-escape them.
+function toggleMapChecked(setChecked: Dispatch&lt;SetStateAction&lt;Set&lt;number&gt;&gt;&gt;, optionId: number, checked: boolean) {
+  setChecked((current) => {
+    const next = new Set(current);
+    if (checked) next.add(optionId);
+    else next.delete(optionId);
+    return next;
+  });
+}
+</text>
 }
 
 interface FormField {
@@ -148,12 +249,14 @@ interface FormField {
   label: string;
   kind: "string" | "number" | "boolean" | "date" | "enum";
   fkVar: string;
+  isGlobal: boolean;
+  isId: boolean;
 }
 
 const FORM_FIELDS: FormField[] = [
 @foreach (var f in formFields)
 {
-<text>  { key: "@(f.Key)", label: "@(f.Label)", kind: "@(f.Kind)", fkVar: "@(f.FkVar)" },
+<text>  { key: "@(f.Key)", label: "@(f.Label)", kind: "@(f.Kind)", fkVar: "@(f.FkVar)", isGlobal: @(f.IsGlobal ? "true" : "false"), isId: @(f.IsId ? "true" : "false") },
 </text>
 }
 ];
@@ -180,6 +283,15 @@ foreach (var col in kv.Value)
 </text>
 }
 
+// Read-only display text for global/audit fields (field.isGlobal below) --
+// same null/blank handling as DataTable.tsx.cshtml's formatValue, plus a
+// friendlier Yes/No for booleans like is_active.
+function formatReadOnlyValue(value: unknown): string {
+  if (value === null || value === undefined || value === "") return "";
+  if (typeof value === "boolean") return value ? "Yes" : "No";
+  return String(value);
+}
+
 function defaultValueForKind(kind: FormField["kind"]): string | number | boolean {
   switch (kind) {
     case "number":
@@ -193,11 +305,11 @@ function defaultValueForKind(kind: FormField["kind"]): string | number | boolean
 }
 
 function createEmpty@(domainObj)(): @(domainObj) {
-  // Plain index-signature object type here (rather than Record<string,
-  // unknown>) -- RazorLight's markup parser can mistake a bare
-  // `Identifier<...>` for the start of an HTML/JSX tag when it appears
-  // outside a `<text>`-wrapped code region, so every such generic in this
-  // file is written to avoid a bare `&lt;` following an identifier.
+  // Plain index-signature object type here (rather than a generic
+  // Record-of-string-to-unknown type) -- RazorLight's markup parser can
+  // mistake a bare generic type argument for the start of an HTML/JSX tag
+  // when it appears in markup mode, so every such generic in this file is
+  // written to avoid a bare angle bracket following an identifier.
   const obj: { [key: string]: unknown } = {};
   for (const field of FORM_FIELDS) {
     obj[field.key] = defaultValueForKind(field.kind);
@@ -205,8 +317,9 @@ function createEmpty@(domainObj)(): @(domainObj) {
   return obj as unknown as @(domainObj);
 }
 
-// Not generic (only ever called with FORM_FIELDS below) -- a bare `<T>`
-// here trips the same RazorLight tag-detection issue as Record<...> above.
+// Not written as a generic function (only ever called with FORM_FIELDS
+// below) -- a bare type-parameter angle bracket here trips the same
+// RazorLight tag-detection issue described above.
 function chunkFormFields(items: FormField[], size: number): FormField[][] {
   const rows: FormField[][] = [];
   for (let i = 0; i &lt; items.length; i += size) {
@@ -228,7 +341,7 @@ export default function Edit@(domainObj)() {
   const [historyList, setHistoryList] = useState<@(domainObj)History[] | null>(null);
   const [enumOptions, setEnumOptions] = useState({} as { [key: string]: EnumOption[] });
   const [activeTab, setActiveTab] = useState(0);
-@if (children.Count > 0)
+@if (children.Count > 0 || mapRelationships.Count > 0)
 {
 <text>  const [activeChildTab, setActiveChildTab] = useState(0);
 </text>
@@ -236,6 +349,12 @@ export default function Edit@(domainObj)() {
 @foreach (var child in children)
 {
 <text>  const [@(child.Object.DomainVar)_@(child.Role)List, set_@(child.Object.DomainVar)_@(child.Role)List] = useState<@(Model.ChildRowTypeName(child.Object))[] | null>(null);
+</text>
+}
+@foreach (var map in mapRelationships)
+{
+<text>  const [@(map.OtherObject.DomainVar)_@(map.Role)_Options, set_@(map.OtherObject.DomainVar)_@(map.Role)_Options] = useState<MapOption[] | null>(null);
+  const [@(map.OtherObject.DomainVar)_@(map.Role)_Checked, set_@(map.OtherObject.DomainVar)_@(map.Role)_Checked] = useState&lt;Set&lt;number&gt;&gt;(() => new Set());
 </text>
 }
 
@@ -279,6 +398,25 @@ export default function Edit@(domainObj)() {
       }
 </text>
 }
+@foreach (var map in mapRelationships)
+{
+<text>
+      try {
+        const @(map.OtherObject.DomainVar)_@(map.Role)_options = await api.get<MapOption[]>(
+          `/api/@(domainVar)/${id}/map/@(map.OtherObject.DomainVar)_@(map.Role)`,
+        );
+        if (!cancelled) {
+          set_@(map.OtherObject.DomainVar)_@(map.Role)_Options(@(map.OtherObject.DomainVar)_@(map.Role)_options);
+          set_@(map.OtherObject.DomainVar)_@(map.Role)_Checked(
+            new Set(@(map.OtherObject.DomainVar)_@(map.Role)_options.filter((o) => o.mapped).map((o) => o.id)),
+          );
+        }
+      } catch (err) {
+        console.error("Edit@(domainObj): error loading @(map.OtherObject.DomainVar)_@(map.Role) map", err);
+        if (!cancelled) set_@(map.OtherObject.DomainVar)_@(map.Role)_Options([]);
+      }
+</text>
+}
     }
 
     load();
@@ -313,8 +451,8 @@ export default function Edit@(domainObj)() {
   }
 
   // Typed via the FormEventHandler variable annotation (using its default
-  // type parameter) rather than an inline `(e: FormEvent<HTMLFormElement>)`
-  // parameter annotation -- same bare-generic issue as elsewhere in this file.
+  // type parameter) rather than an inline generic FormEvent parameter
+  // annotation -- same bare-generic issue as elsewhere in this file.
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
     try {
@@ -322,6 +460,24 @@ export default function Edit@(domainObj)() {
         await api.post<@(domainObj)>("/api/@(domainVar)", formData);
       } else {
         await api.put<@(domainObj)>(`/api/@(domainVar)/${id}`, formData);
+
+        // Apply every map-relationship checklist alongside the object save --
+        // only meaningful for an existing record, since a brand-new record
+        // has no checklist to have edited yet (mirrors the Delete button
+        // above, and the child-relationship tabs, which are likewise only
+        // loaded once id is known).
+@foreach (var map in mapRelationships)
+{
+<text>        try {
+          await api.put<void>(
+            `/api/@(domainVar)/${id}/map/@(map.OtherObject.DomainVar)_@(map.Role)`,
+            Array.from(@(map.OtherObject.DomainVar)_@(map.Role)_Checked),
+          );
+        } catch (err) {
+          console.error("Edit@(domainObj): error saving @(map.OtherObject.DomainVar)_@(map.Role) map", err);
+        }
+</text>
+}
       }
     } catch (err) {
       console.error("Edit@(domainObj): error saving @(domainVar)", err);
@@ -333,11 +489,34 @@ export default function Edit@(domainObj)() {
     navigate(returnUrl ?? "/@(domainVar)");
   }
 
+  // Soft delete -- DELETE /api/@(domainVar)/{id} sets is_active=0 server-side
+  // (see @(domainObj)Logic.delete() / server/dotnet/api/template.api.generated.cs.cshtml's
+  // Delete action), it doesn't remove the row. Only meaningful for an
+  // existing record, so the button below is hidden while creating a new one.
+  async function handleDelete() {
+    if (id == null) return;
+    // window.confirm here (rather than a custom modal) matches the plain
+    // browser confirm() the Blazor Edit page uses via JS interop below --
+    // keeps both clients' delete confirmation behavior identical.
+    if (!window.confirm(`Delete this @(label)? This cannot be undone.`)) return;
+    try {
+      await api.del(`/api/@(domainVar)/${id}`);
+    } catch (err) {
+      console.error("Edit@(domainObj): error deleting @(domainVar)", err);
+      return;
+    }
+    navigate(returnUrl ?? "/@(domainVar)");
+  }
+
   const rwkString = @(rwkArrayLiteral)
     .filter((v) => v !== null && v !== undefined && v !== "")
     .join(" ");
 
-  const fieldRows = chunkFormFields(FORM_FIELDS, 3);
+  // The "id" field is dropped from the form entirely while creating a new
+  // record (there's no id yet) and rendered read-only below while editing an
+  // existing one -- see the isId comment on formFields above.
+  const visibleFields = id == null ? FORM_FIELDS.filter((f) => !f.isId) : FORM_FIELDS;
+  const fieldRows = chunkFormFields(visibleFields, 3);
   const values = formData as unknown as { [key: string]: unknown };
 
   const editTabContent: ReactNode = (
@@ -353,7 +532,11 @@ export default function Edit@(domainObj)() {
                       <label htmlFor={field.key} className="form-label">
                         {field.label}
                       </label>
-                      {field.kind === "enum" ? (
+                      {field.isGlobal || field.isId ? (
+                        <div id={field.key} className="form-control-plaintext">
+                          {formatReadOnlyValue(values[field.key])}
+                        </div>
+                      ) : field.kind === "enum" ? (
                         <select
                           id={field.key}
                           className="form-control"
@@ -409,13 +592,25 @@ export default function Edit@(domainObj)() {
         </table>
       </div>
 
-      <div className="mb-3">
-        <button type="submit" className="btn btn-primary">
-          Save
-        </button>
-        <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>
-          Cancel
-        </button>
+      <div className="mb-3 d-flex justify-content-between align-items-center">
+        <div>
+          <button type="submit" className="btn btn-primary">
+            Save
+          </button>
+          <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
+        {id != null && (
+          <button
+            type="button"
+            className="btn"
+            style={{ backgroundColor: "#8b0000", color: "#fff" }}
+            onClick={handleDelete}
+          >
+            Delete
+          </button>
+        )}
       </div>
     </form>
   );
@@ -432,7 +627,7 @@ export default function Edit@(domainObj)() {
     { title: "History", content: historyTabContent },
   ];
 
-@if (children.Count > 0)
+@if (children.Count > 0 || mapRelationships.Count > 0)
 {
 <text>
   const childTabs: TabItem[] = [
@@ -452,7 +647,43 @@ foreach (var child in children)
             columns={@(Model.ChildColumnsConstName(child.Object))}
             showActions={false}
             showAddButton={false}
+            onEdit={(item) => {
+              const childReturnUrl = encodeURIComponent(location.pathname);
+              navigate(`/edit-@(child.Object.DomainVar)/${item.id}?returnUrl=${childReturnUrl}`);
+            }}
           />
+        </div>
+      ),
+    },
+</text>
+}
+foreach (var map in mapRelationships)
+{
+<text>
+    {
+      title: "@(map.OtherObject.Label)",
+      content: (
+        <div className="mt-3">
+          <div className="alert alert-info">
+            @(map.OtherObject.Label) mapped: {@(map.OtherObject.DomainVar)_@(map.Role)_Checked.size} of{" "}
+            {@(map.OtherObject.DomainVar)_@(map.Role)_Options?.length ?? 0}
+          </div>
+          {(@(map.OtherObject.DomainVar)_@(map.Role)_Options ?? []).map((option) => (
+            <div className="form-check" key={option.id}>
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id={`@(map.OtherObject.DomainVar)_@(map.Role)_${option.id}`}
+                checked={@(map.OtherObject.DomainVar)_@(map.Role)_Checked.has(option.id)}
+                onChange={(e) =>
+                  toggleMapChecked(set_@(map.OtherObject.DomainVar)_@(map.Role)_Checked, option.id, e.target.checked)
+                }
+              />
+              <label className="form-check-label" htmlFor={`@(map.OtherObject.DomainVar)_@(map.Role)_${option.id}`}>
+                {option.label}
+              </label>
+            </div>
+          ))}
         </div>
       ),
     },
@@ -468,7 +699,7 @@ foreach (var child in children)
       {id == null ? <h3>Create @(label)</h3> : <h3>Edit @(label) {rwkString}</h3>}
 
       <TabControl id="editTabs" tabs={editTabs} activeTab={activeTab} onTabChanged={setActiveTab} />
-@if (children.Count > 0)
+@if (children.Count > 0 || mapRelationships.Count > 0)
 {
 <text>
       <div className="mt-4">

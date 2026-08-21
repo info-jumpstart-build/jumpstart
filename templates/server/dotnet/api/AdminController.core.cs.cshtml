@@ -1,0 +1,32 @@
+using Microsoft.AspNetCore.Mvc;
+using @Model.Namespace;
+
+namespace @(Model.Namespace).Controllers
+{
+    // Infrastructure-only routes with no backing domain object, so (unlike the
+    // generated per-object controllers) there is no core.operation row for
+    // these and therefore no per-operation Authorized(objectName, methodName)
+    // check -- same convention as NotificationController/NavMenuController/
+    // WorkflowController. Callers still need a valid bearer token: the global
+    // auth middleware (Program.cs.cshtml) runs ahead of every controller.
+    [Route("api/admin")]
+    [ApiController]
+    public class AdminController : ControllerBase
+    {
+        // POST api/admin/clear-auth-cache
+        //
+        // OpRoleMemberLogic.Authorized(...) caches every (user, object,
+        // method) result forever (see OpRoleMemberLogic.core.cs.cshtml) --
+        // a deliberate perf tradeoff, but it means a permission change (a
+        // freshly reloaded database with a new/changed core.operation row or
+        // op_role_map grant) is invisible to a long-running process until it
+        // either restarts or this endpoint runs. Call this after reloading
+        // the database with permission changes instead of restarting the API.
+        [HttpPost("clear-auth-cache")]
+        public ActionResult ClearAuthCache()
+        {
+            OpRoleMemberLogic.ClearAuthCache();
+            return Ok();
+        }
+    }
+}

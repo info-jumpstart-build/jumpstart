@@ -1,0 +1,105 @@
+-- =====================================
+-- Generate SELECT queries for many-to-many ("map") relationship checklists
+-- =====================================
+DECLARE @@sql_id BIGINT;
+
+@using System.Linq;
+@using System.Collections.Generic;
+@using jumpstart;
+
+@{
+	MetaObject metaObject = (MetaObject)Model;
+
+	var domainObj = metaObject.DomainObj;
+	var tableName = metaObject.TableName;
+	var schemaName = metaObject.SchemaName;
+
+	// Get all map relationships anchored on this object (see
+	// MetaObject.MapRelationships / MetaObject.ProcessMapRelationships)
+	var mapRelationships = metaObject.MapRelationships;
+
+	if (mapRelationships.Count > 0)
+	{
+		<text>
+-- =====================================
+-- Map-relationship queries for @(domainObj) (@(schemaName).@(tableName))
+-- =====================================
+
+		</text>
+
+		foreach (var map in mapRelationships)
+		{
+			var mapObject = map.MapObject;
+			var selfAttribute = map.SelfAttribute;
+			var otherAttribute = map.OtherAttribute;
+			var otherObject = map.OtherObject;
+			var role = map.Role;
+			var otherLabel = map.Label;
+
+			var mapSchema = mapObject.SchemaName;
+			var mapTable = mapObject.TableName;
+			var otherSchema = otherObject.SchemaName;
+			var otherTable = otherObject.TableName;
+			var otherDomainVar = otherObject.DomainVar;
+
+			// Build a label expression from the other object's RWK columns --
+			// CONCAT_WS works identically in Postgres 9.1+ and SQL Server
+			// 2017+, so both dialects use the same expression here. The whole
+			// INSERT statement below is emitted as raw literal text, and
+			// sql_text's own value is itself single-quote-delimited within
+			// that INSERT -- so any literal "'" this expression needs to end
+			// up in the stored sql_text (the CONCAT_WS separator) has to be
+			// doubled ('') here to survive that one level of SQL string
+			// escaping, same as any other apostrophe inside a quoted literal.
+			var rwkAttrs = otherObject.Attributes.Where(a => a.RWK == "1").ToList();
+			string labelExpression = rwkAttrs.Count > 0
+				? "CONCAT_WS('' '', " + string.Join(", ", rwkAttrs.Select(a => otherTable + "." + a.Name)) + ")"
+				: "CAST(" + otherTable + ".id AS VARCHAR(20))";
+
+			<text>
+-- Map relationship: @(otherLabel) (@(role)), via @(mapSchema).@(mapTable)
+SET @@sql_id = NEXT VALUE FOR core.sql_identity;
+INSERT INTO core.sql (
+	id,
+	txn_id,
+	name,
+	sql_text,
+	description,
+	created_by,
+	last_updated,
+	last_updated_by,
+	is_active,
+	data_source_id
+) VALUES (
+	@@sql_id,
+	@@sql_id,
+	'@(schemaName).@(tableName)-map-@(otherDomainVar)-@(role)',
+	'SELECT
+		@(otherTable).id AS id,
+		@(labelExpression) AS label,
+		CASE WHEN @(mapTable).id IS NOT NULL THEN 1 ELSE 0 END AS mapped
+	FROM @(otherSchema).@(otherTable)
+	LEFT JOIN @(mapSchema).@(mapTable) ON @(mapTable).@(otherAttribute.Name) = @(otherTable).id AND @(mapTable).@(selfAttribute.Name) = ^(id) AND @(mapTable).is_active = 1
+	WHERE @(otherTable).is_active = 1
+	ORDER BY @(otherTable).id;',
+	'Select @(otherLabel) options for @(domainObj), flagged as mapped where a @(mapTable) row already links them',
+	SYSTEM_USER,
+	GETDATE(),
+	SYSTEM_USER,
+	1,
+	(SELECT id FROM core.data_source WHERE name = 'default' AND is_active = 1)
+);
+
+			</text>
+		}
+	}
+	else
+	{
+		<text>
+-- =====================================
+-- No map relationships found for @(domainObj) (@(schemaName).@(tableName))
+-- =====================================
+
+		</text>
+	}
+}

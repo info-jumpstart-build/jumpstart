@@ -3,7 +3,9 @@
 @@inject HttpClient Http
 @@inject IHttpClientFactory ClientFactory
 @@inject NavigationManager Navigation
+@@inject IJSRuntime JS
 @@rendermode @@(new InteractiveWebAssemblyRenderMode(prerender: false))
+@@using System.Linq
 @@using System.Reflection
 @@using Microsoft.AspNetCore.Components.Forms
 @@using Microsoft.AspNetCore.Components
@@ -48,7 +50,7 @@ else
 @{
 	
 	
-	if (Model.Children.Count > 0)
+	if (Model.Children.Count > 0 || Model.MapRelationships.Count > 0)
 	{
 		<text>
 <div class="mt-4">
@@ -84,12 +86,35 @@ else
 			var childRole = child.Role;
 			var childDomainObj = childObject.DomainObj;
 			var childDomainVar = childObject.DomainVar;
-			
+
 			<text>
 	// Child data for @(childRole)
 	private @(childDomainObj)[]? @(childDomainVar)List;
 			</text>
 		}
+	}
+
+	// Many-to-many relationships reachable through a junction table (see
+	// MetaObject.MapRelationships / MetaObject.ProcessMapRelationships) --
+	// rendered as checklist tabs alongside the child-relationship tabs, in
+	// the same "Related Records" TabControl. Checkbox state is tracked
+	// locally (per-relationship HashSet&lt;long&gt;) and only persisted
+	// (inserted/deleted junction rows) when the user clicks Save. Array type
+	// for Options (not List&lt;MapOption&gt;) -- bare nested generics inside
+	// a markup excursion get parsed as an HTML tag by RazorLight's markup
+	// tokenizer, same reason childDomainObj[] is used above instead of
+	// List&lt;childDomainObj&gt;.
+	var mapRelationships = Model.MapRelationships;
+	foreach (var map in mapRelationships)
+	{
+		var otherDomainVar = map.OtherObject.DomainVar;
+		var role = map.Role;
+
+		<text>
+	// Map data for @(otherDomainVar)_@(role)
+	private MapOption[]? @(otherDomainVar)_@(role)_Options;
+	private HashSet&lt;long&gt; @(otherDomainVar)_@(role)_Checked = new();
+		</text>
 	}
 }
 	
@@ -132,6 +157,9 @@ else
 			
 			// Load child data
 			await LoadChildData();
+
+			// Load map-relationship checklist data
+			await LoadMapData();
 		}
 	
 		// Load enum data for dropdowns
@@ -174,13 +202,28 @@ else
 			var childDomainVar = childObject.DomainVar;
 			
 			<text>
-		childTabs.Add(new TabItem 
-		{ 
+		childTabs.Add(new TabItem
+		{
 			Title = "@(childObject.Label)",
 			Content = Create@(childDomainVar)_@(childRole)TabContent()
 		});
 			</text>
 		}
+	}
+
+	foreach (var map in mapRelationships)
+	{
+		var otherDomainVar = map.OtherObject.DomainVar;
+		var role = map.Role;
+		var otherLabel = map.OtherObject.Label;
+
+		<text>
+		childTabs.Add(new TabItem
+		{
+			Title = "@(otherLabel)",
+			Content = Create@(otherDomainVar)_@(role)_MapTabContent()
+		});
+		</text>
 	}
 }
 	}
@@ -199,8 +242,17 @@ else
 			editBuilder.OpenElement(6, "table");
 			editBuilder.AddAttribute(7, "class", "table table-borderless");
 			
-			// Generate dynamic form fields
+			// Generate dynamic form fields. The "id" column (primary key) is
+			// dropped entirely while creating a new record (there's no id
+			// yet -- id is the [Parameter] route id, null on the create
+			// route) and rendered read-only below while editing an existing
+			// one. Mirrors the isId filtering in
+			// web/nodejs/src/pages/Edittemplate.tsx.cshtml.
 			var properties = GetEditableProperties();
+			if (id is null)
+			{
+				properties = properties.Where(p => p.Name.ToLower() != "id").ToArray();
+			}
 			var propertiesPerRow = 3;
 			
 			for (int i = 0; i < properties.Length; i += propertiesPerRow)
@@ -225,8 +277,24 @@ else
 					
 					// Input field based on type
 					var underlyingType = Nullable.GetUnderlyingType(propInfo.PropertyType) ?? propInfo.PropertyType;
-					
-					if (IsEnumForeignKey(propInfo))
+
+					if (ReflectionHelper.IsGlobalProperty(propInfo) || propInfo.Name.ToLower() == "id")
+					{
+						// Global/audit column (is_active, created_by, last_updated,
+						// last_updated_by, txn_id) -- managed by the persistence
+						// layer -- or the "id" primary key column (only reached here
+						// when editing an existing record, since the create route
+						// filters it out of `properties` above) -- render as a
+						// read-only label instead of an editable input. Mirrors
+						// field.isGlobal || field.isId in
+						// web/nodejs/src/pages/Edittemplate.tsx.cshtml.
+						editBuilder.OpenElement(17 + i + j, "div");
+						editBuilder.AddAttribute(18 + i + j, "id", propInfo.Name);
+						editBuilder.AddAttribute(19 + i + j, "class", "form-control-plaintext");
+						editBuilder.AddContent(20 + i + j, GetReadOnlyDisplayValue(propInfo));
+						editBuilder.CloseElement(); // div
+					}
+					else if (IsEnumForeignKey(propInfo))
 					{
 						// Enum dropdown
 						editBuilder.OpenElement(17 + i + j, "select");
@@ -329,24 +397,48 @@ else
 			editBuilder.CloseElement(); // table
 			editBuilder.CloseElement(); // div
 			
-			// Add buttons
+			// Add buttons -- Save/Cancel grouped on the left, Delete (when
+			// editing an existing record) right-justified via the flex
+			// container. Mirrors the button layout in
+			// web/nodejs/src/pages/Edittemplate.tsx.cshtml.
 			editBuilder.OpenElement(9, "div");
-			editBuilder.AddAttribute(10, "class", "mb-3");
-			
-			editBuilder.OpenElement(11, "button");
-			editBuilder.AddAttribute(12, "type", "submit");
-			editBuilder.AddAttribute(13, "class", "btn btn-primary");
-			editBuilder.AddContent(14, "Save");
+			editBuilder.AddAttribute(10, "class", "mb-3 d-flex justify-content-between align-items-center");
+
+			editBuilder.OpenElement(11, "div");
+
+			editBuilder.OpenElement(12, "button");
+			editBuilder.AddAttribute(13, "type", "submit");
+			editBuilder.AddAttribute(14, "class", "btn btn-primary");
+			editBuilder.AddContent(15, "Save");
 			editBuilder.CloseElement(); // button
-			
-			editBuilder.OpenElement(15, "button");
-			editBuilder.AddAttribute(16, "type", "button");
-			editBuilder.AddAttribute(17, "class", "btn btn-secondary");
-			editBuilder.AddAttribute(18, "onclick", EventCallback.Factory.Create(this, Cancel));
-			editBuilder.AddContent(19, "Cancel");
+
+			editBuilder.OpenElement(16, "button");
+			editBuilder.AddAttribute(17, "type", "button");
+			editBuilder.AddAttribute(18, "class", "btn btn-secondary");
+			editBuilder.AddAttribute(19, "onclick", EventCallback.Factory.Create(this, Cancel));
+			editBuilder.AddContent(20, "Cancel");
 			editBuilder.CloseElement(); // button
-			
-			editBuilder.CloseElement(); // div
+
+			editBuilder.CloseElement(); // div (Save/Cancel group)
+
+			if (id is not null)
+			{
+				// Soft delete -- DELETE api/@(Model.DomainVar)/{id} sets
+				// is_active=0 server-side (see @(Model.DomainObj)Logic.delete() /
+				// server/dotnet/api/template.api.generated.cs.cshtml's Delete
+				// action), it doesn't remove the row. Only shown for an
+				// existing record, since there's nothing to delete while
+				// creating a new one.
+				editBuilder.OpenElement(21, "button");
+				editBuilder.AddAttribute(22, "type", "button");
+				editBuilder.AddAttribute(23, "class", "btn");
+				editBuilder.AddAttribute(24, "style", "background-color:#8b0000;color:#fff;");
+				editBuilder.AddAttribute(25, "onclick", EventCallback.Factory.Create(this, HandleDelete));
+				editBuilder.AddContent(26, "Delete");
+				editBuilder.CloseElement(); // button
+			}
+
+			editBuilder.CloseElement(); // div (mb-3 flex container)
 		}));
 		builder.CloseComponent(); // EditForm
 	};
@@ -405,16 +497,85 @@ else
 		builder.AddAttribute(7, "DataType", typeof(@(childDomainObj)));
 		builder.AddAttribute(8, "ShowActions", false);
 		builder.AddAttribute(9, "ShowAddButton", false);
+		builder.AddAttribute(10, "OnEdit", EventCallback.Factory.Create<object>(this, OnEdit@(childDomainVar)_@(childRole)));
 		builder.CloseComponent(); // DataTable
-		
+
 		builder.CloseElement(); // div
 	};
+
+	// Navigates to the edit page for a "@(childLabel)" child row -- mirrors
+	// OnEdit@(Model.DomainObj) in web/blazor/Pages/Listtemplate.razor.cshtml,
+	// wired into DataTable's OnEdit above (rendered as an id-column hyperlink
+	// by DataTable.razor.cshtml whenever OnEdit.HasDelegate).
+	void OnEdit@(childDomainVar)_@(childRole)(object item)
+	{
+		var childItem = (@(childDomainObj))item;
+		var currentPath = new Uri(Navigation.Uri).AbsolutePath;
+		Navigation.NavigateTo($"edit-@(childDomainVar)/{childItem.id}?returnUrl={Uri.EscapeDataString(currentPath)}");
+	}
 
 			</text>
 		}
 	}
+
+	foreach (var map in mapRelationships)
+	{
+		var otherDomainVar = map.OtherObject.DomainVar;
+		var role = map.Role;
+		var otherLabel = map.OtherObject.Label;
+
+		<text>
+	private RenderFragment Create@(otherDomainVar)_@(role)_MapTabContent() => builder =>
+	{
+		builder.OpenElement(0, "div");
+		builder.AddAttribute(1, "class", "mt-3");
+
+		var options = @(otherDomainVar)_@(role)_Options ?? new MapOption[0];
+		var mappedCount = options.Count(o => o.mapped);
+
+		builder.OpenElement(2, "div");
+		builder.AddAttribute(3, "class", "alert alert-info");
+		builder.AddContent(4, $"@(otherLabel) mapped: {mappedCount} of {options.Length}");
+		builder.CloseElement(); // div
+
+		var checkedSet = @(otherDomainVar)_@(role)_Checked;
+
+		int seq = 5;
+		foreach (var option in options)
+		{
+			var optionId = option.id;
+			builder.OpenElement(seq++, "div");
+			builder.AddAttribute(seq++, "class", "form-check");
+
+			builder.OpenElement(seq++, "input");
+			builder.AddAttribute(seq++, "type", "checkbox");
+			builder.AddAttribute(seq++, "class", "form-check-input");
+			builder.AddAttribute(seq++, "id", $"@(otherDomainVar)_@(role)_{optionId}");
+			builder.AddAttribute(seq++, "checked", checkedSet.Contains(optionId));
+			// Entity-escaped generic (EventCallback.Factory.Create&lt;ChangeEventArgs&gt;)
+			// -- same RazorLight markup-excursion tag-parsing risk as the
+			// HashSet&lt;long&gt;/MapOption[] fields above; no proven-safe
+			// precedent for a generic method call at this exact spot, so
+			// escaping defensively rather than relying on luck.
+			builder.AddAttribute(seq++, "onchange", EventCallback.Factory.Create&lt;ChangeEventArgs&gt;(this, async (e) => await ToggleMapChecked(checkedSet, optionId, bool.TryParse(e.Value?.ToString(), out var v) && v)));
+			builder.CloseElement(); // input
+
+			builder.OpenElement(seq++, "label");
+			builder.AddAttribute(seq++, "class", "form-check-label");
+			builder.AddAttribute(seq++, "for", $"@(otherDomainVar)_@(role)_{optionId}");
+			builder.AddContent(seq++, option.label);
+			builder.CloseElement(); // label
+
+			builder.CloseElement(); // div form-check
+		}
+
+		builder.CloseElement(); // div mt-3
+	};
+
+		</text>
+	}
 }
-	
+
 	// A foreign key renders as an rwk-string dropdown (display = rwk string,
 	// value = referenced id) for both "enum" lookups and "parent" relationships.
 	// Any other fkType falls through to a plain input.
@@ -530,6 +691,37 @@ else
 		}
 	}
 
+	private async Task LoadMapData()
+	{
+		if (id is null)
+		{
+			return;
+		}
+
+		var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+@{
+	foreach (var map in mapRelationships)
+	{
+		var otherDomainVar = map.OtherObject.DomainVar;
+		var role = map.Role;
+		var otherLabel = map.OtherObject.Label;
+
+		<text>
+		try
+		{
+			@(otherDomainVar)_@(role)_Options = await remoteClient.GetFromJsonAsync<MapOption[]>($"api/@(Model.DomainVar)/{id}/map/@(otherDomainVar)_@(role)");
+			@(otherDomainVar)_@(role)_Checked = new HashSet&lt;long&gt;((@(otherDomainVar)_@(role)_Options ?? new MapOption[0]).Where(o => o.mapped).Select(o => o.id));
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error loading @(otherLabel) map: {ex.Message}");
+			@(otherDomainVar)_@(role)_Options = new MapOption[0];
+		}
+		</text>
+	}
+}
+	}
+
 	// Tab management method
 	private void OnTabChanged(int tabIndex)
 	{
@@ -542,6 +734,22 @@ else
 	{
 		activeChildTabIndex = tabIndex;
 		StateHasChanged();
+	}
+
+	// Flips one option's checked state within a map-relationship checklist --
+	// shared by every Create{other}_{role}_MapTabContent() above. Mirrors
+	// toggleMapChecked in web/nodejs/src/pages/Edittemplate.tsx.cshtml.
+	private async Task ToggleMapChecked(HashSet<long> checkedSet, long optionId, bool isChecked)
+	{
+		if (isChecked)
+		{
+			checkedSet.Add(optionId);
+		}
+		else
+		{
+			checkedSet.Remove(optionId);
+		}
+		await InvokeAsync(StateHasChanged);
 	}
 
 	async Task HandleSubmit(EditContext context)
@@ -568,6 +776,31 @@ else
 				{
 					// Update existing record
 					await remoteClient.PutAsJsonAsync($"api/@(Model.DomainVar)/{id}", @(Model.DomainVar));
+
+					// Apply every map-relationship checklist alongside the object
+					// save -- only meaningful for an existing record, since a
+					// brand-new record has no checklist to have edited yet
+					// (mirrors the Delete button, and the child-relationship
+					// tabs, which are likewise only loaded once id is known).
+@{
+	foreach (var map in mapRelationships)
+	{
+		var otherDomainVar = map.OtherObject.DomainVar;
+		var role = map.Role;
+		var otherLabel = map.OtherObject.Label;
+
+		<text>
+					try
+					{
+						await remoteClient.PutAsJsonAsync($"api/@(Model.DomainVar)/{id}/map/@(otherDomainVar)_@(role)", @(otherDomainVar)_@(role)_Checked.ToList());
+					}
+					catch (Exception mapEx)
+					{
+						Console.WriteLine($"Error saving @(otherLabel) map: {mapEx.Message}");
+					}
+		</text>
+	}
+}
 				}
 			}
 			catch (Exception ex)
@@ -582,6 +815,36 @@ else
 
 	void Cancel()
 	{
+		Navigation.NavigateTo(_returnUrl ?? "/@(Model.DomainVar)");
+	}
+
+	async Task HandleDelete()
+	{
+		if (id is null)
+		{
+			return;
+		}
+
+		// Plain browser confirm() via JS interop -- matches window.confirm in
+		// web/nodejs/src/pages/Edittemplate.tsx.cshtml's handleDelete, so both
+		// clients behave identically.
+		bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Delete this @(Model.Label)? This cannot be undone.");
+		if (!confirmed)
+		{
+			return;
+		}
+
+		try
+		{
+			var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+			await remoteClient.DeleteAsync($"api/@(Model.DomainVar)/{id}");
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error deleting @(Model.DomainVar): {ex.Message}");
+			return;
+		}
+
 		Navigation.NavigateTo(_returnUrl ?? "/@(Model.DomainVar)");
 	}
 
@@ -600,6 +863,19 @@ else
 	private string GetStringProperty(System.Reflection.PropertyInfo propInfo)
 	{
 		return ReflectionHelper.GetPropertyValueAsString(@(Model.DomainVar), propInfo);
+	}
+
+	// Display text for global/audit fields (see ReflectionHelper.IsGlobalProperty
+	// above) -- same value as GetStringProperty, with a friendlier Yes/No for
+	// boolean columns like is_active.
+	private string GetReadOnlyDisplayValue(System.Reflection.PropertyInfo propInfo)
+	{
+		var underlyingType = Nullable.GetUnderlyingType(propInfo.PropertyType) ?? propInfo.PropertyType;
+		if (underlyingType == typeof(bool))
+		{
+			return GetBoolProperty(propInfo) ? "Yes" : "No";
+		}
+		return GetStringProperty(propInfo);
 	}
 
 	private int GetIntProperty(System.Reflection.PropertyInfo propInfo)

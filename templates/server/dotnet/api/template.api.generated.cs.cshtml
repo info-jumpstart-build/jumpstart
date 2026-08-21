@@ -181,9 +181,46 @@ namespace @(namespaceName).Controllers
         }
         </text>
         }
-       
+
     }
-       
+
+    // Many-to-many ("map") relationship checklists -- see MetaObject.MapRelationships
+    // and I@(domainObj)Logic.maplist (shared/dotnet/logic/templateLogic.generated.cs.cshtml).
+    var mapRelationships = Model.MapRelationships;
+
+    if (mapRelationships.Count > 0)
+    {
+        foreach (var map in mapRelationships)
+        {
+            var otherObject = map.OtherObject;
+            var otherDomainVar = otherObject.DomainVar;
+            var role = map.Role;
+
+        <text>
+       // Retrieves the "@(otherObject.Label)" checklist (id/label/mapped rows) for a given @(domainObj) id.
+        [HttpGet("{id}/map/@(otherDomainVar)_@(role)")]
+        public IEnumerable<MapOption> Get@(otherDomainVar)_@(role)_Map(long id)
+        {
+            //Console.WriteLine($"Processing GET @(otherObject.Label) map for @(domainObj) ID={id}");
+
+            List<MapOption> options = @(domainObj)Logic.Create().maplist(id, "@(otherDomainVar)-@(role)");
+
+            return options;
+        }
+
+        // Applies the "@(otherObject.Label)" checklist submitted from the Edit page: the full set of
+        // @(otherObject.Label) ids that should be mapped to this @(domainObj) after the call.
+        [HttpPut("{id}/map/@(otherDomainVar)_@(role)")]
+        public void Put@(otherDomainVar)_@(role)_Map(long id, [FromBody] List<long> checkedIds)
+        {
+            //Console.WriteLine($"Processing PUT @(otherObject.Label) map for @(domainObj) ID={id}");
+
+            @(domainObj)Logic.Create().mapsync(id, "@(otherDomainVar)-@(role)", checkedIds ?? new List<long>());
+        }
+        </text>
+        }
+    }
+
 }
     }
 }
