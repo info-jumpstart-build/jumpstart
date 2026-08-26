@@ -214,13 +214,6 @@ pub mod principal {
 }
 pub use principal::*;
     
-pub mod test_result {
-    // `use common::*;` is provided by the included generated file.
-    include!("TestResult.generated.rs");
-    include!("../../../usr/shared/domain/TestResult.user.rs");
-}
-pub use test_result::*;
-    
 pub mod event_service {
     // `use common::*;` is provided by the included generated file.
     include!("EventService.generated.rs");
@@ -234,6 +227,13 @@ pub mod process {
     include!("../../../usr/shared/domain/Process.user.rs");
 }
 pub use process::*;
+    
+pub mod test_result {
+    // `use common::*;` is provided by the included generated file.
+    include!("TestResult.generated.rs");
+    include!("../../../usr/shared/domain/TestResult.user.rs");
+}
+pub use test_result::*;
     
 pub mod principal_org {
     // `use common::*;` is provided by the included generated file.

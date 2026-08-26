@@ -73,12 +73,12 @@ impl TestResult {
     }
     
     /// Executed By
-    pub fn executed_by(&self) -> String {
-        self.base.get("executed_by").as_str().unwrap_or_default().to_string()
+    pub fn executed_by_id(&self) -> i64 {
+        self.base.get("executed_by_id").as_i64().unwrap_or_default()
     }
 
-    pub fn set_executed_by(&mut self, value: String) {
-        self.base.set("executed_by", serde_json::json!(value));
+    pub fn set_executed_by_id(&mut self, value: i64) {
+        self.base.set("executed_by_id", serde_json::json!(value));
     }
     
     /// Actual Result
@@ -171,7 +171,7 @@ impl DomainObject for TestResult {
             
             ColumnInfo::new("executed_at", "Executed At", "", "", "", "", "timestamp"),
             
-            ColumnInfo::new("executed_by", "Executed By", "", "", "", "", "varchar"),
+            ColumnInfo::new("executed_by_id", "Executed By", "Principal", "enum", "principal", "principal", "bigint"),
             
             ColumnInfo::new("actual_result", "Actual Result", "", "", "", "", "text"),
             
@@ -215,7 +215,7 @@ impl DomainObject for TestResult {
         
         self.base.defaults.entry("executed_at".to_string()).or_insert(serde_json::Value::Null);
         
-        self.base.defaults.entry("executed_by".to_string()).or_insert(serde_json::Value::Null);
+        self.base.defaults.entry("executed_by_id".to_string()).or_insert(serde_json::Value::Null);
         
         self.base.defaults.entry("actual_result".to_string()).or_insert(serde_json::Value::Null);
         
@@ -364,6 +364,24 @@ impl TestResultView {
 
     pub fn set_test_result_status_name(&mut self, value: String) {
         self.inner.base.set("test_result_status_name", serde_json::json!(value));
+    }
+                        
+    /// Executed By Email
+    pub fn executed_by_email(&self) -> String {
+        self.inner.base.get("executed_by_email").as_str().unwrap_or_default().to_string()
+    }
+
+    pub fn set_executed_by_email(&mut self, value: String) {
+        self.inner.base.set("executed_by_email", serde_json::json!(value));
+    }
+                        
+    /// Executed By Status
+    pub fn executed_by_principal_status_id(&self) -> i32 {
+        self.inner.base.get("executed_by_principal_status_id").as_i64().unwrap_or_default() as i32
+    }
+
+    pub fn set_executed_by_principal_status_id(&mut self, value: i32) {
+        self.inner.base.set("executed_by_principal_status_id", serde_json::json!(value));
     }
                         }
 

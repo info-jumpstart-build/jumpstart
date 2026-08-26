@@ -580,17 +580,6 @@ insert into core.operation (id, txn_id, objectname, methodname, is_active, last_
 		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'Principal', 'children', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
 
 		
-		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'select', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
-		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'get', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
-		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'view', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
-		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'insert', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
-		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'put', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
-		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'update', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
-		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'delete', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
-		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'history', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
-		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'children', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
-
-		
 		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'EventService', 'select', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
 		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'EventService', 'get', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
 		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'EventService', 'view', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
@@ -611,6 +600,17 @@ insert into core.operation (id, txn_id, objectname, methodname, is_active, last_
 		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'Process', 'delete', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
 		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'Process', 'history', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
 		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'Process', 'children', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
+
+		
+		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'select', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
+		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'get', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
+		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'view', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
+		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'insert', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
+		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'put', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
+		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'update', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
+		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'delete', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
+		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'history', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
+		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'TestResult', 'children', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
 
 		
 		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, 'PrincipalOrg', 'select', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;

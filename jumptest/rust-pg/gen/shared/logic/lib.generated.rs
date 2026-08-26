@@ -253,12 +253,6 @@ pub mod principal_logic {
 }
 pub use principal_logic::*;
     
-pub mod test_result_logic {
-    include!("TestResultLogic.generated.rs");
-    include!("../../../usr/shared/logic/TestResultLogic.user.rs");
-}
-pub use test_result_logic::*;
-    
 pub mod event_service_logic {
     include!("EventServiceLogic.generated.rs");
     include!("../../../usr/shared/logic/EventServiceLogic.user.rs");
@@ -270,6 +264,12 @@ pub mod process_logic {
     include!("../../../usr/shared/logic/ProcessLogic.user.rs");
 }
 pub use process_logic::*;
+    
+pub mod test_result_logic {
+    include!("TestResultLogic.generated.rs");
+    include!("../../../usr/shared/logic/TestResultLogic.user.rs");
+}
+pub use test_result_logic::*;
     
 pub mod principal_org_logic {
     include!("PrincipalOrgLogic.generated.rs");

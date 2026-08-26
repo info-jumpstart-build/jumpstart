@@ -77,11 +77,11 @@ pub fn object_exec(
         
         "principal" => crate::PrincipalLogic::exec(method, ctx),
         
-        "testresult" | "test_result" => crate::TestResultLogic::exec(method, ctx),
-        
         "eventservice" | "event_service" => crate::EventServiceLogic::exec(method, ctx),
         
         "process" => crate::ProcessLogic::exec(method, ctx),
+        
+        "testresult" | "test_result" => crate::TestResultLogic::exec(method, ctx),
         
         "principalorg" | "principal_org" => crate::PrincipalOrgLogic::exec(method, ctx),
         
@@ -163,11 +163,11 @@ pub fn object_exec_unchecked(
         
         "principal" => crate::PrincipalLogic::exec_unchecked(method, ctx),
         
-        "testresult" | "test_result" => crate::TestResultLogic::exec_unchecked(method, ctx),
-        
         "eventservice" | "event_service" => crate::EventServiceLogic::exec_unchecked(method, ctx),
         
         "process" => crate::ProcessLogic::exec_unchecked(method, ctx),
+        
+        "testresult" | "test_result" => crate::TestResultLogic::exec_unchecked(method, ctx),
         
         "principalorg" | "principal_org" => crate::PrincipalOrgLogic::exec_unchecked(method, ctx),
         

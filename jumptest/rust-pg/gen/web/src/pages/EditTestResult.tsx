@@ -14,7 +14,7 @@ export interface TestResult {
   test_case_id: number;
   test_result_status_id: number;
   executed_at: string;
-  executed_by: string;
+  executed_by_id: number;
   actual_result: string;
   notes: string;
   is_active: number;
@@ -52,7 +52,7 @@ const FORM_FIELDS: FormField[] = [
   { key: "test_case_id", label: "Test Case", kind: "enum", fkVar: "testcase", isGlobal: false, isId: false },
   { key: "test_result_status_id", label: "Status", kind: "enum", fkVar: "testresultstatus", isGlobal: false, isId: false },
   { key: "executed_at", label: "Executed At", kind: "date", fkVar: "", isGlobal: false, isId: false },
-  { key: "executed_by", label: "Executed By", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "executed_by_id", label: "Executed By", kind: "enum", fkVar: "principal", isGlobal: false, isId: false },
   { key: "actual_result", label: "Actual Result", kind: "string", fkVar: "", isGlobal: false, isId: false },
   { key: "notes", label: "Notes", kind: "string", fkVar: "", isGlobal: false, isId: false },
   { key: "is_active", label: "Active", kind: "number", fkVar: "", isGlobal: true, isId: false },
@@ -65,7 +65,6 @@ const FORM_FIELDS: FormField[] = [
 const OWN_COLUMNS: DataTableColumn[] = [
   { key: "id", label: "Test Result ID" },
   { key: "executed_at", label: "Executed At" },
-  { key: "executed_by", label: "Executed By" },
   { key: "actual_result", label: "Actual Result" },
   { key: "notes", label: "Notes" },
   { key: "is_active", label: "Active" },

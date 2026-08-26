@@ -6,7 +6,7 @@ CREATE TABLE app.test_result (
 		test_case_id BIGINT ,
 		test_result_status_id BIGINT ,
 		executed_at TIMESTAMP ,
-		executed_by VARCHAR(50) ,
+		executed_by_id BIGINT ,
 		actual_result TEXT ,
 		notes TEXT ,
 		is_active integer ,

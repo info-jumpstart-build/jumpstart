@@ -25,6 +25,6 @@ jumptest,app,test_result_status,Test Result Status,,id,Test Result Status ID,,,,
 ,app,test_result,,,test_case_id,Test Case,parent,test_case,,3,NULL,1,NO,BIGINT,bigint,NULL,,1
 ,app,test_result,,,test_result_status_id,Status,enum,test_result_status,,4,NULL,0,NO,BIGINT,bigint,NULL,,1
 ,app,test_result,,,executed_at,Executed At,,,,5,NULL,0,YES,TIMESTAMP,datetime,NULL,,1
-,app,test_result,,,executed_by,Executed By,,,,6,NULL,0,YES,VARCHAR,nvarchar,50,,1
+,app,test_result,,,executed_by_id,Executed By,enum,principal,,6,NULL,0,YES,BIGINT,bigint,NULL,,1
 ,app,test_result,,,actual_result,Actual Result,,,,7,NULL,0,YES,TEXT,nvarchar,NULL,,1
 ,app,test_result,,,notes,Notes,,,,8,NULL,0,YES,TEXT,nvarchar,NULL,,1

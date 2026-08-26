@@ -39,7 +39,9 @@ interface TestResultRow {
   test_result_status_id: number;
   test_result_status_name: string;
   executed_at: string;
-  executed_by: string;
+  executed_by_id: number;
+  executed_by_email: string;
+  executed_by_principal_status_id: number;
   actual_result: string;
   notes: string;
   is_active: number;
@@ -100,7 +102,8 @@ const TESTRESULT_COLUMNS: DataTableColumn[] = [
   { key: "test_case_title", label: "Test Case Title" },
   { key: "test_result_status_name", label: "Status" },
   { key: "executed_at", label: "Executed At" },
-  { key: "executed_by", label: "Executed By" },
+  { key: "executed_by_email", label: "Executed By Email" },
+  { key: "executed_by_principal_status_id", label: "Executed By Status" },
   { key: "actual_result", label: "Actual Result" },
   { key: "notes", label: "Notes" },
   { key: "is_active", label: "Active" },

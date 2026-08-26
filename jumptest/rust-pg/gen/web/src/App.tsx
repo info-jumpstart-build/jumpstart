@@ -73,12 +73,12 @@ import ListServerNode from "./pages/ListServerNode";
 import EditServerNode from "./pages/EditServerNode";
 import ListPrincipal from "./pages/ListPrincipal";
 import EditPrincipal from "./pages/EditPrincipal";
-import ListTestResult from "./pages/ListTestResult";
-import EditTestResult from "./pages/EditTestResult";
 import ListEventService from "./pages/ListEventService";
 import EditEventService from "./pages/EditEventService";
 import ListProcess from "./pages/ListProcess";
 import EditProcess from "./pages/EditProcess";
+import ListTestResult from "./pages/ListTestResult";
+import EditTestResult from "./pages/EditTestResult";
 import ListPrincipalOrg from "./pages/ListPrincipalOrg";
 import EditPrincipalOrg from "./pages/EditPrincipalOrg";
 import ListOpRoleMember from "./pages/ListOpRoleMember";
@@ -217,10 +217,6 @@ export default function App() {
                 <Route path="/edit-principal" element={<EditPrincipal />} />
                 <Route path="/edit-principal/:id" element={<EditPrincipal />} />
           
-                <Route path="/testresult" element={<ListTestResult />} />
-                <Route path="/edit-testresult" element={<EditTestResult />} />
-                <Route path="/edit-testresult/:id" element={<EditTestResult />} />
-          
                 <Route path="/eventservice" element={<ListEventService />} />
                 <Route path="/edit-eventservice" element={<EditEventService />} />
                 <Route path="/edit-eventservice/:id" element={<EditEventService />} />
@@ -228,6 +224,10 @@ export default function App() {
                 <Route path="/process" element={<ListProcess />} />
                 <Route path="/edit-process" element={<EditProcess />} />
                 <Route path="/edit-process/:id" element={<EditProcess />} />
+          
+                <Route path="/testresult" element={<ListTestResult />} />
+                <Route path="/edit-testresult" element={<EditTestResult />} />
+                <Route path="/edit-testresult/:id" element={<EditTestResult />} />
           
                 <Route path="/principalorg" element={<ListPrincipalOrg />} />
                 <Route path="/edit-principalorg" element={<EditPrincipalOrg />} />
