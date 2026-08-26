@@ -21,8 +21,6 @@ import ListTestPlan from "./pages/ListTestPlan";
 import EditTestPlan from "./pages/EditTestPlan";
 import ListOrg from "./pages/ListOrg";
 import EditOrg from "./pages/EditOrg";
-import ListPrincipal from "./pages/ListPrincipal";
-import EditPrincipal from "./pages/EditPrincipal";
 import ListOperation from "./pages/ListOperation";
 import EditOperation from "./pages/EditOperation";
 import ListOpRole from "./pages/ListOpRole";
@@ -57,16 +55,14 @@ import ListServerNodeType from "./pages/ListServerNodeType";
 import EditServerNodeType from "./pages/EditServerNodeType";
 import ListWorkflowType from "./pages/ListWorkflowType";
 import EditWorkflowType from "./pages/EditWorkflowType";
+import ListPrincipalStatus from "./pages/ListPrincipalStatus";
+import EditPrincipalStatus from "./pages/EditPrincipalStatus";
 import ListTestCase from "./pages/ListTestCase";
 import EditTestCase from "./pages/EditTestCase";
 import ListTestRun from "./pages/ListTestRun";
 import EditTestRun from "./pages/EditTestRun";
-import ListPrincipalOrg from "./pages/ListPrincipalOrg";
-import EditPrincipalOrg from "./pages/EditPrincipalOrg";
 import ListOpRoleMap from "./pages/ListOpRoleMap";
 import EditOpRoleMap from "./pages/EditOpRoleMap";
-import ListOpRoleMember from "./pages/ListOpRoleMember";
-import EditOpRoleMember from "./pages/EditOpRoleMember";
 import ListSchedule from "./pages/ListSchedule";
 import EditSchedule from "./pages/EditSchedule";
 import ListSql from "./pages/ListSql";
@@ -75,12 +71,18 @@ import ListScript from "./pages/ListScript";
 import EditScript from "./pages/EditScript";
 import ListServerNode from "./pages/ListServerNode";
 import EditServerNode from "./pages/EditServerNode";
+import ListPrincipal from "./pages/ListPrincipal";
+import EditPrincipal from "./pages/EditPrincipal";
 import ListTestResult from "./pages/ListTestResult";
 import EditTestResult from "./pages/EditTestResult";
 import ListEventService from "./pages/ListEventService";
 import EditEventService from "./pages/EditEventService";
 import ListProcess from "./pages/ListProcess";
 import EditProcess from "./pages/EditProcess";
+import ListPrincipalOrg from "./pages/ListPrincipalOrg";
+import EditPrincipalOrg from "./pages/EditPrincipalOrg";
+import ListOpRoleMember from "./pages/ListOpRoleMember";
+import EditOpRoleMember from "./pages/EditOpRoleMember";
 import ListWorkflow from "./pages/ListWorkflow";
 import EditWorkflow from "./pages/EditWorkflow";
 import ListExecLog from "./pages/ListExecLog";
@@ -110,10 +112,6 @@ export default function App() {
                 <Route path="/org" element={<ListOrg />} />
                 <Route path="/edit-org" element={<EditOrg />} />
                 <Route path="/edit-org/:id" element={<EditOrg />} />
-          
-                <Route path="/principal" element={<ListPrincipal />} />
-                <Route path="/edit-principal" element={<EditPrincipal />} />
-                <Route path="/edit-principal/:id" element={<EditPrincipal />} />
           
                 <Route path="/operation" element={<ListOperation />} />
                 <Route path="/edit-operation" element={<EditOperation />} />
@@ -183,6 +181,10 @@ export default function App() {
                 <Route path="/edit-workflowtype" element={<EditWorkflowType />} />
                 <Route path="/edit-workflowtype/:id" element={<EditWorkflowType />} />
           
+                <Route path="/principalstatus" element={<ListPrincipalStatus />} />
+                <Route path="/edit-principalstatus" element={<EditPrincipalStatus />} />
+                <Route path="/edit-principalstatus/:id" element={<EditPrincipalStatus />} />
+          
                 <Route path="/testcase" element={<ListTestCase />} />
                 <Route path="/edit-testcase" element={<EditTestCase />} />
                 <Route path="/edit-testcase/:id" element={<EditTestCase />} />
@@ -191,17 +193,9 @@ export default function App() {
                 <Route path="/edit-testrun" element={<EditTestRun />} />
                 <Route path="/edit-testrun/:id" element={<EditTestRun />} />
           
-                <Route path="/principalorg" element={<ListPrincipalOrg />} />
-                <Route path="/edit-principalorg" element={<EditPrincipalOrg />} />
-                <Route path="/edit-principalorg/:id" element={<EditPrincipalOrg />} />
-          
                 <Route path="/oprolemap" element={<ListOpRoleMap />} />
                 <Route path="/edit-oprolemap" element={<EditOpRoleMap />} />
                 <Route path="/edit-oprolemap/:id" element={<EditOpRoleMap />} />
-          
-                <Route path="/oprolemember" element={<ListOpRoleMember />} />
-                <Route path="/edit-oprolemember" element={<EditOpRoleMember />} />
-                <Route path="/edit-oprolemember/:id" element={<EditOpRoleMember />} />
           
                 <Route path="/schedule" element={<ListSchedule />} />
                 <Route path="/edit-schedule" element={<EditSchedule />} />
@@ -219,6 +213,10 @@ export default function App() {
                 <Route path="/edit-servernode" element={<EditServerNode />} />
                 <Route path="/edit-servernode/:id" element={<EditServerNode />} />
           
+                <Route path="/principal" element={<ListPrincipal />} />
+                <Route path="/edit-principal" element={<EditPrincipal />} />
+                <Route path="/edit-principal/:id" element={<EditPrincipal />} />
+          
                 <Route path="/testresult" element={<ListTestResult />} />
                 <Route path="/edit-testresult" element={<EditTestResult />} />
                 <Route path="/edit-testresult/:id" element={<EditTestResult />} />
@@ -230,6 +228,14 @@ export default function App() {
                 <Route path="/process" element={<ListProcess />} />
                 <Route path="/edit-process" element={<EditProcess />} />
                 <Route path="/edit-process/:id" element={<EditProcess />} />
+          
+                <Route path="/principalorg" element={<ListPrincipalOrg />} />
+                <Route path="/edit-principalorg" element={<EditPrincipalOrg />} />
+                <Route path="/edit-principalorg/:id" element={<EditPrincipalOrg />} />
+          
+                <Route path="/oprolemember" element={<ListOpRoleMember />} />
+                <Route path="/edit-oprolemember" element={<EditOpRoleMember />} />
+                <Route path="/edit-oprolemember/:id" element={<EditOpRoleMember />} />
           
                 <Route path="/workflow" element={<ListWorkflow />} />
                 <Route path="/edit-workflow" element={<EditWorkflow />} />

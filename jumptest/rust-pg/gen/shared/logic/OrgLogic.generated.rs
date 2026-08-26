@@ -94,6 +94,66 @@ impl OrgLogic {
             .collect())
     }
 
+    /// Checklist rows for a many-to-many ("map") relationship tab: one row per
+    /// possible "other side" record, flagged with whether it's already mapped
+    /// to this object via the junction table. Mirrors `children` above --
+    /// same generic BaseObject shape (id/label/mapped columns, straight off
+    /// the generated "core.org-map-{suffix}" query, see
+    /// MetaObject.MapRelationships / database/{pgsql,mssql}/data/template.map.generated.sql.cshtml).
+    pub(crate) fn map_list(
+        &self,
+        id: i64,
+        map_suffix: &str,
+    ) -> Result<Vec<BaseObject>, LogicError> {
+        let query_name = format!("core.org-map-{}", map_suffix);
+        let mut filter = BaseObject::new();
+        filter.set("id", Value::from(id));
+        let rows = DBPersist::execute_query_rows_filtered(&query_name, &filter, "default")?;
+        Ok(rows
+            .into_iter()
+            .map(|row| {
+                let mut o = BaseObject::new();
+                for (k, v) in row {
+                    o.set(&k, v);
+                }
+                o
+            })
+            .collect())
+    }
+
+    /// Applies a many-to-many ("map") relationship checklist submitted from
+    /// the Edit page: the full set of "other side" ids that should be mapped
+    /// to this object after the call (see DBPersist::map_sync). The junction
+    /// table/column names are resolved here from generation-time metadata
+    /// (MetaObject.MapRelationships), never trusted from the client --
+    /// map_suffix only selects which relationship to sync.
+    pub(crate) fn map_sync(
+        &self,
+        id: i64,
+        map_suffix: &str,
+        checked_other_ids: &[i64],
+    ) -> Result<(), LogicError> {
+        Logger::debug(format!(
+            "Processing OrgLogic map_sync ID={}, map_suffix={}",
+            id, map_suffix
+        ));
+
+        match map_suffix {
+
+            "principal-principal" => {
+                DBPersist::map_sync("core", "principal_org", "org_id", "principal_id", id, checked_other_ids, "default")?;
+            }
+                    other => {
+                return Err(LogicError::Event(format!(
+                    "unknown map relationship suffix '{}' on Org",
+                    other
+                )));
+            }
+        }
+
+        Ok(())
+    }
+
     pub(crate) fn insert(&self, org: &mut Org) -> Result<(), LogicError> {
         Logger::debug("Processing OrgLogic insert");
         org.base.set("is_active", Value::from(1));
@@ -104,6 +164,11 @@ impl OrgLogic {
     pub(crate) fn update(&self, id: i64, org: &mut Org) -> Result<(), LogicError> {
         Logger::debug(format!("Processing OrgLogic update ID={}", id));
         org.base.set("id", Value::from(id));
+        // A normal save always (re)activates the record -- explicit here
+        // (matching insert/put above) now that db_persist_audit::update() no
+        // longer forces is_active=1 itself, since delete() below relies on
+        // that function honoring the is_active it sets.
+        org.base.set("is_active", Value::from(1));
         DBPersist::update(org, "default")?;
         Ok(())
     }
@@ -164,6 +229,16 @@ impl LogicDispatch for OrgLogic {
                 let rows = self.children(ctx.id(), &ctx.arg_str("child_suffix"))?;
                 Ok(serde_json::to_value(rows.iter().map(|o| &o.data).collect::<Vec<_>>())
                     .unwrap_or(Value::Null))
+            }
+            "maplist" => {
+                let rows = self.map_list(ctx.id(), &ctx.arg_str("map_suffix"))?;
+                Ok(serde_json::to_value(rows.iter().map(|o| &o.data).collect::<Vec<_>>())
+                    .unwrap_or(Value::Null))
+            }
+            "mapsync" => {
+                let checked_ids = ctx.arg_i64_vec("checked_other_ids");
+                self.map_sync(ctx.id(), &ctx.arg_str("map_suffix"), &checked_ids)?;
+                Ok(Value::Null)
             }
             "insert" => {
                 let mut o = Org::from_base(ctx.transaction.clone());

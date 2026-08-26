@@ -239,14 +239,25 @@ impl DBPersist {
 
     // ── SQL BUILDERS ─────────────────────────────────────────────────────
 
-    /// Build a literal INSERT over the type's declared columns.
+    /// Build a literal INSERT over the type's declared columns. Empty-string
+    /// values on date/time columns (e.g. an unset `last_login_date` on a
+    /// brand new record, submitted as `""` by a form rather than omitted
+    /// entirely) are coerced to NULL here -- every database rejects `''` as a
+    /// timestamp literal (Postgres: 22007 invalid input syntax), whereas an
+    /// empty string is perfectly valid for an ordinary varchar column, so
+    /// this only applies to columns ColumnInfo::is_temporal() flags.
     pub fn insert_sql<T: DomainObject>(obj: &T, table_name: &str, connection_name: &str) -> String {
         let provider = DatabaseProviderFactory::create_provider(connection_name);
         let mut cols = Vec::new();
         let mut vals = Vec::new();
         for col in T::columns() {
             cols.push(provider.format_column_name(col.name));
-            vals.push(provider.format_value(&obj.base().get(col.name)));
+            let value = obj.base().get(col.name);
+            let value = match &value {
+                Value::String(s) if s.is_empty() && col.is_temporal() => Value::Null,
+                _ => value,
+            };
+            vals.push(provider.format_value(&value));
         }
         format!(
             "insert into {} ({}) values ({});",
@@ -340,6 +351,104 @@ impl DBPersist {
         sql
     }
 
+    // ── MAP SYNC (many-to-many checklist save) ───────────────────────────
+
+    /// Applies a many-to-many relationship checklist: inserts a junction row
+    /// for every checked id not already mapped, and deactivates
+    /// (is_active = 0, in place -- not a new version row, since individual
+    /// checklist toggles don't need history) every existing mapping whose id
+    /// is no longer checked. Mirrors DBPersist.mapSync (.NET). Values are
+    /// rendered via `provider.format_value` (same literal-escaping helper
+    /// used by insert_sql/update_sql elsewhere in this file) rather than
+    /// bound parameters, since exec_cmd here only takes a raw SQL string.
+    pub fn map_sync(
+        map_schema: &str,
+        map_table: &str,
+        self_col: &str,
+        other_col: &str,
+        self_id: i64,
+        checked_other_ids: &[i64],
+        connection_name: &str,
+    ) -> Result<(), PersistError> {
+        let provider = DatabaseProviderFactory::create_provider(connection_name);
+        let full_table = format!("{}.{}", map_schema, map_table);
+
+        let select_sql = format!(
+            "select {}, {} from {} where {} = {} and {} = 1",
+            provider.format_column_name("id"),
+            provider.format_column_name(other_col),
+            provider.format_table_name(&full_table),
+            provider.format_column_name(self_col),
+            self_id,
+            provider.format_column_name("is_active"),
+        );
+        let rows = Self::select(&select_sql, connection_name)?;
+
+        let mut existing: HashMap<i64, i64> = HashMap::new();
+        for row in &rows {
+            let row_id = row.get("id").and_then(|v| v.as_i64()).unwrap_or_default();
+            let other_id = row.get(other_col).and_then(|v| v.as_i64()).unwrap_or_default();
+            existing.insert(other_id, row_id);
+        }
+
+        let checked_set: std::collections::HashSet<i64> = checked_other_ids.iter().copied().collect();
+
+        for &other_id in &checked_set {
+            if existing.contains_key(&other_id) {
+                continue;
+            }
+
+            let mut base = BaseObject::new();
+            base.table_name = full_table.clone();
+            let new_id = Self::identity(&base, connection_name)?;
+
+            let cols = [
+                "id",
+                self_col,
+                other_col,
+                "txn_id",
+                "is_active",
+                "created_by",
+                "last_updated",
+                "last_updated_by",
+            ];
+            let vals = [
+                provider.format_value(&Value::from(new_id)),
+                provider.format_value(&Value::from(self_id)),
+                provider.format_value(&Value::from(other_id)),
+                provider.format_value(&Value::from(new_id)),
+                provider.format_value(&Value::from(1)),
+                provider.format_value(&Value::String(user_name())),
+                provider.format_value(&json_now()),
+                provider.format_value(&Value::String(user_name())),
+            ];
+
+            let insert_sql = format!(
+                "insert into {} ({}) values ({});",
+                provider.format_table_name(&full_table),
+                cols.iter().map(|c| provider.format_column_name(c)).collect::<Vec<_>>().join(","),
+                vals.join(","),
+            );
+            Self::exec_cmd(&insert_sql, connection_name)?;
+        }
+
+        for (&other_id, &row_id) in &existing {
+            if checked_set.contains(&other_id) {
+                continue;
+            }
+
+            let update_sql = format!(
+                "update {} set {} = 0 where {} = {}",
+                provider.format_table_name(&full_table),
+                provider.format_column_name("is_active"),
+                provider.format_column_name("id"),
+                row_id,
+            );
+            Self::exec_cmd(&update_sql, connection_name)?;
+        }
+
+        Ok(())
+    }
     // ── QUERY CACHE ──────────────────────────────────────────────────────
 
     pub fn get_query_by_name(

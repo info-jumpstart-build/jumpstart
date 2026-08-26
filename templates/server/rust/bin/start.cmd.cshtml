@@ -1,0 +1,23 @@
+@@echo off
+setlocal
+rem Launch all backend components (api, scheduler, scriptagent, web) each in
+rem their own titled console window (see api.cmd / scheduler.cmd /
+rem scriptagent.cmd / web.cmd -- each does `start "<name>" cmd /k ...`).
+rem stop.cmd finds them again later by that same window title, so there's no
+rem PID bookkeeping to do here the way start.sh needs on macOS/Linux.
+set DIR=%~dp0
+
+echo Starting api...
+call "%DIR%api.cmd"
+
+echo Starting scheduler...
+call "%DIR%scheduler.cmd"
+
+echo Starting scriptagent...
+call "%DIR%scriptagent.cmd"
+
+echo Starting web...
+call "%DIR%web.cmd"
+
+echo All components started. Run stop.cmd to stop them.
+endlocal

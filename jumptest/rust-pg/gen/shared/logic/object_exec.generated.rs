@@ -25,8 +25,6 @@ pub fn object_exec(
         
         "org" => crate::OrgLogic::exec(method, ctx),
         
-        "principal" => crate::PrincipalLogic::exec(method, ctx),
-        
         "operation" => crate::OperationLogic::exec(method, ctx),
         
         "oprole" | "op_role" => crate::OpRoleLogic::exec(method, ctx),
@@ -61,15 +59,13 @@ pub fn object_exec(
         
         "workflowtype" | "workflow_type" => crate::WorkflowTypeLogic::exec(method, ctx),
         
+        "principalstatus" | "principal_status" => crate::PrincipalStatusLogic::exec(method, ctx),
+        
         "testcase" | "test_case" => crate::TestCaseLogic::exec(method, ctx),
         
         "testrun" | "test_run" => crate::TestRunLogic::exec(method, ctx),
         
-        "principalorg" | "principal_org" => crate::PrincipalOrgLogic::exec(method, ctx),
-        
         "oprolemap" | "op_role_map" => crate::OpRoleMapLogic::exec(method, ctx),
-        
-        "oprolemember" | "op_role_member" => crate::OpRoleMemberLogic::exec(method, ctx),
         
         "schedule" => crate::ScheduleLogic::exec(method, ctx),
         
@@ -79,11 +75,17 @@ pub fn object_exec(
         
         "servernode" | "server_node" => crate::ServerNodeLogic::exec(method, ctx),
         
+        "principal" => crate::PrincipalLogic::exec(method, ctx),
+        
         "testresult" | "test_result" => crate::TestResultLogic::exec(method, ctx),
         
         "eventservice" | "event_service" => crate::EventServiceLogic::exec(method, ctx),
         
         "process" => crate::ProcessLogic::exec(method, ctx),
+        
+        "principalorg" | "principal_org" => crate::PrincipalOrgLogic::exec(method, ctx),
+        
+        "oprolemember" | "op_role_member" => crate::OpRoleMemberLogic::exec(method, ctx),
         
         "workflow" => crate::WorkflowLogic::exec(method, ctx),
         
@@ -108,8 +110,6 @@ pub fn object_exec_unchecked(
         "testplan" | "test_plan" => crate::TestPlanLogic::exec_unchecked(method, ctx),
         
         "org" => crate::OrgLogic::exec_unchecked(method, ctx),
-        
-        "principal" => crate::PrincipalLogic::exec_unchecked(method, ctx),
         
         "operation" => crate::OperationLogic::exec_unchecked(method, ctx),
         
@@ -145,15 +145,13 @@ pub fn object_exec_unchecked(
         
         "workflowtype" | "workflow_type" => crate::WorkflowTypeLogic::exec_unchecked(method, ctx),
         
+        "principalstatus" | "principal_status" => crate::PrincipalStatusLogic::exec_unchecked(method, ctx),
+        
         "testcase" | "test_case" => crate::TestCaseLogic::exec_unchecked(method, ctx),
         
         "testrun" | "test_run" => crate::TestRunLogic::exec_unchecked(method, ctx),
         
-        "principalorg" | "principal_org" => crate::PrincipalOrgLogic::exec_unchecked(method, ctx),
-        
         "oprolemap" | "op_role_map" => crate::OpRoleMapLogic::exec_unchecked(method, ctx),
-        
-        "oprolemember" | "op_role_member" => crate::OpRoleMemberLogic::exec_unchecked(method, ctx),
         
         "schedule" => crate::ScheduleLogic::exec_unchecked(method, ctx),
         
@@ -163,11 +161,17 @@ pub fn object_exec_unchecked(
         
         "servernode" | "server_node" => crate::ServerNodeLogic::exec_unchecked(method, ctx),
         
+        "principal" => crate::PrincipalLogic::exec_unchecked(method, ctx),
+        
         "testresult" | "test_result" => crate::TestResultLogic::exec_unchecked(method, ctx),
         
         "eventservice" | "event_service" => crate::EventServiceLogic::exec_unchecked(method, ctx),
         
         "process" => crate::ProcessLogic::exec_unchecked(method, ctx),
+        
+        "principalorg" | "principal_org" => crate::PrincipalOrgLogic::exec_unchecked(method, ctx),
+        
+        "oprolemember" | "op_role_member" => crate::OpRoleMemberLogic::exec_unchecked(method, ctx),
         
         "workflow" => crate::WorkflowLogic::exec_unchecked(method, ctx),
         

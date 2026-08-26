@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useApiClient, type ApiClient } from "../api/apiClient";
+import { useApiClient, openNotificationStream, type ApiClient } from "../api/apiClient";
 import DataTable, { type DataTableColumn } from "../components/DataTable";
 
 // Row shape returned by GET /api/testcase and /api/testcase/view/{id}
@@ -105,38 +105,52 @@ export default function ListTestCase() {
   // GET /api/Notification/stream the Blazor client's notifications.js
   // interop connects to. The browser's native EventSource needs no interop
   // layer here and reconnects on its own; we just clean up on unmount.
+  // Opening it is async (openNotificationStream first mints a stream ticket
+  // over a normal, authenticated POST, since EventSource can't send an
+  // Authorization header itself), so this guards against the effect's
+  // cleanup running before that mint call resolves.
   useEffect(() => {
-    const source = new EventSource(`${api.baseUrl}/api/Notification/stream`);
-    sseRef.current = source;
+    let cancelled = false;
 
-    // MessageEvent's generic parameter defaults to `any` when omitted, so
-    // this stays a bare `MessageEvent` rather than `MessageEvent<string>`
-    // (same reasoning as the sseRef declaration above).
-    source.addEventListener("PropertyUpdated", async (event: MessageEvent) => {
-      try {
-        const message: PropertyUpdateMessage = JSON.parse(event.data);
-        if (message.DomainObjectName !== DOMAIN_OBJECT_NAME) return;
-
-        const index = (listRef.current ?? []).findIndex((item) => item.id === message.InstanceId);
-        if (index >= 0) {
-          const updated = await api.get<TestCaseView>(`/api/testcase/view/${message.InstanceId}`);
-          setList((current) => {
-            if (!current) return current;
-            const next = [...current];
-            const i = next.findIndex((item) => item.id === message.InstanceId);
-            if (i >= 0) next[i] = updated;
-            return next;
-          });
-        } else {
-          await reloadList();
+    openNotificationStream(api)
+      .then((source) => {
+        if (cancelled) {
+          source.close();
+          return;
         }
-      } catch (err) {
-        console.error("ListTestCase: error handling notification", err);
-      }
-    });
+        sseRef.current = source;
+
+        // MessageEvent's generic parameter defaults to `any` when omitted, so
+        // this stays a bare `MessageEvent` rather than `MessageEvent<string>`
+        // (same reasoning as the sseRef declaration above).
+        source.addEventListener("PropertyUpdated", async (event: MessageEvent) => {
+          try {
+            const message: PropertyUpdateMessage = JSON.parse(event.data);
+            if (message.DomainObjectName !== DOMAIN_OBJECT_NAME) return;
+
+            const index = (listRef.current ?? []).findIndex((item) => item.id === message.InstanceId);
+            if (index >= 0) {
+              const updated = await api.get<TestCaseView>(`/api/testcase/view/${message.InstanceId}`);
+              setList((current) => {
+                if (!current) return current;
+                const next = [...current];
+                const i = next.findIndex((item) => item.id === message.InstanceId);
+                if (i >= 0) next[i] = updated;
+                return next;
+              });
+            } else {
+              await reloadList();
+            }
+          } catch (err) {
+            console.error("ListTestCase: error handling notification", err);
+          }
+        });
+      })
+      .catch((err) => console.error("ListTestCase: error opening notification stream", err));
 
     return () => {
-      source.close();
+      cancelled = true;
+      sseRef.current?.close();
       sseRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

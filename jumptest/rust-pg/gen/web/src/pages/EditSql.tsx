@@ -27,30 +27,33 @@ export type SqlHistory = Sql;
 
 
 // Matches EnumHelper (shared/dotnet/common/EnumHelper.cs.cshtml): the option
-// list behind every FK/enum <select>.
+// list behind every FK/enum dropdown.
 interface EnumOption {
   id: number;
   rwkString: string;
 }
+
 
 interface FormField {
   key: string;
   label: string;
   kind: "string" | "number" | "boolean" | "date" | "enum";
   fkVar: string;
+  isGlobal: boolean;
+  isId: boolean;
 }
 
 const FORM_FIELDS: FormField[] = [
-  { key: "id", label: "Query ID", kind: "number", fkVar: "" },
-  { key: "name", label: "Name", kind: "string", fkVar: "" },
-  { key: "data_source_id", label: "Data Source ID", kind: "enum", fkVar: "datasource" },
-  { key: "sql_text", label: "SQL Text", kind: "string", fkVar: "" },
-  { key: "description", label: "Description", kind: "string", fkVar: "" },
-  { key: "is_active", label: "Active", kind: "number", fkVar: "" },
-  { key: "created_by", label: "Created By", kind: "string", fkVar: "" },
-  { key: "last_updated", label: "Last Updated", kind: "date", fkVar: "" },
-  { key: "last_updated_by", label: "Last Updated By", kind: "string", fkVar: "" },
-  { key: "txn_id", label: "Txn Id", kind: "number", fkVar: "" },
+  { key: "id", label: "Query ID", kind: "number", fkVar: "", isGlobal: false, isId: true },
+  { key: "name", label: "Name", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "data_source_id", label: "Data Source ID", kind: "enum", fkVar: "datasource", isGlobal: false, isId: false },
+  { key: "sql_text", label: "SQL Text", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "description", label: "Description", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "is_active", label: "Active", kind: "number", fkVar: "", isGlobal: true, isId: false },
+  { key: "created_by", label: "Created By", kind: "string", fkVar: "", isGlobal: true, isId: false },
+  { key: "last_updated", label: "Last Updated", kind: "date", fkVar: "", isGlobal: true, isId: false },
+  { key: "last_updated_by", label: "Last Updated By", kind: "string", fkVar: "", isGlobal: true, isId: false },
+  { key: "txn_id", label: "Txn Id", kind: "number", fkVar: "", isGlobal: true, isId: false },
 ];
 
 const OWN_COLUMNS: DataTableColumn[] = [
@@ -65,6 +68,15 @@ const OWN_COLUMNS: DataTableColumn[] = [
 ];
 
 
+// Read-only display text for global/audit fields (field.isGlobal below) --
+// same null/blank handling as DataTable.tsx.cshtml's formatValue, plus a
+// friendlier Yes/No for booleans like is_active.
+function formatReadOnlyValue(value: unknown): string {
+  if (value === null || value === undefined || value === "") return "";
+  if (typeof value === "boolean") return value ? "Yes" : "No";
+  return String(value);
+}
+
 function defaultValueForKind(kind: FormField["kind"]): string | number | boolean {
   switch (kind) {
     case "number":
@@ -78,11 +90,11 @@ function defaultValueForKind(kind: FormField["kind"]): string | number | boolean
 }
 
 function createEmptySql(): Sql {
-  // Plain index-signature object type here (rather than Record<string,
-  // unknown>) -- RazorLight's markup parser can mistake a bare
-  // `Identifier<...>` for the start of an HTML/JSX tag when it appears
-  // outside a `<text>`-wrapped code region, so every such generic in this
-  // file is written to avoid a bare `<` following an identifier.
+  // Plain index-signature object type here (rather than a generic
+  // Record-of-string-to-unknown type) -- RazorLight's markup parser can
+  // mistake a bare generic type argument for the start of an HTML/JSX tag
+  // when it appears in markup mode, so every such generic in this file is
+  // written to avoid a bare angle bracket following an identifier.
   const obj: { [key: string]: unknown } = {};
   for (const field of FORM_FIELDS) {
     obj[field.key] = defaultValueForKind(field.kind);
@@ -90,8 +102,9 @@ function createEmptySql(): Sql {
   return obj as unknown as Sql;
 }
 
-// Not generic (only ever called with FORM_FIELDS below) -- a bare `<T>`
-// here trips the same RazorLight tag-detection issue as Record<...> above.
+// Not written as a generic function (only ever called with FORM_FIELDS
+// below) -- a bare type-parameter angle bracket here trips the same
+// RazorLight tag-detection issue described above.
 function chunkFormFields(items: FormField[], size: number): FormField[][] {
   const rows: FormField[][] = [];
   for (let i = 0; i < items.length; i += size) {
@@ -174,8 +187,8 @@ export default function EditSql() {
   }
 
   // Typed via the FormEventHandler variable annotation (using its default
-  // type parameter) rather than an inline `(e: FormEvent<HTMLFormElement>)`
-  // parameter annotation -- same bare-generic issue as elsewhere in this file.
+  // type parameter) rather than an inline generic FormEvent parameter
+  // annotation -- same bare-generic issue as elsewhere in this file.
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
     try {
@@ -183,6 +196,12 @@ export default function EditSql() {
         await api.post<Sql>("/api/sql", formData);
       } else {
         await api.put<Sql>(`/api/sql/${id}`, formData);
+
+        // Apply every map-relationship checklist alongside the object save --
+        // only meaningful for an existing record, since a brand-new record
+        // has no checklist to have edited yet (mirrors the Delete button
+        // above, and the child-relationship tabs, which are likewise only
+        // loaded once id is known).
       }
     } catch (err) {
       console.error("EditSql: error saving sql", err);
@@ -194,11 +213,34 @@ export default function EditSql() {
     navigate(returnUrl ?? "/sql");
   }
 
+  // Soft delete -- DELETE /api/sql/{id} sets is_active=0 server-side
+  // (see SqlLogic.delete() / server/dotnet/api/template.api.generated.cs.cshtml's
+  // Delete action), it doesn't remove the row. Only meaningful for an
+  // existing record, so the button below is hidden while creating a new one.
+  async function handleDelete() {
+    if (id == null) return;
+    // window.confirm here (rather than a custom modal) matches the plain
+    // browser confirm() the Blazor Edit page uses via JS interop below --
+    // keeps both clients' delete confirmation behavior identical.
+    if (!window.confirm(`Delete this Query? This cannot be undone.`)) return;
+    try {
+      await api.del(`/api/sql/${id}`);
+    } catch (err) {
+      console.error("EditSql: error deleting sql", err);
+      return;
+    }
+    navigate(returnUrl ?? "/sql");
+  }
+
   const rwkString = [formData.name]
     .filter((v) => v !== null && v !== undefined && v !== "")
     .join(" ");
 
-  const fieldRows = chunkFormFields(FORM_FIELDS, 3);
+  // The "id" field is dropped from the form entirely while creating a new
+  // record (there's no id yet) and rendered read-only below while editing an
+  // existing one -- see the isId comment on formFields above.
+  const visibleFields = id == null ? FORM_FIELDS.filter((f) => !f.isId) : FORM_FIELDS;
+  const fieldRows = chunkFormFields(visibleFields, 3);
   const values = formData as unknown as { [key: string]: unknown };
 
   const editTabContent: ReactNode = (
@@ -214,7 +256,11 @@ export default function EditSql() {
                       <label htmlFor={field.key} className="form-label">
                         {field.label}
                       </label>
-                      {field.kind === "enum" ? (
+                      {field.isGlobal || field.isId ? (
+                        <div id={field.key} className="form-control-plaintext">
+                          {formatReadOnlyValue(values[field.key])}
+                        </div>
+                      ) : field.kind === "enum" ? (
                         <select
                           id={field.key}
                           className="form-control"
@@ -270,13 +316,25 @@ export default function EditSql() {
         </table>
       </div>
 
-      <div className="mb-3">
-        <button type="submit" className="btn btn-primary">
-          Save
-        </button>
-        <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>
-          Cancel
-        </button>
+      <div className="mb-3 d-flex justify-content-between align-items-center">
+        <div>
+          <button type="submit" className="btn btn-primary">
+            Save
+          </button>
+          <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
+        {id != null && (
+          <button
+            type="button"
+            className="btn"
+            style={{ backgroundColor: "#8b0000", color: "#fff" }}
+            onClick={handleDelete}
+          >
+            Delete
+          </button>
+        )}
       </div>
     </form>
   );

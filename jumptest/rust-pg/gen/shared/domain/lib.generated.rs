@@ -32,13 +32,6 @@ pub mod org {
 }
 pub use org::*;
     
-pub mod principal {
-    // `use common::*;` is provided by the included generated file.
-    include!("Principal.generated.rs");
-    include!("../../../usr/shared/domain/Principal.user.rs");
-}
-pub use principal::*;
-    
 pub mod operation {
     // `use common::*;` is provided by the included generated file.
     include!("Operation.generated.rs");
@@ -158,6 +151,13 @@ pub mod workflow_type {
 }
 pub use workflow_type::*;
     
+pub mod principal_status {
+    // `use common::*;` is provided by the included generated file.
+    include!("PrincipalStatus.generated.rs");
+    include!("../../../usr/shared/domain/PrincipalStatus.user.rs");
+}
+pub use principal_status::*;
+    
 pub mod test_case {
     // `use common::*;` is provided by the included generated file.
     include!("TestCase.generated.rs");
@@ -172,26 +172,12 @@ pub mod test_run {
 }
 pub use test_run::*;
     
-pub mod principal_org {
-    // `use common::*;` is provided by the included generated file.
-    include!("PrincipalOrg.generated.rs");
-    include!("../../../usr/shared/domain/PrincipalOrg.user.rs");
-}
-pub use principal_org::*;
-    
 pub mod op_role_map {
     // `use common::*;` is provided by the included generated file.
     include!("OpRoleMap.generated.rs");
     include!("../../../usr/shared/domain/OpRoleMap.user.rs");
 }
 pub use op_role_map::*;
-    
-pub mod op_role_member {
-    // `use common::*;` is provided by the included generated file.
-    include!("OpRoleMember.generated.rs");
-    include!("../../../usr/shared/domain/OpRoleMember.user.rs");
-}
-pub use op_role_member::*;
     
 pub mod schedule {
     // `use common::*;` is provided by the included generated file.
@@ -221,6 +207,13 @@ pub mod server_node {
 }
 pub use server_node::*;
     
+pub mod principal {
+    // `use common::*;` is provided by the included generated file.
+    include!("Principal.generated.rs");
+    include!("../../../usr/shared/domain/Principal.user.rs");
+}
+pub use principal::*;
+    
 pub mod test_result {
     // `use common::*;` is provided by the included generated file.
     include!("TestResult.generated.rs");
@@ -241,6 +234,20 @@ pub mod process {
     include!("../../../usr/shared/domain/Process.user.rs");
 }
 pub use process::*;
+    
+pub mod principal_org {
+    // `use common::*;` is provided by the included generated file.
+    include!("PrincipalOrg.generated.rs");
+    include!("../../../usr/shared/domain/PrincipalOrg.user.rs");
+}
+pub use principal_org::*;
+    
+pub mod op_role_member {
+    // `use common::*;` is provided by the included generated file.
+    include!("OpRoleMember.generated.rs");
+    include!("../../../usr/shared/domain/OpRoleMember.user.rs");
+}
+pub use op_role_member::*;
     
 pub mod workflow {
     // `use common::*;` is provided by the included generated file.

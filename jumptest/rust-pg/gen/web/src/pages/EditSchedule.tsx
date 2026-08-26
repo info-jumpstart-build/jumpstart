@@ -33,36 +33,39 @@ export type ScheduleHistory = Schedule;
 
 
 // Matches EnumHelper (shared/dotnet/common/EnumHelper.cs.cshtml): the option
-// list behind every FK/enum <select>.
+// list behind every FK/enum dropdown.
 interface EnumOption {
   id: number;
   rwkString: string;
 }
+
 
 interface FormField {
   key: string;
   label: string;
   kind: "string" | "number" | "boolean" | "date" | "enum";
   fkVar: string;
+  isGlobal: boolean;
+  isId: boolean;
 }
 
 const FORM_FIELDS: FormField[] = [
-  { key: "id", label: "", kind: "number", fkVar: "" },
-  { key: "name", label: "Name", kind: "string", fkVar: "" },
-  { key: "cron_every_id", label: "Run At", kind: "enum", fkVar: "cronevery" },
-  { key: "cron_minute_id", label: "Minute", kind: "enum", fkVar: "cronminute" },
-  { key: "cron_hour_id", label: "Hour", kind: "enum", fkVar: "cronhour" },
-  { key: "cron_dom_id", label: "Day Of Month", kind: "enum", fkVar: "crondom" },
-  { key: "cron_month_id", label: "Month", kind: "enum", fkVar: "cronmonth" },
-  { key: "cron_dow_id", label: "Day Of Week", kind: "enum", fkVar: "crondow" },
-  { key: "schedule_label", label: "Schedule Label", kind: "string", fkVar: "" },
-  { key: "next_run_time", label: "Next Run Time", kind: "date", fkVar: "" },
-  { key: "last_run_time", label: "Last Run Time", kind: "date", fkVar: "" },
-  { key: "is_active", label: "Active", kind: "number", fkVar: "" },
-  { key: "created_by", label: "Created By", kind: "string", fkVar: "" },
-  { key: "last_updated", label: "Last Updated", kind: "date", fkVar: "" },
-  { key: "last_updated_by", label: "Last Updated By", kind: "string", fkVar: "" },
-  { key: "txn_id", label: "Txn Id", kind: "number", fkVar: "" },
+  { key: "id", label: "", kind: "number", fkVar: "", isGlobal: false, isId: true },
+  { key: "name", label: "Name", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "cron_every_id", label: "Run At", kind: "enum", fkVar: "cronevery", isGlobal: false, isId: false },
+  { key: "cron_minute_id", label: "Minute", kind: "enum", fkVar: "cronminute", isGlobal: false, isId: false },
+  { key: "cron_hour_id", label: "Hour", kind: "enum", fkVar: "cronhour", isGlobal: false, isId: false },
+  { key: "cron_dom_id", label: "Day Of Month", kind: "enum", fkVar: "crondom", isGlobal: false, isId: false },
+  { key: "cron_month_id", label: "Month", kind: "enum", fkVar: "cronmonth", isGlobal: false, isId: false },
+  { key: "cron_dow_id", label: "Day Of Week", kind: "enum", fkVar: "crondow", isGlobal: false, isId: false },
+  { key: "schedule_label", label: "Schedule Label", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "next_run_time", label: "Next Run Time", kind: "date", fkVar: "", isGlobal: false, isId: false },
+  { key: "last_run_time", label: "Last Run Time", kind: "date", fkVar: "", isGlobal: false, isId: false },
+  { key: "is_active", label: "Active", kind: "number", fkVar: "", isGlobal: true, isId: false },
+  { key: "created_by", label: "Created By", kind: "string", fkVar: "", isGlobal: true, isId: false },
+  { key: "last_updated", label: "Last Updated", kind: "date", fkVar: "", isGlobal: true, isId: false },
+  { key: "last_updated_by", label: "Last Updated By", kind: "string", fkVar: "", isGlobal: true, isId: false },
+  { key: "txn_id", label: "Txn Id", kind: "number", fkVar: "", isGlobal: true, isId: false },
 ];
 
 const OWN_COLUMNS: DataTableColumn[] = [
@@ -78,6 +81,15 @@ const OWN_COLUMNS: DataTableColumn[] = [
 ];
 
 
+// Read-only display text for global/audit fields (field.isGlobal below) --
+// same null/blank handling as DataTable.tsx.cshtml's formatValue, plus a
+// friendlier Yes/No for booleans like is_active.
+function formatReadOnlyValue(value: unknown): string {
+  if (value === null || value === undefined || value === "") return "";
+  if (typeof value === "boolean") return value ? "Yes" : "No";
+  return String(value);
+}
+
 function defaultValueForKind(kind: FormField["kind"]): string | number | boolean {
   switch (kind) {
     case "number":
@@ -91,11 +103,11 @@ function defaultValueForKind(kind: FormField["kind"]): string | number | boolean
 }
 
 function createEmptySchedule(): Schedule {
-  // Plain index-signature object type here (rather than Record<string,
-  // unknown>) -- RazorLight's markup parser can mistake a bare
-  // `Identifier<...>` for the start of an HTML/JSX tag when it appears
-  // outside a `<text>`-wrapped code region, so every such generic in this
-  // file is written to avoid a bare `<` following an identifier.
+  // Plain index-signature object type here (rather than a generic
+  // Record-of-string-to-unknown type) -- RazorLight's markup parser can
+  // mistake a bare generic type argument for the start of an HTML/JSX tag
+  // when it appears in markup mode, so every such generic in this file is
+  // written to avoid a bare angle bracket following an identifier.
   const obj: { [key: string]: unknown } = {};
   for (const field of FORM_FIELDS) {
     obj[field.key] = defaultValueForKind(field.kind);
@@ -103,8 +115,9 @@ function createEmptySchedule(): Schedule {
   return obj as unknown as Schedule;
 }
 
-// Not generic (only ever called with FORM_FIELDS below) -- a bare `<T>`
-// here trips the same RazorLight tag-detection issue as Record<...> above.
+// Not written as a generic function (only ever called with FORM_FIELDS
+// below) -- a bare type-parameter angle bracket here trips the same
+// RazorLight tag-detection issue described above.
 function chunkFormFields(items: FormField[], size: number): FormField[][] {
   const rows: FormField[][] = [];
   for (let i = 0; i < items.length; i += size) {
@@ -187,8 +200,8 @@ export default function EditSchedule() {
   }
 
   // Typed via the FormEventHandler variable annotation (using its default
-  // type parameter) rather than an inline `(e: FormEvent<HTMLFormElement>)`
-  // parameter annotation -- same bare-generic issue as elsewhere in this file.
+  // type parameter) rather than an inline generic FormEvent parameter
+  // annotation -- same bare-generic issue as elsewhere in this file.
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
     try {
@@ -196,6 +209,12 @@ export default function EditSchedule() {
         await api.post<Schedule>("/api/schedule", formData);
       } else {
         await api.put<Schedule>(`/api/schedule/${id}`, formData);
+
+        // Apply every map-relationship checklist alongside the object save --
+        // only meaningful for an existing record, since a brand-new record
+        // has no checklist to have edited yet (mirrors the Delete button
+        // above, and the child-relationship tabs, which are likewise only
+        // loaded once id is known).
       }
     } catch (err) {
       console.error("EditSchedule: error saving schedule", err);
@@ -207,11 +226,34 @@ export default function EditSchedule() {
     navigate(returnUrl ?? "/schedule");
   }
 
+  // Soft delete -- DELETE /api/schedule/{id} sets is_active=0 server-side
+  // (see ScheduleLogic.delete() / server/dotnet/api/template.api.generated.cs.cshtml's
+  // Delete action), it doesn't remove the row. Only meaningful for an
+  // existing record, so the button below is hidden while creating a new one.
+  async function handleDelete() {
+    if (id == null) return;
+    // window.confirm here (rather than a custom modal) matches the plain
+    // browser confirm() the Blazor Edit page uses via JS interop below --
+    // keeps both clients' delete confirmation behavior identical.
+    if (!window.confirm(`Delete this Schedule? This cannot be undone.`)) return;
+    try {
+      await api.del(`/api/schedule/${id}`);
+    } catch (err) {
+      console.error("EditSchedule: error deleting schedule", err);
+      return;
+    }
+    navigate(returnUrl ?? "/schedule");
+  }
+
   const rwkString = [formData.name]
     .filter((v) => v !== null && v !== undefined && v !== "")
     .join(" ");
 
-  const fieldRows = chunkFormFields(FORM_FIELDS, 3);
+  // The "id" field is dropped from the form entirely while creating a new
+  // record (there's no id yet) and rendered read-only below while editing an
+  // existing one -- see the isId comment on formFields above.
+  const visibleFields = id == null ? FORM_FIELDS.filter((f) => !f.isId) : FORM_FIELDS;
+  const fieldRows = chunkFormFields(visibleFields, 3);
   const values = formData as unknown as { [key: string]: unknown };
 
   const editTabContent: ReactNode = (
@@ -227,7 +269,11 @@ export default function EditSchedule() {
                       <label htmlFor={field.key} className="form-label">
                         {field.label}
                       </label>
-                      {field.kind === "enum" ? (
+                      {field.isGlobal || field.isId ? (
+                        <div id={field.key} className="form-control-plaintext">
+                          {formatReadOnlyValue(values[field.key])}
+                        </div>
+                      ) : field.kind === "enum" ? (
                         <select
                           id={field.key}
                           className="form-control"
@@ -283,13 +329,25 @@ export default function EditSchedule() {
         </table>
       </div>
 
-      <div className="mb-3">
-        <button type="submit" className="btn btn-primary">
-          Save
-        </button>
-        <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>
-          Cancel
-        </button>
+      <div className="mb-3 d-flex justify-content-between align-items-center">
+        <div>
+          <button type="submit" className="btn btn-primary">
+            Save
+          </button>
+          <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
+        {id != null && (
+          <button
+            type="button"
+            className="btn"
+            style={{ backgroundColor: "#8b0000", color: "#fff" }}
+            onClick={handleDelete}
+          >
+            Delete
+          </button>
+        )}
       </div>
     </form>
   );

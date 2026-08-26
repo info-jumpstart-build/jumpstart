@@ -26,10 +26,6 @@ pub use test_plan_test::*;
 mod org_test;
 pub use org_test::*;
     
-#[path = "Principal.test.generated.rs"]
-mod principal_test;
-pub use principal_test::*;
-    
 #[path = "Operation.test.generated.rs"]
 mod operation_test;
 pub use operation_test::*;
@@ -98,6 +94,10 @@ pub use server_node_type_test::*;
 mod workflow_type_test;
 pub use workflow_type_test::*;
     
+#[path = "PrincipalStatus.test.generated.rs"]
+mod principal_status_test;
+pub use principal_status_test::*;
+    
 #[path = "TestCase.test.generated.rs"]
 mod test_case_test;
 pub use test_case_test::*;
@@ -106,17 +106,9 @@ pub use test_case_test::*;
 mod test_run_test;
 pub use test_run_test::*;
     
-#[path = "PrincipalOrg.test.generated.rs"]
-mod principal_org_test;
-pub use principal_org_test::*;
-    
 #[path = "OpRoleMap.test.generated.rs"]
 mod op_role_map_test;
 pub use op_role_map_test::*;
-    
-#[path = "OpRoleMember.test.generated.rs"]
-mod op_role_member_test;
-pub use op_role_member_test::*;
     
 #[path = "Schedule.test.generated.rs"]
 mod schedule_test;
@@ -134,6 +126,10 @@ pub use script_test::*;
 mod server_node_test;
 pub use server_node_test::*;
     
+#[path = "Principal.test.generated.rs"]
+mod principal_test;
+pub use principal_test::*;
+    
 #[path = "TestResult.test.generated.rs"]
 mod test_result_test;
 pub use test_result_test::*;
@@ -145,6 +141,14 @@ pub use event_service_test::*;
 #[path = "Process.test.generated.rs"]
 mod process_test;
 pub use process_test::*;
+    
+#[path = "PrincipalOrg.test.generated.rs"]
+mod principal_org_test;
+pub use principal_org_test::*;
+    
+#[path = "OpRoleMember.test.generated.rs"]
+mod op_role_member_test;
+pub use op_role_member_test::*;
     
 #[path = "Workflow.test.generated.rs"]
 mod workflow_test;
@@ -258,16 +262,16 @@ fn run() -> Result<(), LogicError> {
     TestRunTest::test_insert()?;
     TestRunTest::test_update()?;
     
-    Logger::info("Testing PrincipalOrg");
-    PrincipalOrgTest::test_insert()?;
-    PrincipalOrgTest::test_update()?;
-    PrincipalOrgTest::test_insert()?;
-    PrincipalOrgTest::test_update()?;
-    
     Logger::info("Testing TestResult");
     TestResultTest::test_insert()?;
     TestResultTest::test_update()?;
     TestResultTest::test_insert()?;
     TestResultTest::test_update()?;
+    
+    Logger::info("Testing PrincipalOrg");
+    PrincipalOrgTest::test_insert()?;
+    PrincipalOrgTest::test_update()?;
+    PrincipalOrgTest::test_insert()?;
+    PrincipalOrgTest::test_update()?;
         Ok(())
 }

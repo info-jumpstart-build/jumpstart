@@ -76,3 +76,18 @@ export function useApiClient(): ApiClient {
   }
   return client;
 }
+
+/**
+ * Opens the SSE notification stream. The browser's native EventSource API
+ * cannot attach an Authorization header, so it can't reuse this client's
+ * normal fetch-based auth -- instead it first mints a short-lived,
+ * single-use ticket over a normal (Authorization-header-gated) POST, then
+ * opens the stream with that ticket as a query param. See the API server's
+ * stream-ticket handler (Rust: notification_stream_ticket in
+ * main.generated.rs; .NET: NotificationController.MintStreamTicket) for why
+ * a ticket, not the access token itself, travels in the URL.
+ */
+export async function openNotificationStream(api: ApiClient): Promise<EventSource> {
+  const { ticket } = await api.post<{ ticket: string }>("/api/Notification/stream-ticket", {});
+  return new EventSource(`${api.baseUrl}/api/Notification/stream?ticket=${encodeURIComponent(ticket)}`);
+}

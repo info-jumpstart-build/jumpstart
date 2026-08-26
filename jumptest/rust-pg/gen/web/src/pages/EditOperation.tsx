@@ -4,6 +4,7 @@ import { useApiClient } from "../api/apiClient";
 import DataTable, { type DataTableColumn } from "../components/DataTable";
 import TabControl, { type TabItem } from "../components/TabControl";
 import "../styles/editForm.css";
+import type { Dispatch, SetStateAction } from "react";
 
 // Raw shape sent/received by GET|POST|PUT /api/operation[/{id}] -- matches
 // the Operation domain class generated for the dotnet/rust servers (every
@@ -25,10 +26,35 @@ export type OperationHistory = Operation;
 
 
 // Matches EnumHelper (shared/dotnet/common/EnumHelper.cs.cshtml): the option
-// list behind every FK/enum <select>.
+// list behind every FK/enum dropdown.
 interface EnumOption {
   id: number;
   rwkString: string;
+}
+
+
+// Matches MapOption (shared/dotnet/common/MapOption.cs.cshtml): one row of a
+// many-to-many relationship checklist tab -- GET /api/operation/{id}/map/{other}_{role}.
+interface MapOption {
+  id: number;
+  label: string;
+  mapped: boolean;
+}
+
+// Flips one option's checked state within a Set<id> -- shared by every
+// map-relationship checklist tab below (each backed by its own
+// useState<Set<number>>). Entity-escaped nested generics here --
+// bare nested generic brackets inside this markup excursion get parsed as
+// HTML tags by RazorLight's markup tokenizer, which never finds a matching
+// close and fails. Avoid writing angle brackets literally in comments in
+// this region -- use words instead, or entity-escape them.
+function toggleMapChecked(setChecked: Dispatch<SetStateAction<Set<number>>>, optionId: number, checked: boolean) {
+  setChecked((current) => {
+    const next = new Set(current);
+    if (checked) next.add(optionId);
+    else next.delete(optionId);
+    return next;
+  });
 }
 
 interface FormField {
@@ -36,17 +62,19 @@ interface FormField {
   label: string;
   kind: "string" | "number" | "boolean" | "date" | "enum";
   fkVar: string;
+  isGlobal: boolean;
+  isId: boolean;
 }
 
 const FORM_FIELDS: FormField[] = [
-  { key: "id", label: "Action ID", kind: "number", fkVar: "" },
-  { key: "objectname", label: "Object", kind: "string", fkVar: "" },
-  { key: "methodname", label: "Method", kind: "string", fkVar: "" },
-  { key: "is_active", label: "Active", kind: "number", fkVar: "" },
-  { key: "created_by", label: "Created By", kind: "string", fkVar: "" },
-  { key: "last_updated", label: "Last Updated", kind: "date", fkVar: "" },
-  { key: "last_updated_by", label: "Last Updated By", kind: "string", fkVar: "" },
-  { key: "txn_id", label: "Txn Id", kind: "number", fkVar: "" },
+  { key: "id", label: "Action ID", kind: "number", fkVar: "", isGlobal: false, isId: true },
+  { key: "objectname", label: "Object", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "methodname", label: "Method", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "is_active", label: "Active", kind: "number", fkVar: "", isGlobal: true, isId: false },
+  { key: "created_by", label: "Created By", kind: "string", fkVar: "", isGlobal: true, isId: false },
+  { key: "last_updated", label: "Last Updated", kind: "date", fkVar: "", isGlobal: true, isId: false },
+  { key: "last_updated_by", label: "Last Updated By", kind: "string", fkVar: "", isGlobal: true, isId: false },
+  { key: "txn_id", label: "Txn Id", kind: "number", fkVar: "", isGlobal: true, isId: false },
 ];
 
 const OWN_COLUMNS: DataTableColumn[] = [
@@ -59,6 +87,15 @@ const OWN_COLUMNS: DataTableColumn[] = [
   { key: "last_updated_by", label: "Last Updated By" },
 ];
 
+
+// Read-only display text for global/audit fields (field.isGlobal below) --
+// same null/blank handling as DataTable.tsx.cshtml's formatValue, plus a
+// friendlier Yes/No for booleans like is_active.
+function formatReadOnlyValue(value: unknown): string {
+  if (value === null || value === undefined || value === "") return "";
+  if (typeof value === "boolean") return value ? "Yes" : "No";
+  return String(value);
+}
 
 function defaultValueForKind(kind: FormField["kind"]): string | number | boolean {
   switch (kind) {
@@ -73,11 +110,11 @@ function defaultValueForKind(kind: FormField["kind"]): string | number | boolean
 }
 
 function createEmptyOperation(): Operation {
-  // Plain index-signature object type here (rather than Record<string,
-  // unknown>) -- RazorLight's markup parser can mistake a bare
-  // `Identifier<...>` for the start of an HTML/JSX tag when it appears
-  // outside a `<text>`-wrapped code region, so every such generic in this
-  // file is written to avoid a bare `<` following an identifier.
+  // Plain index-signature object type here (rather than a generic
+  // Record-of-string-to-unknown type) -- RazorLight's markup parser can
+  // mistake a bare generic type argument for the start of an HTML/JSX tag
+  // when it appears in markup mode, so every such generic in this file is
+  // written to avoid a bare angle bracket following an identifier.
   const obj: { [key: string]: unknown } = {};
   for (const field of FORM_FIELDS) {
     obj[field.key] = defaultValueForKind(field.kind);
@@ -85,8 +122,9 @@ function createEmptyOperation(): Operation {
   return obj as unknown as Operation;
 }
 
-// Not generic (only ever called with FORM_FIELDS below) -- a bare `<T>`
-// here trips the same RazorLight tag-detection issue as Record<...> above.
+// Not written as a generic function (only ever called with FORM_FIELDS
+// below) -- a bare type-parameter angle bracket here trips the same
+// RazorLight tag-detection issue described above.
 function chunkFormFields(items: FormField[], size: number): FormField[][] {
   const rows: FormField[][] = [];
   for (let i = 0; i < items.length; i += size) {
@@ -108,6 +146,9 @@ export default function EditOperation() {
   const [historyList, setHistoryList] = useState<OperationHistory[] | null>(null);
   const [enumOptions, setEnumOptions] = useState({} as { [key: string]: EnumOption[] });
   const [activeTab, setActiveTab] = useState(0);
+  const [activeChildTab, setActiveChildTab] = useState(0);
+  const [oprole_op_role_Options, set_oprole_op_role_Options] = useState<MapOption[] | null>(null);
+  const [oprole_op_role_Checked, set_oprole_op_role_Checked] = useState<Set<number>>(() => new Set());
 
   // Loads the record (plus history/children) when editing an existing row;
   // resets to a blank record when navigating to the "create" route.
@@ -134,6 +175,21 @@ export default function EditOperation() {
       } catch (err) {
         console.error("EditOperation: error loading history", err);
         if (!cancelled) setHistoryList([]);
+      }
+
+      try {
+        const oprole_op_role_options = await api.get<MapOption[]>(
+          `/api/operation/${id}/map/oprole_op_role`,
+        );
+        if (!cancelled) {
+          set_oprole_op_role_Options(oprole_op_role_options);
+          set_oprole_op_role_Checked(
+            new Set(oprole_op_role_options.filter((o) => o.mapped).map((o) => o.id)),
+          );
+        }
+      } catch (err) {
+        console.error("EditOperation: error loading oprole_op_role map", err);
+        if (!cancelled) set_oprole_op_role_Options([]);
       }
     }
 
@@ -169,8 +225,8 @@ export default function EditOperation() {
   }
 
   // Typed via the FormEventHandler variable annotation (using its default
-  // type parameter) rather than an inline `(e: FormEvent<HTMLFormElement>)`
-  // parameter annotation -- same bare-generic issue as elsewhere in this file.
+  // type parameter) rather than an inline generic FormEvent parameter
+  // annotation -- same bare-generic issue as elsewhere in this file.
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
     try {
@@ -178,6 +234,20 @@ export default function EditOperation() {
         await api.post<Operation>("/api/operation", formData);
       } else {
         await api.put<Operation>(`/api/operation/${id}`, formData);
+
+        // Apply every map-relationship checklist alongside the object save --
+        // only meaningful for an existing record, since a brand-new record
+        // has no checklist to have edited yet (mirrors the Delete button
+        // above, and the child-relationship tabs, which are likewise only
+        // loaded once id is known).
+        try {
+          await api.put<void>(
+            `/api/operation/${id}/map/oprole_op_role`,
+            Array.from(oprole_op_role_Checked),
+          );
+        } catch (err) {
+          console.error("EditOperation: error saving oprole_op_role map", err);
+        }
       }
     } catch (err) {
       console.error("EditOperation: error saving operation", err);
@@ -189,11 +259,34 @@ export default function EditOperation() {
     navigate(returnUrl ?? "/operation");
   }
 
+  // Soft delete -- DELETE /api/operation/{id} sets is_active=0 server-side
+  // (see OperationLogic.delete() / server/dotnet/api/template.api.generated.cs.cshtml's
+  // Delete action), it doesn't remove the row. Only meaningful for an
+  // existing record, so the button below is hidden while creating a new one.
+  async function handleDelete() {
+    if (id == null) return;
+    // window.confirm here (rather than a custom modal) matches the plain
+    // browser confirm() the Blazor Edit page uses via JS interop below --
+    // keeps both clients' delete confirmation behavior identical.
+    if (!window.confirm(`Delete this Operations? This cannot be undone.`)) return;
+    try {
+      await api.del(`/api/operation/${id}`);
+    } catch (err) {
+      console.error("EditOperation: error deleting operation", err);
+      return;
+    }
+    navigate(returnUrl ?? "/operation");
+  }
+
   const rwkString = [formData.objectname, formData.methodname]
     .filter((v) => v !== null && v !== undefined && v !== "")
     .join(" ");
 
-  const fieldRows = chunkFormFields(FORM_FIELDS, 3);
+  // The "id" field is dropped from the form entirely while creating a new
+  // record (there's no id yet) and rendered read-only below while editing an
+  // existing one -- see the isId comment on formFields above.
+  const visibleFields = id == null ? FORM_FIELDS.filter((f) => !f.isId) : FORM_FIELDS;
+  const fieldRows = chunkFormFields(visibleFields, 3);
   const values = formData as unknown as { [key: string]: unknown };
 
   const editTabContent: ReactNode = (
@@ -209,7 +302,11 @@ export default function EditOperation() {
                       <label htmlFor={field.key} className="form-label">
                         {field.label}
                       </label>
-                      {field.kind === "enum" ? (
+                      {field.isGlobal || field.isId ? (
+                        <div id={field.key} className="form-control-plaintext">
+                          {formatReadOnlyValue(values[field.key])}
+                        </div>
+                      ) : field.kind === "enum" ? (
                         <select
                           id={field.key}
                           className="form-control"
@@ -265,13 +362,25 @@ export default function EditOperation() {
         </table>
       </div>
 
-      <div className="mb-3">
-        <button type="submit" className="btn btn-primary">
-          Save
-        </button>
-        <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>
-          Cancel
-        </button>
+      <div className="mb-3 d-flex justify-content-between align-items-center">
+        <div>
+          <button type="submit" className="btn btn-primary">
+            Save
+          </button>
+          <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
+        {id != null && (
+          <button
+            type="button"
+            className="btn"
+            style={{ backgroundColor: "#8b0000", color: "#fff" }}
+            onClick={handleDelete}
+          >
+            Delete
+          </button>
+        )}
       </div>
     </form>
   );
@@ -289,11 +398,48 @@ export default function EditOperation() {
   ];
 
 
+  const childTabs: TabItem[] = [
+
+    {
+      title: "Operation Role",
+      content: (
+        <div className="mt-3">
+          <div className="alert alert-info">
+            Operation Role mapped: {oprole_op_role_Checked.size} of{" "}
+            {oprole_op_role_Options?.length ?? 0}
+          </div>
+          {(oprole_op_role_Options ?? []).map((option) => (
+            <div className="form-check" key={option.id}>
+              <input
+                type="checkbox"
+                className="form-check-input"
+                id={`oprole_op_role_${option.id}`}
+                checked={oprole_op_role_Checked.has(option.id)}
+                onChange={(e) =>
+                  toggleMapChecked(set_oprole_op_role_Checked, option.id, e.target.checked)
+                }
+              />
+              <label className="form-check-label" htmlFor={`oprole_op_role_${option.id}`}>
+                {option.label}
+              </label>
+            </div>
+          ))}
+        </div>
+      ),
+    },
+
+  ];
+
   return (
     <>
       {id == null ? <h3>Create Operations</h3> : <h3>Edit Operations {rwkString}</h3>}
 
       <TabControl id="editTabs" tabs={editTabs} activeTab={activeTab} onTabChanged={setActiveTab} />
+
+      <div className="mt-4">
+        <h4>Related Records</h4>
+        <TabControl id="childTabs" tabs={childTabs} activeTab={activeChildTab} onTabChanged={setActiveChildTab} />
+      </div>
     </>
   );
 }

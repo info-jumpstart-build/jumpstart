@@ -265,13 +265,13 @@ impl PrincipalOrgView {
         self.inner.base.set("principal_email", serde_json::json!(value));
     }
                         
-    /// Principal ID Enabled
-    pub fn principal_enabled(&self) -> i32 {
-        self.inner.base.get("principal_enabled").as_i64().unwrap_or_default() as i32
+    /// Principal ID Status
+    pub fn principal_principal_status_id(&self) -> i32 {
+        self.inner.base.get("principal_principal_status_id").as_i64().unwrap_or_default() as i32
     }
 
-    pub fn set_principal_enabled(&mut self, value: i32) {
-        self.inner.base.set("principal_enabled", serde_json::json!(value));
+    pub fn set_principal_principal_status_id(&mut self, value: i32) {
+        self.inner.base.set("principal_principal_status_id", serde_json::json!(value));
     }
                         }
 

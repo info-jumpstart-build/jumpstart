@@ -97,12 +97,6 @@ pub mod org_logic {
 }
 pub use org_logic::*;
     
-pub mod principal_logic {
-    include!("PrincipalLogic.generated.rs");
-    include!("../../../usr/shared/logic/PrincipalLogic.user.rs");
-}
-pub use principal_logic::*;
-    
 pub mod operation_logic {
     include!("OperationLogic.generated.rs");
     include!("../../../usr/shared/logic/OperationLogic.user.rs");
@@ -205,6 +199,12 @@ pub mod workflow_type_logic {
 }
 pub use workflow_type_logic::*;
     
+pub mod principal_status_logic {
+    include!("PrincipalStatusLogic.generated.rs");
+    include!("../../../usr/shared/logic/PrincipalStatusLogic.user.rs");
+}
+pub use principal_status_logic::*;
+    
 pub mod test_case_logic {
     include!("TestCaseLogic.generated.rs");
     include!("../../../usr/shared/logic/TestCaseLogic.user.rs");
@@ -217,23 +217,11 @@ pub mod test_run_logic {
 }
 pub use test_run_logic::*;
     
-pub mod principal_org_logic {
-    include!("PrincipalOrgLogic.generated.rs");
-    include!("../../../usr/shared/logic/PrincipalOrgLogic.user.rs");
-}
-pub use principal_org_logic::*;
-    
 pub mod op_role_map_logic {
     include!("OpRoleMapLogic.generated.rs");
     include!("../../../usr/shared/logic/OpRoleMapLogic.user.rs");
 }
 pub use op_role_map_logic::*;
-    
-pub mod op_role_member_logic {
-    include!("OpRoleMemberLogic.generated.rs");
-    include!("../../../usr/shared/logic/OpRoleMemberLogic.user.rs");
-}
-pub use op_role_member_logic::*;
     
 pub mod schedule_logic {
     include!("ScheduleLogic.generated.rs");
@@ -259,6 +247,12 @@ pub mod server_node_logic {
 }
 pub use server_node_logic::*;
     
+pub mod principal_logic {
+    include!("PrincipalLogic.generated.rs");
+    include!("../../../usr/shared/logic/PrincipalLogic.user.rs");
+}
+pub use principal_logic::*;
+    
 pub mod test_result_logic {
     include!("TestResultLogic.generated.rs");
     include!("../../../usr/shared/logic/TestResultLogic.user.rs");
@@ -276,6 +270,18 @@ pub mod process_logic {
     include!("../../../usr/shared/logic/ProcessLogic.user.rs");
 }
 pub use process_logic::*;
+    
+pub mod principal_org_logic {
+    include!("PrincipalOrgLogic.generated.rs");
+    include!("../../../usr/shared/logic/PrincipalOrgLogic.user.rs");
+}
+pub use principal_org_logic::*;
+    
+pub mod op_role_member_logic {
+    include!("OpRoleMemberLogic.generated.rs");
+    include!("../../../usr/shared/logic/OpRoleMemberLogic.user.rs");
+}
+pub use op_role_member_logic::*;
     
 pub mod workflow_logic {
     include!("WorkflowLogic.generated.rs");

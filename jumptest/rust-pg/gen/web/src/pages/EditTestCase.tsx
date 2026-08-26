@@ -36,8 +36,11 @@ export type TestCaseHistory = TestCase;
 interface TestResultRow {
   id: number;
   test_run_id: number;
+  test_run_name: string;
+  test_run_test_plan_id: number;
   test_case_id: number;
   test_result_status_id: number;
+  test_result_status_name: string;
   executed_at: string;
   executed_by: string;
   actual_result: string;
@@ -50,35 +53,38 @@ interface TestResultRow {
 }
 
 // Matches EnumHelper (shared/dotnet/common/EnumHelper.cs.cshtml): the option
-// list behind every FK/enum <select>.
+// list behind every FK/enum dropdown.
 interface EnumOption {
   id: number;
   rwkString: string;
 }
+
 
 interface FormField {
   key: string;
   label: string;
   kind: "string" | "number" | "boolean" | "date" | "enum";
   fkVar: string;
+  isGlobal: boolean;
+  isId: boolean;
 }
 
 const FORM_FIELDS: FormField[] = [
-  { key: "id", label: "Test Case ID", kind: "number", fkVar: "" },
-  { key: "test_plan_id", label: "Test Plan", kind: "enum", fkVar: "testplan" },
-  { key: "code", label: "Code", kind: "string", fkVar: "" },
-  { key: "area", label: "Area", kind: "string", fkVar: "" },
-  { key: "title", label: "Title", kind: "string", fkVar: "" },
-  { key: "preconditions", label: "Preconditions", kind: "string", fkVar: "" },
-  { key: "steps", label: "Steps", kind: "string", fkVar: "" },
-  { key: "expected_result", label: "Expected Result", kind: "string", fkVar: "" },
-  { key: "priority", label: "Priority", kind: "string", fkVar: "" },
-  { key: "component", label: "Component", kind: "string", fkVar: "" },
-  { key: "is_active", label: "Active", kind: "number", fkVar: "" },
-  { key: "created_by", label: "Created By", kind: "string", fkVar: "" },
-  { key: "last_updated", label: "Last Updated", kind: "date", fkVar: "" },
-  { key: "last_updated_by", label: "Last Updated By", kind: "string", fkVar: "" },
-  { key: "txn_id", label: "Txn Id", kind: "number", fkVar: "" },
+  { key: "id", label: "Test Case ID", kind: "number", fkVar: "", isGlobal: false, isId: true },
+  { key: "test_plan_id", label: "Test Plan", kind: "enum", fkVar: "testplan", isGlobal: false, isId: false },
+  { key: "code", label: "Code", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "area", label: "Area", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "title", label: "Title", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "preconditions", label: "Preconditions", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "steps", label: "Steps", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "expected_result", label: "Expected Result", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "priority", label: "Priority", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "component", label: "Component", kind: "string", fkVar: "", isGlobal: false, isId: false },
+  { key: "is_active", label: "Active", kind: "number", fkVar: "", isGlobal: true, isId: false },
+  { key: "created_by", label: "Created By", kind: "string", fkVar: "", isGlobal: true, isId: false },
+  { key: "last_updated", label: "Last Updated", kind: "date", fkVar: "", isGlobal: true, isId: false },
+  { key: "last_updated_by", label: "Last Updated By", kind: "string", fkVar: "", isGlobal: true, isId: false },
+  { key: "txn_id", label: "Txn Id", kind: "number", fkVar: "", isGlobal: true, isId: false },
 ];
 
 const OWN_COLUMNS: DataTableColumn[] = [
@@ -100,6 +106,9 @@ const OWN_COLUMNS: DataTableColumn[] = [
 
 const TESTRESULT_COLUMNS: DataTableColumn[] = [
   { key: "id", label: "Test Result ID" },
+  { key: "test_run_name", label: "Test Run" },
+  { key: "test_run_test_plan_id", label: "Test Run Test Plan" },
+  { key: "test_result_status_name", label: "Status" },
   { key: "executed_at", label: "Executed At" },
   { key: "executed_by", label: "Executed By" },
   { key: "actual_result", label: "Actual Result" },
@@ -109,6 +118,15 @@ const TESTRESULT_COLUMNS: DataTableColumn[] = [
   { key: "last_updated", label: "Last Updated" },
   { key: "last_updated_by", label: "Last Updated By" },
 ];
+
+// Read-only display text for global/audit fields (field.isGlobal below) --
+// same null/blank handling as DataTable.tsx.cshtml's formatValue, plus a
+// friendlier Yes/No for booleans like is_active.
+function formatReadOnlyValue(value: unknown): string {
+  if (value === null || value === undefined || value === "") return "";
+  if (typeof value === "boolean") return value ? "Yes" : "No";
+  return String(value);
+}
 
 function defaultValueForKind(kind: FormField["kind"]): string | number | boolean {
   switch (kind) {
@@ -123,11 +141,11 @@ function defaultValueForKind(kind: FormField["kind"]): string | number | boolean
 }
 
 function createEmptyTestCase(): TestCase {
-  // Plain index-signature object type here (rather than Record<string,
-  // unknown>) -- RazorLight's markup parser can mistake a bare
-  // `Identifier<...>` for the start of an HTML/JSX tag when it appears
-  // outside a `<text>`-wrapped code region, so every such generic in this
-  // file is written to avoid a bare `<` following an identifier.
+  // Plain index-signature object type here (rather than a generic
+  // Record-of-string-to-unknown type) -- RazorLight's markup parser can
+  // mistake a bare generic type argument for the start of an HTML/JSX tag
+  // when it appears in markup mode, so every such generic in this file is
+  // written to avoid a bare angle bracket following an identifier.
   const obj: { [key: string]: unknown } = {};
   for (const field of FORM_FIELDS) {
     obj[field.key] = defaultValueForKind(field.kind);
@@ -135,8 +153,9 @@ function createEmptyTestCase(): TestCase {
   return obj as unknown as TestCase;
 }
 
-// Not generic (only ever called with FORM_FIELDS below) -- a bare `<T>`
-// here trips the same RazorLight tag-detection issue as Record<...> above.
+// Not written as a generic function (only ever called with FORM_FIELDS
+// below) -- a bare type-parameter angle bracket here trips the same
+// RazorLight tag-detection issue described above.
 function chunkFormFields(items: FormField[], size: number): FormField[][] {
   const rows: FormField[][] = [];
   for (let i = 0; i < items.length; i += size) {
@@ -231,8 +250,8 @@ export default function EditTestCase() {
   }
 
   // Typed via the FormEventHandler variable annotation (using its default
-  // type parameter) rather than an inline `(e: FormEvent<HTMLFormElement>)`
-  // parameter annotation -- same bare-generic issue as elsewhere in this file.
+  // type parameter) rather than an inline generic FormEvent parameter
+  // annotation -- same bare-generic issue as elsewhere in this file.
   const handleSubmit: FormEventHandler = async (e) => {
     e.preventDefault();
     try {
@@ -240,6 +259,12 @@ export default function EditTestCase() {
         await api.post<TestCase>("/api/testcase", formData);
       } else {
         await api.put<TestCase>(`/api/testcase/${id}`, formData);
+
+        // Apply every map-relationship checklist alongside the object save --
+        // only meaningful for an existing record, since a brand-new record
+        // has no checklist to have edited yet (mirrors the Delete button
+        // above, and the child-relationship tabs, which are likewise only
+        // loaded once id is known).
       }
     } catch (err) {
       console.error("EditTestCase: error saving testcase", err);
@@ -251,11 +276,34 @@ export default function EditTestCase() {
     navigate(returnUrl ?? "/testcase");
   }
 
+  // Soft delete -- DELETE /api/testcase/{id} sets is_active=0 server-side
+  // (see TestCaseLogic.delete() / server/dotnet/api/template.api.generated.cs.cshtml's
+  // Delete action), it doesn't remove the row. Only meaningful for an
+  // existing record, so the button below is hidden while creating a new one.
+  async function handleDelete() {
+    if (id == null) return;
+    // window.confirm here (rather than a custom modal) matches the plain
+    // browser confirm() the Blazor Edit page uses via JS interop below --
+    // keeps both clients' delete confirmation behavior identical.
+    if (!window.confirm(`Delete this Test Case? This cannot be undone.`)) return;
+    try {
+      await api.del(`/api/testcase/${id}`);
+    } catch (err) {
+      console.error("EditTestCase: error deleting testcase", err);
+      return;
+    }
+    navigate(returnUrl ?? "/testcase");
+  }
+
   const rwkString = [formData.code, formData.title]
     .filter((v) => v !== null && v !== undefined && v !== "")
     .join(" ");
 
-  const fieldRows = chunkFormFields(FORM_FIELDS, 3);
+  // The "id" field is dropped from the form entirely while creating a new
+  // record (there's no id yet) and rendered read-only below while editing an
+  // existing one -- see the isId comment on formFields above.
+  const visibleFields = id == null ? FORM_FIELDS.filter((f) => !f.isId) : FORM_FIELDS;
+  const fieldRows = chunkFormFields(visibleFields, 3);
   const values = formData as unknown as { [key: string]: unknown };
 
   const editTabContent: ReactNode = (
@@ -271,7 +319,11 @@ export default function EditTestCase() {
                       <label htmlFor={field.key} className="form-label">
                         {field.label}
                       </label>
-                      {field.kind === "enum" ? (
+                      {field.isGlobal || field.isId ? (
+                        <div id={field.key} className="form-control-plaintext">
+                          {formatReadOnlyValue(values[field.key])}
+                        </div>
+                      ) : field.kind === "enum" ? (
                         <select
                           id={field.key}
                           className="form-control"
@@ -327,13 +379,25 @@ export default function EditTestCase() {
         </table>
       </div>
 
-      <div className="mb-3">
-        <button type="submit" className="btn btn-primary">
-          Save
-        </button>
-        <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>
-          Cancel
-        </button>
+      <div className="mb-3 d-flex justify-content-between align-items-center">
+        <div>
+          <button type="submit" className="btn btn-primary">
+            Save
+          </button>
+          <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
+        {id != null && (
+          <button
+            type="button"
+            className="btn"
+            style={{ backgroundColor: "#8b0000", color: "#fff" }}
+            onClick={handleDelete}
+          >
+            Delete
+          </button>
+        )}
       </div>
     </form>
   );
@@ -365,6 +429,10 @@ export default function EditTestCase() {
             columns={TESTRESULT_COLUMNS}
             showActions={false}
             showAddButton={false}
+            onEdit={(item) => {
+              const childReturnUrl = encodeURIComponent(location.pathname);
+              navigate(`/edit-testresult/${item.id}?returnUrl=${childReturnUrl}`);
+            }}
           />
         </div>
       ),

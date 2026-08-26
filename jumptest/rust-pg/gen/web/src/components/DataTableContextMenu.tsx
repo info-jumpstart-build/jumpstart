@@ -126,6 +126,16 @@ export default function DataTableContextMenu<T>({
                             title={formatValue(row[column.key])}
                             style={{ height: "24px" }}
                           />
+                        ) : column.key === "id" && onEdit ? (
+                          <a
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              onEdit(item);
+                            }}
+                          >
+                            {formatValue(row[column.key])}
+                          </a>
                         ) : (
                           formatValue(row[column.key])
                         )}
@@ -133,13 +143,8 @@ export default function DataTableContextMenu<T>({
                     ))}
                     {showActions && (
                       <td>
-                        {onEdit && (
-                          <button className="btn btn-primary btn-sm" onClick={() => onEdit(item)}>
-                            Edit
-                          </button>
-                        )}
                         {onDelete && (
-                          <button className="btn btn-danger btn-sm ms-1" onClick={() => onDelete(item)}>
+                          <button className="btn btn-danger btn-sm" onClick={() => onDelete(item)}>
                             Delete
                           </button>
                         )}
