@@ -106,6 +106,83 @@ namespace @Model.Name
             return t;
         }
 
+        // ── MAP SYNC (many-to-many checklist save) ───────────────────────────
+
+        /// <summary>
+        /// Applies a many-to-many relationship checklist: inserts a junction
+        /// row for every checked id not already mapped, and deactivates
+        /// (is_active = 0, in place -- not a new version row, since we don't
+        /// need history for individual checklist toggles) every existing
+        /// mapping whose id is no longer checked. Column set on insert
+        /// mirrors DBPersistAudit.insert/DBPersistBasic.insert (id, txn_id,
+        /// is_active, created_by, last_updated, last_updated_by) -- both
+        /// write the same columns, so a single insert shape covers audited
+        /// and non-audited junction tables alike. Hand-built parameterized
+        /// SQL rather than DBPersist.insertSql/BaseObject, since insertSql
+        /// requires a concrete generated type with [ColumnInfo]-decorated
+        /// properties and a bare BaseObject has none.
+        /// </summary>
+        public static void mapSync(string mapSchema, string mapTable, string selfCol, string otherCol, long selfId, IEnumerable<long> checkedOtherIds, string connectionName = "default")
+        {
+            IDatabaseProvider provider = DatabaseProviderFactory.CreateProvider(connectionName);
+            string fullTable = mapSchema + "." + mapTable;
+
+            // Existing active mappings for this selfId: otherId -> row id.
+            var existing = new Dictionary<long, long>();
+            string selectSql = "select " + provider.FormatColumnName("id") + ", " + provider.FormatColumnName(otherCol) +
+                " from " + provider.FormatTableName(fullTable) +
+                " where " + provider.FormatColumnName(selfCol) + " = " + selfId +
+                " and " + provider.FormatColumnName("is_active") + " = 1";
+
+            SelectCallback scb = (rdr) =>
+            {
+                long rowId = Convert.ToInt64(rdr["id"]);
+                long otherId = Convert.ToInt64(rdr[otherCol]);
+                existing[otherId] = rowId;
+            };
+            select(scb, selectSql, connectionName);
+
+            var checkedSet = new HashSet<long>(checkedOtherIds ?? Enumerable.Empty<long>());
+
+            foreach (long otherId in checkedSet)
+            {
+                if (existing.ContainsKey(otherId)) continue;
+
+                long newId = identity(new BaseObject { tableName = fullTable }, connectionName);
+
+                var colNames = new List<string> { "id", selfCol, otherCol, "txn_id", "is_active", "created_by", "last_updated", "last_updated_by" };
+                var paramMap = new Dictionary<string, object>
+                {
+                    { provider.FormatParameter("id"), newId },
+                    { provider.FormatParameter(selfCol), selfId },
+                    { provider.FormatParameter(otherCol), otherId },
+                    { provider.FormatParameter("txn_id"), newId },
+                    { provider.FormatParameter("is_active"), 1 },
+                    { provider.FormatParameter("created_by"), Environment.UserName },
+                    { provider.FormatParameter("last_updated"), DateTime.UtcNow },
+                    { provider.FormatParameter("last_updated_by"), Environment.UserName },
+                };
+
+                string insertSql = "insert into " + provider.FormatTableName(fullTable) + " (" +
+                    string.Join(",", colNames.Select(c => provider.FormatColumnName(c))) + ") values (" +
+                    string.Join(",", colNames.Select(c => provider.FormatParameter(c))) + ");";
+
+                execCmd(insertSql, paramMap, connectionName);
+            }
+
+            foreach (var kvp in existing)
+            {
+                if (checkedSet.Contains(kvp.Key)) continue;
+
+                string updateSql = "update " + provider.FormatTableName(fullTable) +
+                    " set " + provider.FormatColumnName("is_active") + " = 0" +
+                    " where " + provider.FormatColumnName("id") + " = " + provider.FormatParameter("id");
+
+                var paramMap = new Dictionary<string, object> { { provider.FormatParameter("id"), kvp.Value } };
+                execCmd(updateSql, paramMap, connectionName);
+            }
+        }
+
         // ── EXEC CMD ─────────────────────────────────────────────────────────
 
         public static void execCmd( BaseObject parameters, string sqlTemplate, string connectionName = "default")

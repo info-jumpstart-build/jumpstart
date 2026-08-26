@@ -4,18 +4,9 @@
 -- =====================================
 \set os_user `echo $LOGNAME`
 
-INSERT INTO core."principal"(id, txn_id, first_name, last_name, username, email, created_date, last_login_date, is_active, created_by, last_updated, last_updated_by)
-SELECT n, n, 'Current', 'Principal', :'os_user', :'admin_email', now(), now(), 1, 'system', now(), 'system'
+INSERT INTO core."principal"(id, txn_id, first_name, last_name, username, email, principal_status_id, created_date, last_login_date, is_active, created_by, last_updated, last_updated_by)
+SELECT n, n, 'Current', 'Principal', :'os_user', :'admin_email', 1, now(), now(), 1, 'system', now(), 'system'
 FROM (SELECT nextval('core.principal_identity') n) t;
-
-WITH os_user_principal_id AS (
-    SELECT id FROM core."principal" WHERE email = :'admin_email' AND is_active = 1
-)
-INSERT INTO core.principal_password(id, txn_id, principal_id, password_hash, expiry, needs_reset, is_active, created_by, last_updated, last_updated_by)
-SELECT n, n, os_user_principal_id.id, (floor(random() * 100000 + 1))::int::varchar, current_timestamp, 1, 1, current_user, current_timestamp, current_user
-FROM os_user_principal_id
-CROSS JOIN LATERAL (SELECT nextval('core.principal_password_identity') AS n) seq;
-
 
 -- =====================================
 -- 2) Create Admin Role

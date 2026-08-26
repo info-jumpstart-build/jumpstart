@@ -44,18 +44,21 @@
                         <tr>
                             @@foreach (var property in GetDisplayProperties())
                             {
-                                <td>@@GetPropertyValueSafely(item, property)</td>
+                                @@if (property.Name.ToLower() == "id" && OnEdit.HasDelegate)
+                                {
+                                    <td><a href="#" @@onclick="@@(() => OnEdit.InvokeAsync(item))" @@onclick:preventDefault="true">@@GetPropertyValueSafely(item, property)</a></td>
+                                }
+                                else
+                                {
+                                    <td>@@GetPropertyValueSafely(item, property)</td>
+                                }
                             }
                             @@if (ShowActions)
                             {
                                 <td>
-                                    @@if (OnEdit.HasDelegate)
-                                    {
-                                        <button class="btn btn-primary btn-sm" @@onclick="@@(() => OnEdit.InvokeAsync(item))">Edit</button>
-                                    }
                                     @@if (OnDelete.HasDelegate)
                                     {
-                                        <button class="btn btn-danger btn-sm ms-1" @@onclick="@@(() => OnDelete.InvokeAsync(item))">Delete</button>
+                                        <button class="btn btn-danger btn-sm" @@onclick="@@(() => OnDelete.InvokeAsync(item))">Delete</button>
                                     }
                                 </td>
                             }

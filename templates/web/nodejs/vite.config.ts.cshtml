@@ -47,12 +47,23 @@ function serveUsrConfigPlugin(): Plugin {
 // @(Model.Name) -- generated Vite config. Dev server port matches the port
 // used by the generated Blazor web project (see Properties/launchSettings.json
 // in web-blazor) so existing bookmarks / Auth0 callback URLs keep working.
+//
+// strictPort: true makes a taken port a hard error instead of Vite's default
+// of silently trying 5064, 5065, ... A stray/previous dev server (e.g. one
+// started outside start.sh/stop.sh's PID tracking, so nothing stops it) can
+// otherwise keep squatting on 5063 while a freshly started server quietly
+// moves elsewhere -- the browser, still pointed at 5063 out of habit, then
+// keeps talking to the stale process indefinitely. Mirrors the same
+// fail-loud-on-conflict choice already made for the Rust/​.NET API,
+// Scheduler, and ScriptAgent servers (see docs/operations.md).
 export default defineConfig({
   plugins: [react(), serveUsrConfigPlugin()],
   server: {
     port: 5063,
+    strictPort: true,
   },
   preview: {
     port: 5063,
+    strictPort: true,
   },
 });

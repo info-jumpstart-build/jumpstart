@@ -1,7 +1,7 @@
 -- =====================================
 -- 1) Create Admin Principal
 -- =====================================
-DECLARE @@principal_id BIGINT, @@password_id BIGINT, @@role_id BIGINT, @@role_map_id BIGINT, @@role_member_id BIGINT;
+DECLARE @@principal_id BIGINT, @@role_id BIGINT, @@role_map_id BIGINT, @@role_member_id BIGINT;
 
 SELECT @@principal_id = NEXT VALUE FOR core.principal_identity;
 INSERT INTO core.principal(
@@ -32,25 +32,6 @@ VALUES (
     GETDATE(),
     'system'
 );
-
-SELECT @@password_id = NEXT VALUE FOR core.principal_password_identity;
-
-WITH admin_principal_id AS (
-    SELECT id FROM core.principal WHERE username = 'admin' AND is_active = 1
-)
-INSERT INTO core.principal_password(
-    id, txn_id, principal_id, password_hash, expiry, needs_reset, is_active, created_by, last_updated, last_updated_by)
-SELECT @@password_id,
-    @@password_id,
-    admin_principal_id.id,
-    CAST(FLOOR(RAND(CHECKSUM(NEWID())) * 100000 + 1) AS NVARCHAR(10)),
-    GETDATE(),
-    1,
-    1,
-    SYSTEM_USER,
-    GETDATE(),
-    SYSTEM_USER
-FROM admin_principal_id;
 
 -- =====================================
 -- 2) Create Admin Role

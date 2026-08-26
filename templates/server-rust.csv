@@ -29,6 +29,7 @@ rust server templates-persist,model,shared/rust/persist/i_db_persist.core.rs.csh
 rust server templates-persist,model,shared/rust/persist/db_persist.core.rs.cshtml,./gen/shared/persist,TRUE
 rust server templates-persist,model,shared/rust/persist/db_persist_audit.core.rs.cshtml,./gen/shared/persist,TRUE
 rust server templates-persist,model,shared/rust/persist/db_persist_basic.core.rs.cshtml,./gen/shared/persist,TRUE
+rust server templates-persist,model,shared/rust/persist/db_persist_import.core.rs.cshtml,./gen/shared/persist,TRUE
 rust server templates-persist,model,shared/rust/persist/appsettings.json.cshtml,./usr/shared/persist,FALSE
 rust server templates-logic,object,shared/rust/logic/templateLogic.generated.rs.cshtml,./gen/shared/logic,TRUE
 rust server templates-logic,object,shared/rust/logic/templateLogic.user.rs.cshtml,./usr/shared/logic,FALSE
@@ -68,3 +69,7 @@ rust server templates-scheduler,model,server/rust/scheduler/makefile.cshtml,./ge
 rust server templates-scheduler,model,server/rust/scheduler/appsettings.json.cshtml,./gen/server/scheduler,TRUE
 rust server templates-scheduler,model,server/rust/scheduler/scheduler.sh.cshtml,./gen/server/scheduler,TRUE
 rust server templates-scheduler,model,server/rust/scheduler/scheduler.cmd.cshtml,./gen/server/scheduler,TRUE
+rust server templates-bin,model,server/rust/bin/start.sh.cshtml,./bin,TRUE
+rust server templates-bin,model,server/rust/bin/start.cmd.cshtml,./bin,TRUE
+rust server templates-bin,model,server/rust/bin/stop.sh.cshtml,./bin,TRUE
+rust server templates-bin,model,server/rust/bin/stop.cmd.cshtml,./bin,TRUE

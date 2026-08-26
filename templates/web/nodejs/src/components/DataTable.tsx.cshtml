@@ -72,18 +72,27 @@ export default function DataTable<T>({
                 const row = item as Record<string, unknown>;
                 return (
                   <tr key={String(row.id ?? index)}>
-                    {columns.map((column) => (
-                      <td key={column.key}>{formatValue(row[column.key])}</td>
-                    ))}
+                    {columns.map((column) =>
+                      column.key === "id" && onEdit ? (
+                        <td key={column.key}>
+                          <a
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              onEdit(item);
+                            }}
+                          >
+                            {formatValue(row[column.key])}
+                          </a>
+                        </td>
+                      ) : (
+                        <td key={column.key}>{formatValue(row[column.key])}</td>
+                      ),
+                    )}
                     {showActions && (
                       <td>
-                        {onEdit && (
-                          <button className="btn btn-primary btn-sm" onClick={() => onEdit(item)}>
-                            Edit
-                          </button>
-                        )}
                         {onDelete && (
-                          <button className="btn btn-danger btn-sm ms-1" onClick={() => onDelete(item)}>
+                          <button className="btn btn-danger btn-sm" onClick={() => onDelete(item)}>
                             Delete
                           </button>
                         )}

@@ -6,6 +6,12 @@
 
 main {
     flex: 1;
+    /* Flex items default to min-width: auto, which lets a wide child (e.g. a
+       DataTable with many columns) inflate main -- and with it the sticky
+       top-row parent menu -- past the viewport instead of staying put. min-width: 0
+       lets main shrink to the row's available space; the wide content then
+       scrolls inside .content below instead of pushing the menu off-screen. */
+    min-width: 0;
 }
 
 .sidebar {

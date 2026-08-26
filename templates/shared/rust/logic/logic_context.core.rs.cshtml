@@ -52,6 +52,15 @@ impl LogicContext {
             .unwrap_or_default()
     }
 
+    /// A JSON array arg as a `Vec<i64>` -- used by "mapsync" to carry the
+    /// full set of checked ids submitted from a map-relationship checklist.
+    pub fn arg_i64_vec(&self, key: &str) -> Vec<i64> {
+        self.args
+            .get(key)
+            .and_then(|v| v.as_array())
+            .map(|arr| arr.iter().filter_map(|v| v.as_i64()).collect())
+            .unwrap_or_default()
+    }
     /// The operation's id: the `id` arg if present, else the transaction's id.
     pub fn id(&self) -> i64 {
         if let Some(v) = self.args.get("id").and_then(|v| v.as_i64()) {

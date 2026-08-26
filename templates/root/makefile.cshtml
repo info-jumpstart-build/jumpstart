@@ -7,7 +7,9 @@ default: generate
 # this makefile never needs to change when you swap technologies.
 generate:
 @foreach (var templateDefName in Model.TemplateDefNames) {
-@("\t@jumpstart ./" + Model.Namespace + ".csv " + templateDefName + "\n")
+@if (templateDefName != "root") {
+@("\t@jumpstart " + (Model.NoAuth ? "--noauth " : "") + "./" + Model.Namespace + ".csv " + templateDefName + "\n")
+}
 }
 
 build:

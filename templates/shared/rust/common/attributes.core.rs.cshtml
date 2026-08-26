@@ -50,6 +50,17 @@ impl ColumnInfo {
     pub fn is_string_numeric(&self) -> bool {
         matches!(self.data_type, "numeric" | "decimal" | "money")
     }
+    /// True for date/time column types. An empty string is not valid input
+    /// for these on either backing database (Postgres error 22007, "invalid
+    /// input syntax for type timestamp"), unlike a plain varchar column where
+    /// an empty string is a legitimate value -- so callers building INSERT/
+    /// UPDATE SQL should coerce "" to NULL only for columns where this is
+    /// true. Matched by substring rather than an exact list so this also
+    /// covers variants like "timestamp without time zone", "timestamptz",
+    /// "datetime2", "smalldatetime".
+    pub fn is_temporal(&self) -> bool {
+        self.data_type.contains("date") || self.data_type.contains("time")
+    }
 }
 
 /// Serialize an object's data map to JSON, coercing string-stored numeric

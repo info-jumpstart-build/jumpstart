@@ -58,7 +58,7 @@ namespace @namespaceName
         @foreach (var attr in Model.Attributes)
         {
             <text>
-            [ColumnInfo("@attr.Label", "@attr.FkObject", "@attr.FkType", "@attr.FkTable", "@attr.FkVar")]
+            [ColumnInfo("@attr.Label", "@attr.FkObject", "@attr.FkType", "@attr.FkTable", "@attr.FkVar", @(attr.IsGlobal() ? "true" : "false"))]
             public @attr.DotNetType @attr.Name
             {
                 get
@@ -174,7 +174,7 @@ namespace @namespaceName
                             string fkAttrName = alias + "_" + fkObjectAttr.Name;
                             string fkAttrLabel = fk.Label + (fkObjectAttr.Name.ToLower().StartsWith("name") ? "" : " " + fkObjectAttr.Label);
                              <text>
-            [ColumnInfo("@(fkAttrLabel)", "@fkObjectAttr.FkObject", "@fkObjectAttr.FkType", "@fkObjectAttr.FkTable", "@fkObjectAttr.FkVar")]
+            [ColumnInfo("@(fkAttrLabel)", "@fkObjectAttr.FkObject", "@fkObjectAttr.FkType", "@fkObjectAttr.FkTable", "@fkObjectAttr.FkVar", @(fkObjectAttr.IsGlobal() ? "true" : "false"))]
             public @fkObjectAttr.DotNetType @fkAttrName
             {
                 get

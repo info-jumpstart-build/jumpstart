@@ -12,6 +12,9 @@ insert into core.server_node_status (id, txn_id, name, is_active, created_by, la
 insert into core.server_node_status (id, txn_id, name, is_active, created_by, last_updated, last_updated_by) values (3, 3, 'Busy', 1, current_user, current_timestamp, current_user);
 insert into core.server_node_status (id, txn_id, name, is_active, created_by, last_updated, last_updated_by) values (4, 4, 'Offline', 1, current_user, current_timestamp, current_user);
 
+-- Insert principal status values
+insert into core.principal_status (id, txn_id, name, is_active, created_by, last_updated, last_updated_by) values (1, 1, 'Enabled', 1, current_user, current_timestamp, current_user);
+insert into core.principal_status (id, txn_id, name, is_active, created_by, last_updated, last_updated_by) values (2, 2, 'Disabled', 1, current_user, current_timestamp, current_user);
 -- Insert schedule values (Manual = no automatic cron schedule; cron FK fields left NULL)
 insert into core.schedule (id, txn_id, name, is_active, created_by, last_updated, last_updated_by) values (1, 1, 'Manual', 1, current_user, current_timestamp, current_user);
 

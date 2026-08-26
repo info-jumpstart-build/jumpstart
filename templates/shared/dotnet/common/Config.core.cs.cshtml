@@ -37,6 +37,12 @@ namespace @Model.Name
         public string Password { get; set; }
     }
     
+    public class ServerConfig
+    {
+        [JsonPropertyName("port")]
+        public string Port { get; set; }
+    }
+
     public class NamespaceConfig
     {
         [JsonPropertyName("namespace")]
@@ -47,6 +53,12 @@ namespace @Model.Name
 
         [JsonPropertyName("network_interface")]
         public int? NetworkInterface { get; set; }
+
+        // Optional fixed listening port per service ("api", "scheduler",
+        // "scriptagent"). Absent or empty means "keep scanning the service's
+        // default port range", as before. See Config.GetServerPort.
+        [JsonPropertyName("servers")]
+        public Dictionary<string, ServerConfig> Servers { get; set; }
     }
 
     public class Config
@@ -120,6 +132,26 @@ namespace @Model.Name
             return _currentDataSource;
         }
 
+        /// <summary>
+        /// This service's fixed listening port ("api", "scheduler", or
+        /// "scriptagent"), from the "servers" section of ~/.namespace.json.
+        /// Returns null when the section, the service's entry, or its port is
+        /// absent, empty, or not a valid port number -- callers should then
+        /// fall back to scanning the service's default port range, as before
+        /// this setting existed.
+        /// </summary>
+        static public int? GetServerPort(string serviceName)
+        {
+            var config = LoadNamespaceConfig();
+            if (config?.Servers != null
+                && config.Servers.TryGetValue(serviceName, out var server)
+                && !string.IsNullOrWhiteSpace(server?.Port)
+                && int.TryParse(server.Port.Trim(), out int port))
+            {
+                return port;
+            }
+            return null;
+        }
         static public NamespaceConfig LoadNamespaceConfig()
         {
             if (_namespaceConfig == null)

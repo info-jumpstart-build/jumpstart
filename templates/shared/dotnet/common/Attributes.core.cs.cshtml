@@ -31,14 +31,21 @@ namespace @Model.Namespace
 		public string fkType { get; set; }
 		public string fkTable { get; set; }
 		public string fkVar { get; set; }
+		// True for the global/audit columns added to every table (is_active,
+		// created_by, last_updated, last_updated_by, txn_id -- see
+		// templates/core/global.csv and MetaAttribute.IsGlobal()). These are
+		// managed by the persistence layer, so Edit pages render them
+		// read-only instead of as editable inputs.
+		public bool isGlobal { get; set; }
 
-	    public ColumnInfoAttribute(string label, string fkObject = "", string fkType = "", string fkTable = "", string fkVar = "")
+	    public ColumnInfoAttribute(string label, string fkObject = "", string fkType = "", string fkTable = "", string fkVar = "", bool isGlobal = false)
 	    {
 	        this.Label = label;
 			this.fkObject = fkObject;
 			this.fkType = fkType;
 			this.fkTable = fkTable;
 			this.fkVar = fkVar;
+			this.isGlobal = isGlobal;
 	    }
 
 	  

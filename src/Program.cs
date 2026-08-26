@@ -12,7 +12,7 @@ namespace jumpstart {
     {
         static void PrintUsage()
         {
-            Console.WriteLine("Usage: jumpstart <model.csv> <template-definition> [--noauth]");
+            Console.WriteLine("Usage: jumpstart <model.csv> <template-definition> [<template-definition> ...] [--noauth]");
             Console.WriteLine("   OR: Create a ~/.jumpstart.json file with modelpath and templatedefs");
             Console.WriteLine();
             Console.WriteLine("  --noauth   Suppress authentication code generation (no Auth0 login flow");
@@ -44,9 +44,14 @@ namespace jumpstart {
                     return true;
                 }).ToArray();
 
-                if (args.Length == 2)
+                if (args.Length >= 2)
                 {
-                    // Command line arguments provided
+                    // Command line arguments provided. Every arg after the model path is a
+                    // template-def name -- multiple can be passed in one invocation (e.g.
+                    // "jumpstart app.csv database-pgsql server-rust web-nodejs root") so that
+                    // model-type templates spanning the whole selection (like the root
+                    // makefile, which lists every registry in one generate: target) see the
+                    // complete set via Model.TemplateDefNames, not just one at a time.
                     modelPath = args[0];
 
                     if (!File.Exists(modelPath))
@@ -55,7 +60,7 @@ namespace jumpstart {
                         return 1; // File not found error
                     }
 
-                    templDefNames.Add(args[1]);
+                    templDefNames.AddRange(args.Skip(1));
                 }
                 else if (args.Length == 0)
                 {

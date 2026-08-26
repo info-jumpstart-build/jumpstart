@@ -43,9 +43,14 @@ pub fn update<T: DomainObject>(obj: &mut T, connection_name: &str) -> Result<(),
     );
     DBPersist::exec_cmd(&deactivate_sql, connection_name)?;
 
+    // Deliberately does NOT force is_active=1 here (unlike insert, above) --
+    // the new version row must carry whatever is_active the caller already
+    // set on obj: Logic::update() sets it to 1 (a normal save keeps the
+    // record active), Logic::delete() sets it to 0 (soft delete). Forcing it
+    // to 1 unconditionally used to silently undo delete()'s is_active=0,
+    // making the Edit page's Delete button appear to do nothing.
     let new_txn_id = DBPersist::identity(obj.base(), connection_name)?;
     obj.base_mut().set("txn_id", Value::from(new_txn_id));
-    obj.base_mut().set("is_active", Value::from(1));
     obj.base_mut().set("last_updated", json_now());
     obj.base_mut().set("last_updated_by", Value::String(user_name()));
 

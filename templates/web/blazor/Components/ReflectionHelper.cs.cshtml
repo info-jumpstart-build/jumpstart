@@ -453,6 +453,21 @@ namespace @Model.Namespace
         }
 
         /// <summary>
+        /// Checks whether a property is one of the global/audit columns
+        /// (is_active, created_by, last_updated, last_updated_by, txn_id --
+        /// see templates/core/global.csv) added to every non-view table.
+        /// These are managed by the persistence layer, so Edit pages render
+        /// them read-only instead of as editable inputs.
+        /// </summary>
+        /// <param name="property">PropertyInfo to check</param>
+        /// <returns>True if the property's ColumnInfoAttribute.isGlobal is set</returns>
+        public static bool IsGlobalProperty(PropertyInfo property)
+        {
+            var columnInfo = property.GetCustomAttribute<ColumnInfoAttribute>();
+            return columnInfo != null && columnInfo.isGlobal;
+        }
+
+        /// <summary>
         /// Checks if a property has a ColumnInfoAttribute
         /// </summary>
         /// <param name="property">PropertyInfo to check</param>
