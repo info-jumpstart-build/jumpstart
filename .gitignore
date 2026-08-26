@@ -30,3 +30,5 @@ usr/server/scheduler/appsettings.json
 usr/server/scriptagent/appsettings.json
 .DS_Store
 target
+*.out
+*.pid
