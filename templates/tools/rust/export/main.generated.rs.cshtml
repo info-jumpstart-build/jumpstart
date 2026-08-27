@@ -96,8 +96,26 @@ fn export_object<T: DomainObject + Default>(output: &str) -> Result<usize, Strin
     let qualified = probe.base().table_name.clone();
     let columns: Vec<&'static str> = T::columns().iter().map(|c| c.name).collect();
 
-    let rows = DBPersist::select(&format!("SELECT * FROM {}", qualified), "default")
-        .map_err(|e| e.to_string())?;
+    // MONEY columns are cast to numeric and re-aliased to their own name --
+    // the `postgres` crate's row decoder (db_connection.core.rs) has no
+    // FromSql path for Postgres's `money` wire type and panics on it (same
+    // fix as template.query.generated.sql.cshtml / templateLogic.generated.rs.cshtml).
+    let select_list: Vec<String> = T::columns()
+        .iter()
+        .map(|c| {
+            if c.data_type.eq_ignore_ascii_case("money") {
+                format!("{}::numeric AS {}", c.name, c.name)
+            } else {
+                c.name.to_string()
+            }
+        })
+        .collect();
+
+    let rows = DBPersist::select(
+        &format!("SELECT {} FROM {}", select_list.join(", "), qualified),
+        "default",
+    )
+    .map_err(|e| e.to_string())?;
 
     let mut writer = csv::Writer::from_path(output).map_err(|e| e.to_string())?;
     writer.write_record(&columns).map_err(|e| e.to_string())?;

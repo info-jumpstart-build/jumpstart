@@ -959,3 +959,17 @@ where op.objectname = ''TestResult''
     WHERE app.test_result.is_active = 1
     ORDER BY app.test_result.id; on connection ''default''.'); on connection 'default'.
 2026-08-26 03:48:22 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'After invoking select.'); on connection 'default'.
+2026-08-27 00:34:26 DEBUG erickohlenberg api Setting current user to None
+2026-08-27 00:34:26 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-27 00:34:26', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to None'); on connection 'default'.
+2026-08-27 00:34:26 DEBUG erickohlenberg api Setting current user to None
+2026-08-27 00:34:26 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-27 00:34:26', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to None'); on connection 'default'.
+2026-08-27 00:37:18 DEBUG erickohlenberg api Setting current user to None
+2026-08-27 00:37:18 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-27 00:37:18', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to None'); on connection 'default'.
+2026-08-27 00:37:18 DEBUG erickohlenberg api Setting current user to None
+2026-08-27 00:37:18 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-27 00:37:18', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to None'); on connection 'default'.
+2026-08-27 00:37:26 DEBUG erickohlenberg api Setting current user to None
+2026-08-27 00:37:26 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-27 00:37:26', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to None'); on connection 'default'.
+2026-08-27 00:37:26 DEBUG erickohlenberg api Setting current user to None
+2026-08-27 00:37:26 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-27 00:37:26', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to None'); on connection 'default'.
+2026-08-27 00:46:08 DEBUG erickohlenberg api Setting current user to None
+2026-08-27 00:46:08 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-27 00:46:08', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to None'); on connection 'default'.
