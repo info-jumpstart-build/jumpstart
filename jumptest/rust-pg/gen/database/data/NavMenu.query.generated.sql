@@ -88,7 +88,16 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.nav_menu-get-history',
     'SELECT
-        core.nav_menu.*
+        core.nav_menu.id,
+            nav_menu.parent_id,
+            nav_menu.ordinal,
+            nav_menu.name,
+            nav_menu.link,
+            nav_menu.is_active,
+            nav_menu.created_by,
+            nav_menu.last_updated,
+            nav_menu.last_updated_by,
+            nav_menu.txn_id
     FROM core.nav_menu
     WHERE core.nav_menu.id = ^(id)
     ORDER BY core.nav_menu.txn_id DESC;',

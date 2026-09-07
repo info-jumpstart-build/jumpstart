@@ -1,0 +1,8 @@
+{
+  "apiBaseUrl": "http://localhost:5200",
+  "auth0": {
+    "domain": "dev-k1ttkc266c4ko8g7.us.auth0.com",
+    "clientId": "7TKCNEiHztNxLVfxShNmWgvSDj8PGnva",
+    "audience": "https://jumptest-31675b4d-eb84-4201-bc62-f9985bb38101"
+  }
+}

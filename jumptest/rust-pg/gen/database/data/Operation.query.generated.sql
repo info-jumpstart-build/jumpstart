@@ -76,7 +76,14 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.operation-get-history',
     'SELECT
-        core.operation.*
+        core.operation.id,
+            operation.objectname,
+            operation.methodname,
+            operation.is_active,
+            operation.created_by,
+            operation.last_updated,
+            operation.last_updated_by,
+            operation.txn_id
     FROM core.operation
     WHERE core.operation.id = ^(id)
     ORDER BY core.operation.txn_id DESC;',

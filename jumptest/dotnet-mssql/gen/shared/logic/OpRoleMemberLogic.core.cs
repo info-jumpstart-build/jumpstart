@@ -1,0 +1,103 @@
+
+using System;
+
+
+namespace jumptest
+{
+
+
+    public partial class OpRoleMemberLogic
+    {
+
+        // Holds the authenticated username for the current async call chain.
+        // Set from JWT claims by API middleware on each request.
+        // Falls back to the OS user in non-web contexts (scheduler, scripts, tests).
+        private static readonly AsyncLocal<string?> _currentUser = new();
+
+        public static void SetCurrentUser(string? username)
+        {
+            Logger.Debug($"Setting current user to {username}");
+            _currentUser.Value = username;
+        }
+
+        public static string CurrentUser =>
+            _currentUser.Value ?? Environment.UserName;
+
+        protected static Dictionary< string, bool> authorizedCache = new();
+        protected static object cacheLock = new object();
+
+        public static bool Authorized( string objectName, string methodName )
+        {
+            string email = CurrentUser;
+            Logger.Debug($"Checking authorization for {email} on {objectName}.{methodName}");
+            string[] keyArray = new  string[] { email, objectName, methodName};
+
+            string key = string.Join(":", keyArray);
+
+            bool result = false;
+
+            lock(cacheLock)
+            {
+                if (authorizedCache.ContainsKey(key))
+                {
+                    result = authorizedCache[key];
+                }
+                else
+                {
+                    string sql = @"select 1 from
+core.operation op
+inner join core.op_role_map orm on
+    orm.op_id=op.id 
+	and orm.is_active=1
+inner join core.op_role r on
+    r.id=orm.op_role_id
+	and r.is_active=1
+inner join core.op_role_member m on
+    m.op_role_id=r.id
+	and m.is_active=1
+inner join core.principal p on
+    p.id=m.principal_id
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name='Enabled')
+where op.objectname = '^(objectname)' 
+    and op.methodname = '^(methodname)'
+    and (p.email = '^(email)' OR p.username = '^(username)')";
+
+                    BaseObject filter = new();
+                    filter["objectname"] = objectName;
+                    filter["methodname"] = methodName;
+                    filter["email"] = email;
+                    filter["username"] = CurrentUser;
+
+                    void authCallback(System.Data.Common.DbDataReader rdr)
+                    {
+                        result = true;
+                    };
+
+                    DBPersist.select( authCallback, sql, filter);
+
+                    authorizedCache[key] = result;
+                }
+            }
+
+            return result;
+        }
+
+        // Busts the entire authorization cache. Entries never expire on their
+        // own (see Authorized above), so a permission/operation-seed change
+        // (e.g. reloading the database with a newly generated core.operation
+        // row) is invisible to a long-running process until either it
+        // restarts or this runs. Exposed via POST /api/admin/clear-auth-cache
+        // (see AdminController) so that doesn't require a restart during
+        // iterative development.
+        public static void ClearAuthCache()
+        {
+            lock (cacheLock)
+            {
+                authorizedCache.Clear();
+            }
+        }
+
+    }
+}
+

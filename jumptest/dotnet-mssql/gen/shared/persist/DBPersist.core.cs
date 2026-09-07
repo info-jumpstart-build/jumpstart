@@ -1,0 +1,519 @@
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Configuration;
+using System.Data.Common;
+using System.Collections.Immutable;
+using System.Linq;
+using System.Reflection;
+
+namespace jumptest
+{
+    public class DBPersist
+    {
+        private static readonly Dictionary<string, BaseObject> _queryCache = new Dictionary<string, BaseObject>();
+        private static readonly IDBPersist _auditPersist = new DBPersistAudit();
+        private static readonly IDBPersist _basicPersist = new DBPersistBasic();
+
+        public delegate void SelectCallback(DbDataReader rdr);
+
+        private static IDBPersist GetPersist(BaseObject baseObject)
+            => baseObject.isAudited ? _auditPersist : _basicPersist;
+
+        // ── SELECT ──────────────────────────────────────────────────────────
+
+        static public void select( SelectCallback selectCallback, string sql, string connectionName = "default")
+        {
+            Logger.Sql($"Executing sql {sql} on connection '{connectionName}'.");
+
+            try
+            {
+                IDatabaseProvider provider = DatabaseProviderFactory.CreateProvider(connectionName);
+                string connectionStr = Config.getDbConnection(connectionName);
+
+                using (DbConnection connection = provider.CreateConnection(connectionStr))
+                {
+                    using (DbCommand command = provider.CreateCommand(sql, connection))
+                    {
+                        using (DbDataReader rdr = command.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                LogRowData(rdr);
+                                selectCallback(rdr);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string m = $"Error executing select: {sql} on connection '{connectionName}'";
+                Logger.Error( m, ex);
+                throw new Exception(m, ex);
+            }
+        }
+
+        static public void select( SelectCallback selectCallback, string sqlTemplate, BaseObject filter, string connectionName = "default")
+        {
+            string sql = substituteTemplate(filter, sqlTemplate);
+            select(selectCallback, sql, connectionName);
+        }
+
+        public static List<T> select<T>(string sql, string connectionName = "default") where T : BaseObject, new()
+        {
+            Logger.Sql($"Executing generic select sql: {sql} on connection '{connectionName}'");
+
+            List<T> baseObjects = new List<T>();
+
+            void baseObjectCallback(System.Data.Common.DbDataReader rdr)
+            {
+                T baseObject = new T();
+                DBPersist.autoAssign(rdr, baseObject);
+                baseObjects.Add(baseObject);
+            };
+
+            select(baseObjectCallback, sql, connectionName);
+            return baseObjects;
+        }
+
+        // ── INSERT / UPDATE / PUT / GET (dispatch to IDBPersist) ────────────
+
+        static public long insert( BaseObject baseObject, string connectionName = "default" )
+            => GetPersist(baseObject).insert(baseObject, connectionName);
+
+        static public void update(BaseObject baseObject, string connectionName = "default")
+            => GetPersist(baseObject).update(baseObject, connectionName);
+
+        static public void update( BaseObject baseObject, BaseObject filter, string connectionName = "default")
+            => GetPersist(baseObject).update(baseObject, filter, connectionName);
+
+        static public void put(BaseObject baseObject, string rwkCol, string connectionName = "default")
+            => GetPersist(baseObject).put(baseObject, rwkCol, connectionName);
+
+        static public void put(BaseObject baseObject, string connectionName = "default")
+            => GetPersist(baseObject).put(baseObject, connectionName);
+
+        static public void get(BaseObject t, string connectionName = "default")
+            => GetPersist(t).get(t, connectionName);
+
+        static public T get<T>(long id, string connectionName = "default") where T : BaseObject, new()
+        {
+            T t = new T();
+            t["id"] = id;
+            GetPersist(t).get(t, connectionName);
+            return t;
+        }
+
+        // ── MAP SYNC (many-to-many checklist save) ───────────────────────────
+
+        /// <summary>
+        /// Applies a many-to-many relationship checklist: inserts a junction
+        /// row for every checked id not already mapped, and deactivates
+        /// (is_active = 0, in place -- not a new version row, since we don't
+        /// need history for individual checklist toggles) every existing
+        /// mapping whose id is no longer checked. Column set on insert
+        /// mirrors DBPersistAudit.insert/DBPersistBasic.insert (id, txn_id,
+        /// is_active, created_by, last_updated, last_updated_by) -- both
+        /// write the same columns, so a single insert shape covers audited
+        /// and non-audited junction tables alike. Hand-built parameterized
+        /// SQL rather than DBPersist.insertSql/BaseObject, since insertSql
+        /// requires a concrete generated type with [ColumnInfo]-decorated
+        /// properties and a bare BaseObject has none.
+        /// </summary>
+        public static void mapSync(string mapSchema, string mapTable, string selfCol, string otherCol, long selfId, IEnumerable<long> checkedOtherIds, string connectionName = "default")
+        {
+            IDatabaseProvider provider = DatabaseProviderFactory.CreateProvider(connectionName);
+            string fullTable = mapSchema + "." + mapTable;
+
+            // Existing active mappings for this selfId: otherId -> row id.
+            var existing = new Dictionary<long, long>();
+            string selectSql = "select " + provider.FormatColumnName("id") + ", " + provider.FormatColumnName(otherCol) +
+                " from " + provider.FormatTableName(fullTable) +
+                " where " + provider.FormatColumnName(selfCol) + " = " + selfId +
+                " and " + provider.FormatColumnName("is_active") + " = 1";
+
+            SelectCallback scb = (rdr) =>
+            {
+                long rowId = Convert.ToInt64(rdr["id"]);
+                long otherId = Convert.ToInt64(rdr[otherCol]);
+                existing[otherId] = rowId;
+            };
+            select(scb, selectSql, connectionName);
+
+            var checkedSet = new HashSet<long>(checkedOtherIds ?? Enumerable.Empty<long>());
+
+            foreach (long otherId in checkedSet)
+            {
+                if (existing.ContainsKey(otherId)) continue;
+
+                long newId = identity(new BaseObject { tableName = fullTable }, connectionName);
+
+                var colNames = new List<string> { "id", selfCol, otherCol, "txn_id", "is_active", "created_by", "last_updated", "last_updated_by" };
+                var paramMap = new Dictionary<string, object>
+                {
+                    { provider.FormatParameter("id"), newId },
+                    { provider.FormatParameter(selfCol), selfId },
+                    { provider.FormatParameter(otherCol), otherId },
+                    { provider.FormatParameter("txn_id"), newId },
+                    { provider.FormatParameter("is_active"), 1 },
+                    { provider.FormatParameter("created_by"), Environment.UserName },
+                    { provider.FormatParameter("last_updated"), DateTime.UtcNow },
+                    { provider.FormatParameter("last_updated_by"), Environment.UserName },
+                };
+
+                string insertSql = "insert into " + provider.FormatTableName(fullTable) + " (" +
+                    string.Join(",", colNames.Select(c => provider.FormatColumnName(c))) + ") values (" +
+                    string.Join(",", colNames.Select(c => provider.FormatParameter(c))) + ");";
+
+                execCmd(insertSql, paramMap, connectionName);
+            }
+
+            foreach (var kvp in existing)
+            {
+                if (checkedSet.Contains(kvp.Key)) continue;
+
+                string updateSql = "update " + provider.FormatTableName(fullTable) +
+                    " set " + provider.FormatColumnName("is_active") + " = 0" +
+                    " where " + provider.FormatColumnName("id") + " = " + provider.FormatParameter("id");
+
+                var paramMap = new Dictionary<string, object> { { provider.FormatParameter("id"), kvp.Value } };
+                execCmd(updateSql, paramMap, connectionName);
+            }
+        }
+
+        // ── EXEC CMD ─────────────────────────────────────────────────────────
+
+        public static void execCmd( BaseObject parameters, string sqlTemplate, string connectionName = "default")
+        {
+            string sql = substituteTemplate(parameters, sqlTemplate);
+            execCmd(sql, connectionName);
+        }
+
+        public static void execCmd(string sql, string connectionName = "default")
+        {
+            execCmd(sql, null, connectionName);
+        }
+
+        public static void execCmd(string sql, Dictionary<string, object> parameters = null, string connectionName = "default")
+        {
+            try
+            {
+                Logger.Sql($"Executing sql {sql} on connection '{connectionName}'.");
+
+                IDatabaseProvider provider = DatabaseProviderFactory.CreateProvider(connectionName);
+                string connectionStr = Config.getDbConnection(connectionName);
+
+                using (DbConnection connection = provider.CreateConnection(connectionStr))
+                {
+                    using (DbCommand command = provider.CreateCommand(sql, connection))
+                    {
+                        if (parameters != null)
+                        {
+                            foreach (var param in parameters)
+                            {
+                                provider.AddParameterWithValue(command, param.Key, param.Value);
+                            }
+                        }
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch(Exception x)
+            {
+                Logger.Error(x.Message + ": " + sql + " on connection '" + connectionName + "'");
+                Logger.Debug($"Parameters: {string.Join(", ", parameters?.Select(p => $"{p.Key}={p.Value}") ?? new string[0])}");
+            }
+        }
+
+        // ── HELPERS (internal — used by DBPersistAudit / DBPersistBasic) ────
+
+        internal static (string sql, Dictionary<string, object> parameters) insertSql( BaseObject baseObject, string tableName, string connectionName = "default" )
+        {
+            IDatabaseProvider provider = DatabaseProviderFactory.CreateProvider(connectionName);
+
+            StringBuilder sql = new StringBuilder("insert into " + provider.FormatTableName(tableName) + " ");
+            StringBuilder cols = new StringBuilder("");
+            StringBuilder vals = new StringBuilder("");
+            var parameters = new Dictionary<string, object>();
+
+            Type objectType = baseObject.GetType();
+            PropertyInfo[] properties = objectType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            foreach (PropertyInfo property in properties)
+            {
+                var labelAttribute = property.GetCustomAttribute<ColumnInfoAttribute>();
+                if (labelAttribute == null) continue;
+
+                object value = null;
+                if (baseObject.ContainsKey(property.Name))
+                    value = baseObject[property.Name];
+                else
+                    value = property.GetValue(baseObject);
+
+                if (cols.Length > 0)
+                {
+                    cols.Append(",");
+                    vals.Append(",");
+                }
+                cols.Append(provider.FormatColumnName(property.Name));
+
+                string paramName = provider.FormatParameter(property.Name);
+                vals.Append(paramName);
+                parameters[paramName] = value;
+            }
+
+            sql.Append("(");
+            sql.Append(cols);
+            sql.Append(") values (");
+            sql.Append(vals);
+            sql.Append(");");
+
+            return (sql.ToString(), parameters);
+        }
+
+        internal static string updateSql( BaseObject baseObject, string connectionName = "default")
+        {
+            BaseObject filter = new BaseObject();
+            filter["id"] = baseObject["id"];
+            return updateSql(baseObject, filter, connectionName);
+        }
+
+        internal static string updateSql( BaseObject baseObject, BaseObject filter, string connectionName = "default")
+        {
+            IDatabaseProvider provider = DatabaseProviderFactory.CreateProvider(connectionName);
+
+            StringBuilder sql = new StringBuilder("update " + provider.FormatTableName(baseObject.tableName) + " set ");
+            StringBuilder expressions = new StringBuilder();
+            StringBuilder where = new StringBuilder();
+
+            exprSql(baseObject, baseObject.Keys, ", ", expressions, connectionName);
+            exprSql(filter, filter.Keys, " and ", where, connectionName);
+
+            sql.Append(expressions);
+            sql.Append(" where ");
+            sql.Append(where);
+            sql.Append(";");
+
+            return sql.ToString();
+        }
+
+        internal static void exprSql(BaseObject baseObject, IEnumerable<string> attrList, string sepToken, StringBuilder expressions, string connectionName = "default")
+        {
+            IDatabaseProvider provider = DatabaseProviderFactory.CreateProvider(connectionName);
+            bool first = true;
+
+            foreach (string k in attrList)
+            {
+                object v = baseObject[k];
+                if (v == null) continue;
+                if (v == DBNull.Value) continue;
+                if (string.IsNullOrEmpty(v.ToString())) continue;
+
+                if (!first)
+                    expressions.Append(sepToken);
+
+                string expr = provider.FormatColumnName(k) + "=" + provider.FormatValue(v);
+                expressions.Append(expr);
+                first = false;
+            }
+        }
+
+        internal static long identity(BaseObject baseObject, string connectionName = "default")
+        {
+            IDatabaseProvider provider = DatabaseProviderFactory.CreateProvider(connectionName);
+            long id = 0;
+
+            string sql = provider.GetNextIdentitySql(baseObject.tableName);
+
+            SelectCallback scb = (rdr) =>
+            {
+                id = Convert.ToInt64(rdr[0]);
+            };
+
+            select(scb, sql, connectionName);
+
+            return id;
+        }
+
+        internal static string getSql( BaseObject t, string connectionName = "default")
+        {
+            IDatabaseProvider provider = DatabaseProviderFactory.CreateProvider(connectionName);
+
+            string sqlTemplate = "select * from ^(table) where id=^(id) and is_active=1";
+
+            BaseObject p = new BaseObject();
+            p["id"] = t["id"];
+            p["table"] = provider.FormatTableName(t.tableName);
+
+            return substituteTemplate(p, sqlTemplate);
+        }
+
+        public static void autoAssign( DbDataReader rdr, BaseObject t)
+        {
+            for (int i = 0; i < rdr.FieldCount; i++)
+            {
+                string k = rdr.GetName(i);
+                if (t.ContainsKey(k)) { t[k] = rdr.GetValue(i); }
+                else { t.Add(k, rdr.GetValue(i)); }
+            }
+        }
+
+        internal static string substituteTemplate( BaseObject parameters, string sqlTemplate)
+        {
+            StringBuilder sb = new StringBuilder(sqlTemplate);
+
+            foreach( string k in parameters.Keys)
+            {
+                object v = string.Empty;
+                parameters.TryGetValue(k, out v);
+
+                string paramName = "^(" + k + ")";
+                sb.Replace(paramName, v.ToString());
+            }
+
+            return sb.ToString();
+        }
+
+        // ── QUERY CACHE ──────────────────────────────────────────────────────
+
+        public static BaseObject GetQueryByName(string queryName, string connectionName = "default")
+        {
+            if (_queryCache.ContainsKey(queryName))
+            {
+                Logger.Debug($"Query '{queryName}' found in cache");
+                return _queryCache[queryName];
+            }
+
+            IDatabaseProvider provider = DatabaseProviderFactory.CreateProvider(connectionName);
+
+            BaseObject query = new BaseObject();
+            query["tableName"] = "core.sql";
+
+            string sql = "SELECT s.id, s.name, s.sql_text, s.description, s.created_by, ds.name as data_source_name FROM " +
+                        provider.FormatTableName("core.sql") + " s " +
+                        "LEFT JOIN " + provider.FormatTableName("core.data_source") + " ds ON s.data_source_id = ds.id " +
+                        "WHERE s." + provider.FormatColumnName("name") + " = " +
+                        provider.FormatValue(queryName);
+
+            bool found = false;
+            SelectCallback scb = (rdr) =>
+            {
+                found = true;
+                query["id"] = rdr["id"];
+                query["name"] = rdr["name"];
+                query["sql_text"] = rdr["sql_text"];
+                query["description"] = rdr["description"];
+                query["created_by"] = rdr["created_by"];
+                query["data_source_name"] = rdr["data_source_name"];
+            };
+
+            select(scb, sql, connectionName);
+
+            if (found)
+            {
+                _queryCache[queryName] = query;
+                Logger.Debug($"Query '{queryName}' cached");
+            }
+            else
+            {
+                _queryCache[queryName] = null;
+                Logger.Debug($"Query '{queryName}' not found, cached as null");
+            }
+
+            return found ? query : null;
+        }
+
+        public static void ExecuteQueryByName(string queryName, SelectCallback callback, string connectionName = "default")
+        {
+            BaseObject query = GetQueryByName(queryName, connectionName);
+            if (query == null)
+                throw new Exception($"Query '{queryName}' not found in core.sql table");
+
+            string sql = query["sql_text"].ToString();
+            string dataSourceName = query["data_source_name"]?.ToString() ?? connectionName;
+            select(callback, sql, dataSourceName);
+        }
+
+        public static List<T> ExecuteQueryByName<T>(string queryName, string connectionName = "default") where T : BaseObject, new()
+        {
+            BaseObject query = GetQueryByName(queryName, connectionName);
+            if (query == null)
+                throw new Exception($"Query '{queryName}' not found in core.sql table");
+
+            List<T> baseObjects = new List<T>();
+
+            void baseObjectCallback(System.Data.Common.DbDataReader rdr)
+            {
+                T baseObject = new T();
+                DBPersist.autoAssign(rdr, baseObject);
+                baseObjects.Add(baseObject);
+            };
+
+            string sql = query["sql_text"].ToString();
+            string dataSourceName = query["data_source_name"]?.ToString() ?? connectionName;
+            select(baseObjectCallback, sql, dataSourceName);
+
+            return baseObjects;
+        }
+
+        public static List<T> ExecuteQueryByName<T>(string queryName, BaseObject filter, string connectionName = "default") where T : BaseObject, new()
+        {
+            BaseObject query = GetQueryByName(queryName, connectionName);
+            if (query == null)
+                throw new Exception($"Query '{queryName}' not found in core.sql table");
+
+            List<T> baseObjects = new List<T>();
+
+            void baseObjectCallback(System.Data.Common.DbDataReader rdr)
+            {
+                T baseObject = new T();
+                DBPersist.autoAssign(rdr, baseObject);
+                baseObjects.Add(baseObject);
+            };
+
+            string sqlTemplate = query["sql_text"].ToString();
+            string dataSourceName = query["data_source_name"]?.ToString() ?? connectionName;
+            select(baseObjectCallback, sqlTemplate, filter, dataSourceName);
+
+            return baseObjects;
+        }
+
+        public static void ClearQueryCache()
+        {
+            _queryCache.Clear();
+            Logger.Debug("Query cache cleared");
+        }
+
+        public static BaseObject RefreshQueryByName(string queryName)
+        {
+            _queryCache.Remove(queryName);
+            Logger.Debug($"Query '{queryName}' removed from cache for refresh");
+            return GetQueryByName(queryName);
+        }
+
+        public static int GetCacheSize()
+        {
+            return _queryCache.Count;
+        }
+
+        // ── PRIVATE ──────────────────────────────────────────────────────────
+
+        private static void LogRowData(DbDataReader rdr)
+        {
+            if ((Logger.enabledLevels & Logger.Level.Data) == 0) return;
+
+            object[] values = new object[rdr.FieldCount];
+            rdr.GetValues(values);
+
+            var fieldData = new List<string>();
+            for (int i = 0; i < rdr.FieldCount; i++)
+            {
+                fieldData.Add($"{rdr.GetName(i)}={values[i]}");
+            }
+            Logger.Data($"Row data: {string.Join(";", fieldData)}");
+        }
+    }
+}

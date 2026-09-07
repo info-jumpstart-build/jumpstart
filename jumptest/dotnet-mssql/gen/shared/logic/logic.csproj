@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\usr\shared\logic\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\common\common.csproj" />
+    <ProjectReference Include="..\..\shared\domain\domain.csproj" />
+    <ProjectReference Include="..\persist\persist.csproj" />
+  </ItemGroup>
+</Project>

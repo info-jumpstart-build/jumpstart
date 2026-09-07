@@ -103,7 +103,21 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'app.test_case-get-history',
     'SELECT
-        app.test_case.*
+        app.test_case.id,
+            test_case.test_plan_id,
+            test_case.code,
+            test_case.area,
+            test_case.title,
+            test_case.preconditions,
+            test_case.steps,
+            test_case.expected_result,
+            test_case.priority,
+            test_case.component,
+            test_case.is_active,
+            test_case.created_by,
+            test_case.last_updated,
+            test_case.last_updated_by,
+            test_case.txn_id
     FROM app.test_case
     WHERE app.test_case.id = ^(id)
     ORDER BY app.test_case.txn_id DESC;',

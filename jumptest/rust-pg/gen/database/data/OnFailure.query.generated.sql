@@ -73,7 +73,13 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.on_failure-get-history',
     'SELECT
-        core.on_failure.*
+        core.on_failure.id,
+            on_failure.action,
+            on_failure.is_active,
+            on_failure.created_by,
+            on_failure.last_updated,
+            on_failure.last_updated_by,
+            on_failure.txn_id
     FROM core.on_failure
     WHERE core.on_failure.id = ^(id)
     ORDER BY core.on_failure.txn_id DESC;',

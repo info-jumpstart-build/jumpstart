@@ -154,7 +154,23 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.workflow-get-history',
     'SELECT
-        core.workflow.*
+        core.workflow.id,
+            workflow.workflow_type_id,
+            workflow.parent_id,
+            workflow.name,
+            workflow.seq,
+            workflow.server_node_id,
+            workflow.process_id,
+            workflow.exec_status_id,
+            workflow.last_start_time,
+            workflow.last_end_time,
+            workflow.schedule_id,
+            workflow.on_failure_action_id,
+            workflow.is_active,
+            workflow.created_by,
+            workflow.last_updated,
+            workflow.last_updated_by,
+            workflow.txn_id
     FROM core.workflow
     WHERE core.workflow.id = ^(id)
     ORDER BY core.workflow.txn_id DESC;',

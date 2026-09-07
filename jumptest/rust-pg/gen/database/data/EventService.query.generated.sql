@@ -91,7 +91,16 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.event_service-get-history',
     'SELECT
-        core.event_service.*
+        core.event_service.id,
+            event_service.event_type,
+            event_service.objectname_filter,
+            event_service.methodname_filter,
+            event_service.script_id,
+            event_service.is_active,
+            event_service.created_by,
+            event_service.last_updated,
+            event_service.last_updated_by,
+            event_service.txn_id
     FROM core.event_service
     WHERE core.event_service.id = ^(id)
     ORDER BY core.event_service.txn_id DESC;',

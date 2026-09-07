@@ -1,0 +1,4 @@
+hostname,ip_address,port,username,url,user_domain,os_name,os_version,architecture,registered_at
+test_hostname_1,test_ip_address_1,100,test_username_1,test_url_1,test_user_domain_1,test_os_name_1,test_os_version_1,test_architecture_1,2024-01-01 00:00:00
+test_hostname_2,test_ip_address_2,200,test_username_2,test_url_2,test_user_domain_2,test_os_name_2,test_os_version_2,test_architecture_2,2024-01-02 00:00:00
+test_hostname_3,test_ip_address_3,300,test_username_3,test_url_3,test_user_domain_3,test_os_name_3,test_os_version_3,test_architecture_3,2024-01-03 00:00:00
