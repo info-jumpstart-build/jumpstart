@@ -35,7 +35,7 @@ Jumpstart reads its configuration from `~/.jumpstart.json`:
 ```json
 {
   "modelpath": "~/projects/myapp/myapp.csv",
-  "templatedefs": ["database-pgsql", "server-rust", "web-nodejs", "test-rust", "tools-rust"],
+  "templatedefs": ["database-pgsql", "server-rust", "web-nodejs", "test-rust", "tools-rust", "root"],
   "auth0": {
     "domain": "your-tenant.us.auth0.com",
     "clientId": "SPA_CLIENT_ID",
@@ -49,6 +49,7 @@ Jumpstart reads its configuration from `~/.jumpstart.json`:
 | `modelpath` | Path to your metadata CSV (supports `~` expansion). The filename becomes the application namespace. |
 | `templatedefs` | Template definition names to generate |
 | `auth0` | Optional. SPA tenant settings baked into the generated web client (see [Auth0 Setup](auth0-setup.md)) |
+| `noauth` | Optional. `true` is equivalent to passing `--noauth` on the command line (see below) |
 
 Available template definitions:
 
@@ -62,8 +63,11 @@ Available template definitions:
 | `web-nodejs` | React + TypeScript (Vite) frontend |
 | `test-dotnet` / `test-rust` | Test harnesses (persist, script, scheduler, script agent; API tests on .NET) |
 | `tools-dotnet` / `tools-rust` | CSV import/export utilities |
+| `root` | The project's top-level `makefile` (see below) |
 
 Pick one database, one server, one web, and the matching test/tools definitions. Backends and frontends are interchangeable -- both frontends speak the same REST/SSE contract as both backends.
+
+Include `root` in `templatedefs` to also (re)generate the top-level `makefile` that drives everything else. Its `generate:` target is built directly from whichever registries you listed -- so it only exists to reflect your `templatedefs` back at you as a runnable makefile, and it stays in sync automatically if you add or remove a registry later. It only makes sense in this `~/.jumpstart.json`-driven mode, since that's the only place the full list of registries for a project is known at once; see [`jumptest/rust-pg/makefile`](../jumptest/rust-pg/makefile) for what it looks like generated.
 
 ### ~/.&lt;namespace&gt;.json (runtime config)
 
@@ -129,6 +133,27 @@ The generator will:
 3. Process relationships (parent, enum, map, views)
 4. Generate output files for each template definition
 
+### Turning off authentication (`--noauth`)
+
+Add `--noauth` to skip generating the Auth0 login flow and JWT enforcement in the
+generated app -- useful for a quick local run before an Auth0 tenant is set up:
+
+```bash
+jumpstart myapp.csv web-nodejs --noauth
+jumpstart myapp.csv server-rust --noauth
+```
+
+It works with the zero-argument (`~/.jumpstart.json`) form too, either by adding the
+flag (`jumpstart --noauth`) or setting `"noauth": true` in the JSON file. With
+`--noauth`:
+- The **web frontends** (Blazor, React) skip the Auth0 login/redirect flow entirely -- every page is reachable without signing in, and API calls carry no bearer token.
+- The **API servers** (.NET, Rust) skip JWT validation on inbound requests. Authorization checks (`core.op_role_member`) still run, against whichever identity the runtime fallback provides -- the OS user for .NET, or the `X-User` request header for Rust.
+
+`--noauth` only affects the browser-facing login/JWT gate; it does not touch the
+separate machine-to-machine authentication between servers (see
+[M2M Authentication](auth0-m2m.md)), which is already unauthenticated by default
+until you configure it.
+
 A typical project drives this from a makefile (see [`jumptest/rust-pg/makefile`](../jumptest/rust-pg/makefile)):
 
 ```makefile
@@ -171,6 +196,8 @@ Output is split into three top-level directories:
 │   ├── database/data/       #   hand-written seed data (make seed)
 │   └── web/                 #   custom pages, public config
 └── bin/                     # deployed binaries + *.sh / *.cmd launchers
+                              #   start.sh/.cmd and stop.sh/.cmd launch and
+                              #   stop api+scheduler+scriptagent+web together
 ```
 
 The rule that makes regeneration safe: templates with `FORCE=TRUE` write into `gen/`; templates with `FORCE=FALSE` create one-time stubs in `usr/`. You can re-run the generator at any time without losing your work.
@@ -223,6 +250,10 @@ The web client expects the API at `http://localhost:5200` -- see [Operations Not
 make -C gen/web       # Blazor: dotnet build · React: npm install + vite build
 ./bin/web.sh
 ```
+
+### Or: Start/Stop Everything Together
+
+Once every component has been built at least once, `bin/start.sh` (`start.cmd` on Windows) launches api, scheduler, scriptagent, and web together, each in its own terminal window; `bin/stop.sh` (`stop.cmd`) stops them all again.
 
 ## Running Tests
 

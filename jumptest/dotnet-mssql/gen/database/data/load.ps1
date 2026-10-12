@@ -124,7 +124,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -138,7 +142,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -152,7 +160,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -166,7 +178,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -180,7 +196,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -194,7 +214,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -208,7 +232,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -222,7 +250,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -236,7 +268,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -250,7 +286,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -264,7 +304,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -278,7 +322,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -292,6 +340,7 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
@@ -335,6 +384,9 @@ if (-not (Test-Path $sqlFile)) {
 }
 
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -348,7 +400,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -362,7 +418,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -376,7 +436,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -390,7 +454,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -404,7 +472,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -418,7 +490,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -432,7 +508,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -446,7 +526,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -460,7 +544,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -474,7 +562,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -488,7 +580,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -502,7 +598,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -516,7 +616,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -530,7 +634,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -544,7 +652,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -558,7 +670,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -572,7 +688,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -586,7 +706,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -600,7 +724,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -614,7 +742,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -628,7 +760,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -642,7 +778,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -656,7 +796,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -670,7 +814,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -684,7 +832,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -698,7 +850,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -712,7 +868,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -726,7 +886,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -740,7 +904,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -754,7 +922,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -768,7 +940,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -782,7 +958,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -796,7 +976,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -810,7 +994,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -824,7 +1012,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -838,7 +1030,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -852,7 +1048,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -866,7 +1066,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -880,7 +1084,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -894,7 +1102,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -908,7 +1120,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -922,7 +1138,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -936,7 +1156,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -950,7 +1174,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -964,7 +1192,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -978,7 +1210,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -992,7 +1228,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1006,7 +1246,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1020,7 +1264,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1034,7 +1282,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1048,7 +1300,53 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to load: $sqlFile"
+    Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
+    exit $LASTEXITCODE
+}
+    
+Write-Host "Loading: PrincipalStatus.query.generated.sql"
+$sqlFile = ".\PrincipalStatus.query.generated.sql"
+if (-not (Test-Path $sqlFile)) {
+    Write-Warning "SQL file not found, skipping: $sqlFile"
+    continue
+}
+
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to load: $sqlFile"
+    Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
+    exit $LASTEXITCODE
+}
+    
+Write-Host "Loading: PrincipalStatus.children.generated.sql"
+$sqlFile = ".\PrincipalStatus.children.generated.sql"
+if (-not (Test-Path $sqlFile)) {
+    Write-Warning "SQL file not found, skipping: $sqlFile"
+    continue
+}
+
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to load: $sqlFile"
+    Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
+    exit $LASTEXITCODE
+}
+    
+Write-Host "Loading: PrincipalStatus.map.generated.sql"
+$sqlFile = ".\PrincipalStatus.map.generated.sql"
+if (-not (Test-Path $sqlFile)) {
+    Write-Warning "SQL file not found, skipping: $sqlFile"
+    continue
+}
+
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1062,7 +1360,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1076,7 +1378,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1090,7 +1396,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1104,7 +1414,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1118,7 +1432,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1132,6 +1450,7 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
@@ -1175,6 +1494,9 @@ if (-not (Test-Path $sqlFile)) {
 }
 
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1188,7 +1510,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1202,7 +1528,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1216,6 +1546,7 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
@@ -1259,6 +1590,9 @@ if (-not (Test-Path $sqlFile)) {
 }
 
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1272,7 +1606,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1286,7 +1624,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1300,7 +1642,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1314,7 +1660,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1328,7 +1678,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1342,7 +1696,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1356,7 +1714,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1370,7 +1732,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1384,7 +1750,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1398,7 +1768,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1412,7 +1786,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1426,49 +1804,80 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
     exit $LASTEXITCODE
 }
     
+<<<<<<< HEAD
 Write-Host "Loading: TestResult.query.generated.sql"
 $sqlFile = ".\TestResult.query.generated.sql"
+=======
+Write-Host "Loading: Principal.query.generated.sql"
+$sqlFile = ".\Principal.query.generated.sql"
+>>>>>>> main
 if (-not (Test-Path $sqlFile)) {
     Write-Warning "SQL file not found, skipping: $sqlFile"
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
     exit $LASTEXITCODE
 }
     
+<<<<<<< HEAD
 Write-Host "Loading: TestResult.children.generated.sql"
 $sqlFile = ".\TestResult.children.generated.sql"
+=======
+Write-Host "Loading: Principal.children.generated.sql"
+$sqlFile = ".\Principal.children.generated.sql"
+>>>>>>> main
 if (-not (Test-Path $sqlFile)) {
     Write-Warning "SQL file not found, skipping: $sqlFile"
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
     exit $LASTEXITCODE
 }
     
+<<<<<<< HEAD
 Write-Host "Loading: TestResult.map.generated.sql"
 $sqlFile = ".\TestResult.map.generated.sql"
+=======
+Write-Host "Loading: Principal.map.generated.sql"
+$sqlFile = ".\Principal.map.generated.sql"
+>>>>>>> main
 if (-not (Test-Path $sqlFile)) {
     Write-Warning "SQL file not found, skipping: $sqlFile"
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1482,7 +1891,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1496,7 +1909,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1510,7 +1927,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1524,7 +1945,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1538,7 +1963,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1552,7 +1981,137 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to load: $sqlFile"
+    Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
+    exit $LASTEXITCODE
+}
+    
+Write-Host "Loading: TestResult.query.generated.sql"
+$sqlFile = ".\TestResult.query.generated.sql"
+if (-not (Test-Path $sqlFile)) {
+    Write-Warning "SQL file not found, skipping: $sqlFile"
+    continue
+}
+
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to load: $sqlFile"
+    Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
+    exit $LASTEXITCODE
+}
+    
+Write-Host "Loading: TestResult.children.generated.sql"
+$sqlFile = ".\TestResult.children.generated.sql"
+if (-not (Test-Path $sqlFile)) {
+    Write-Warning "SQL file not found, skipping: $sqlFile"
+    continue
+}
+
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to load: $sqlFile"
+    Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
+    exit $LASTEXITCODE
+}
+    
+Write-Host "Loading: TestResult.map.generated.sql"
+$sqlFile = ".\TestResult.map.generated.sql"
+if (-not (Test-Path $sqlFile)) {
+    Write-Warning "SQL file not found, skipping: $sqlFile"
+    continue
+}
+
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to load: $sqlFile"
+    Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
+    exit $LASTEXITCODE
+}
+    
+Write-Host "Loading: PrincipalOrg.query.generated.sql"
+$sqlFile = ".\PrincipalOrg.query.generated.sql"
+if (-not (Test-Path $sqlFile)) {
+    Write-Warning "SQL file not found, skipping: $sqlFile"
+    continue
+}
+
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to load: $sqlFile"
+    Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
+    exit $LASTEXITCODE
+}
+    
+Write-Host "Loading: PrincipalOrg.children.generated.sql"
+$sqlFile = ".\PrincipalOrg.children.generated.sql"
+if (-not (Test-Path $sqlFile)) {
+    Write-Warning "SQL file not found, skipping: $sqlFile"
+    continue
+}
+
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to load: $sqlFile"
+    Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
+    exit $LASTEXITCODE
+}
+    
+Write-Host "Loading: PrincipalOrg.map.generated.sql"
+$sqlFile = ".\PrincipalOrg.map.generated.sql"
+if (-not (Test-Path $sqlFile)) {
+    Write-Warning "SQL file not found, skipping: $sqlFile"
+    continue
+}
+
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to load: $sqlFile"
+    Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
+    exit $LASTEXITCODE
+}
+    
+Write-Host "Loading: OpRoleMember.query.generated.sql"
+$sqlFile = ".\OpRoleMember.query.generated.sql"
+if (-not (Test-Path $sqlFile)) {
+    Write-Warning "SQL file not found, skipping: $sqlFile"
+    continue
+}
+
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to load: $sqlFile"
+    Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
+    exit $LASTEXITCODE
+}
+    
+Write-Host "Loading: OpRoleMember.children.generated.sql"
+$sqlFile = ".\OpRoleMember.children.generated.sql"
+if (-not (Test-Path $sqlFile)) {
+    Write-Warning "SQL file not found, skipping: $sqlFile"
+    continue
+}
+
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to load: $sqlFile"
+    Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
+    exit $LASTEXITCODE
+}
+    
+Write-Host "Loading: OpRoleMember.map.generated.sql"
+$sqlFile = ".\OpRoleMember.map.generated.sql"
+if (-not (Test-Path $sqlFile)) {
+    Write-Warning "SQL file not found, skipping: $sqlFile"
+    continue
+}
+
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1566,7 +2125,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1580,7 +2143,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1594,7 +2161,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1608,7 +2179,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1622,7 +2197,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."
@@ -1636,7 +2215,11 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
+<<<<<<< HEAD
 sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+=======
+sqlcmd -S $connectionString -d $database @authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
+>>>>>>> main
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."

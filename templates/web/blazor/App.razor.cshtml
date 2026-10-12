@@ -1,4 +1,6 @@
-<CascadingAuthenticationState>
+@if (!Model.NoAuth)
+{
+<text><CascadingAuthenticationState>
     <Router AppAssembly="@@typeof(App).Assembly">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@@routeData" DefaultLayout="@@typeof(MainLayout)">
@@ -19,3 +21,22 @@
         </NotFound>
     </Router>
 </CascadingAuthenticationState>
+</text>
+}
+else
+{
+<text><!-- --noauth: authentication code generation suppressed -- no AuthorizeRouteView/login redirect. -->
+<Router AppAssembly="@@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@@routeData" DefaultLayout="@@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@@typeof(MainLayout)">
+            <p role="alert">Sorry, there&apos;s nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+</text>
+}

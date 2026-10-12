@@ -1,0 +1,2 @@
+COMMENT,TEMPLATE_TYPE,TEMPLATE_PATH,OUTPUT_DIR,FORCE
+root project makefile,model,root/makefile.cshtml,./,TRUE

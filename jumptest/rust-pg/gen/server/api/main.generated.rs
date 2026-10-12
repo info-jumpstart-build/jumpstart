@@ -40,11 +40,13 @@
 #![allow(dead_code)]
 #![allow(clippy::all)]
 
+use std::collections::HashMap;
+use std::hash::{BuildHasher, Hasher};
 use std::io::{Read, Write};
 use std::net::TcpListener;
 use std::sync::mpsc::{Receiver, Sender};
 use std::sync::{Mutex, OnceLock};
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 use common::{auth0, to_typed_json, BaseObject, DomainObject, LogLevel, Logger, SessionInfo, Util};
 use domain::server_node_core::{ServerNodeStatus, ServerNodeType};
@@ -67,7 +69,7 @@ const END_PORT: u16 = 5300;
 
 fn main() {
     init_logging();
-    let port = match find_port(START_PORT, END_PORT) {
+    let port = match resolve_port("api", START_PORT, END_PORT) {
         Some(p) => p,
         None => {
             Logger::error(format!("No available port in range {}-{}", START_PORT, END_PORT));
@@ -91,6 +93,33 @@ fn main() {
         // before any auth check runs.
         if request.method().eq_ignore_ascii_case("OPTIONS") {
             return with_cors(request, Response::text(""));
+        }
+
+        // The browser's native EventSource API cannot set an Authorization
+        // header, so the SSE stream can't use the normal JWT gate below.
+        // Instead the client first mints a short-lived, single-use ticket via
+        // POST /api/notification/stream-ticket (which *does* go through the
+        // normal JWT gate) and passes it as `?ticket=` on the stream URL. See
+        // `redeem_stream_ticket` for why a ticket, not the JWT itself, travels
+        // in the URL (URLs end up in access logs / browser history).
+        if is_notification_stream_request(request) {
+            return match request.get_param("ticket").and_then(|t| redeem_stream_ticket(&t)) {
+                Some(user) => {
+                    OpRoleMemberLogic::set_current_user(Some(&user));
+                    let response = handle(request);
+                    with_cors(request, response)
+                }
+                None => {
+                    // Cleared (not left as whatever the previous request on
+                    // this reused worker thread set) so a failed ticket check
+                    // never leaks another request's principal.
+                    OpRoleMemberLogic::set_current_user(None);
+                    with_cors(
+                        request,
+                        Response::text("missing or expired stream ticket").with_status_code(401),
+                    )
+                }
+            };
         }
 
         // Identity: validate the Auth0 bearer token (RS256 against the
@@ -131,6 +160,36 @@ fn main() {
 
 fn find_port(start: u16, end: u16) -> Option<u16> {
     (start..=end).find(|&p| TcpListener::bind(("0.0.0.0", p)).is_ok())
+}
+
+/// Resolve the port to bind: the fixed port from the `servers.<service>`
+/// section of `~/.<namespace>.json` (see `Config::server_port`) if configured,
+/// otherwise the first free port in `[default_start, default_end]` as before.
+/// A configured port that is already in use (typically a stale process from a
+/// previous run) is *not* silently skipped: it logs a warning and scans
+/// forward from that port instead, so a mismatch between this port and
+/// wherever clients expect the server (e.g. the web client's pinned URL) is
+/// visible in the log rather than discovered later as "nothing updates".
+fn resolve_port(service: &str, default_start: u16, default_end: u16) -> Option<u16> {
+    match common::Config::server_port(service) {
+        Some(configured) => {
+            if TcpListener::bind(("0.0.0.0", configured)).is_ok() {
+                Some(configured)
+            } else {
+                Logger::warning(format!(
+                    "{}: configured port {} (servers.{}.port in ~/.<namespace>.json) is already \
+                     in use -- possibly a stale process from a previous run. Scanning forward \
+                     for a free port instead; kill the stale process if clients expect {} \
+                     specifically.",
+                    service, configured, service, configured
+                ));
+                let scan_width = default_end.saturating_sub(default_start);
+                find_port(configured, configured.saturating_add(scan_width))
+                    .or_else(|| find_port(default_start, default_end))
+            }
+        }
+        None => find_port(default_start, default_end),
+    }
 }
 
 /// Set the log level from the `JUMPSTART_LOG` env var (error|warning|info|debug).
@@ -278,6 +337,13 @@ fn handle(request: &Request) -> Response {
         ("POST", 2) => {
             if rest[0].eq_ignore_ascii_case("notification") && rest[1].eq_ignore_ascii_case("publish") {
                 notification_publish(request)
+<<<<<<< HEAD
+=======
+            } else if rest[0].eq_ignore_ascii_case("notification")
+                && rest[1].eq_ignore_ascii_case("stream-ticket")
+            {
+                notification_stream_ticket()
+>>>>>>> main
             } else if rest[0].eq_ignore_ascii_case("admin") && rest[1].eq_ignore_ascii_case("clear-auth-cache") {
                 admin_clear_auth_cache()
             } else {
@@ -469,6 +535,96 @@ fn admin_clear_auth_cache() -> Response {
     Response::text("").with_status_code(200)
 }
 
+<<<<<<< HEAD
+=======
+// ── SSE stream tickets: single-use auth for the EventSource connection ───────
+// The browser's native EventSource API cannot set an Authorization header, so
+// GET /api/notification/stream (see below) can't be gated by the normal JWT
+// check. Putting the JWT itself in the URL as a query param would work but is
+// a real credential (minutes-to-hours lifetime, same privileges as any other
+// API call) ending up in access logs and browser history. Instead: the client
+// calls POST /api/notification/stream-ticket -- a normal endpoint, gated by
+// the normal Authorization header -- which mints a random, single-use ticket
+// good for a few seconds and tied to the caller's identity. The client then
+// opens the stream with `?ticket=<that>`. A ticket is consumed (removed from
+// the store) the moment it's redeemed, so even a ticket that leaks into a log
+// is worthless immediately after; an expired-but-unused one is pruned by TTL.
+
+const STREAM_TICKET_TTL: Duration = Duration::from_secs(30);
+
+struct StreamTicket {
+    user: String,
+    expires_at: Instant,
+}
+
+fn stream_tickets() -> &'static Mutex<HashMap<String, StreamTicket>> {
+    static TICKETS: OnceLock<Mutex<HashMap<String, StreamTicket>>> = OnceLock::new();
+    TICKETS.get_or_init(|| Mutex::new(HashMap::new()))
+}
+
+/// 128 bits of randomness sourced from the OS CSPRNG via two independent
+/// `std::collections::hash_map::RandomState` seeds (the same source Rust's
+/// HashMap uses to resist collision attacks) -- avoids pulling in a `rand` or
+/// `uuid` dependency just for this.
+fn random_ticket() -> String {
+    let mut out = String::with_capacity(32);
+    for _ in 0..2 {
+        let mut hasher = std::collections::hash_map::RandomState::new().build_hasher();
+        hasher.write_u128(std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .map(|d| d.as_nanos())
+            .unwrap_or(0));
+        out.push_str(&format!("{:016x}", hasher.finish()));
+    }
+    out
+}
+
+fn prune_expired_tickets(tickets: &mut HashMap<String, StreamTicket>) {
+    let now = Instant::now();
+    tickets.retain(|_, t| t.expires_at > now);
+}
+
+/// POST /api/notification/stream-ticket -- mints a ticket for the caller
+/// already authenticated by the normal JWT gate (see `main`). Called by the
+/// web client immediately before opening the SSE stream.
+fn notification_stream_ticket() -> Response {
+    let user = OpRoleMemberLogic::current_user();
+    let ticket = random_ticket();
+    {
+        let mut tickets = stream_tickets().lock().unwrap();
+        prune_expired_tickets(&mut tickets);
+        tickets.insert(
+            ticket.clone(),
+            StreamTicket { user, expires_at: Instant::now() + STREAM_TICKET_TTL },
+        );
+    }
+    Response::json(&serde_json::json!({ "ticket": ticket }))
+}
+
+/// Redeem (and invalidate) a ticket, returning the identity it was minted
+/// for. `None` if the ticket is unknown, already used, or expired.
+fn redeem_stream_ticket(ticket: &str) -> Option<String> {
+    let mut tickets = stream_tickets().lock().unwrap();
+    prune_expired_tickets(&mut tickets);
+    tickets.remove(ticket).map(|t| t.user)
+}
+
+/// True for `GET /api/notification/stream` specifically -- the only route
+/// allowed to authenticate via `?ticket=` instead of an Authorization header.
+fn is_notification_stream_request(request: &Request) -> bool {
+    if !request.method().eq_ignore_ascii_case("GET") {
+        return false;
+    }
+    let path = request.url();
+    let trimmed = path.trim_matches('/');
+    let segs: Vec<&str> = trimmed.split('/').collect();
+    segs.len() == 3
+        && segs[0].eq_ignore_ascii_case("api")
+        && segs[1].eq_ignore_ascii_case("notification")
+        && segs[2].eq_ignore_ascii_case("stream")
+}
+
+>>>>>>> main
 // ── Server-Sent Events: real-time object-change notifications ────────────────
 // Connected web clients hold open a `GET /api/notification/stream` response.
 // `notification_publish` pushes a PropertyUpdated event to every client; the

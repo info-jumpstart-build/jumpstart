@@ -2,13 +2,24 @@
 // authentication and the "RemoteAPI" client, then mounts the root component.
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, useNavigate } from "react-router-dom";
+@if (!Model.NoAuth)
+{
+<text>import { BrowserRouter, useNavigate } from "react-router-dom";
 import { Auth0Provider, type AppState } from "@@auth0/auth0-react";
+</text>
+}
+else
+{
+<text>import { BrowserRouter } from "react-router-dom";
+</text>
+}
 import App from "./App";
 import { loadConfig } from "./api/config";
 import { ApiClientProvider } from "./api/apiClient";
 
-// Handles the post-login redirect the same way Auth0Provider's
+@if (!Model.NoAuth)
+{
+<text>// Handles the post-login redirect the same way Auth0Provider's
 // onRedirectCallback prop is meant to: route back to wherever the user was
 // before ProtectedRoute sent them to log in (default: home).
 function Auth0ProviderWithNavigate({ children, ...props }: React.ComponentProps<typeof Auth0Provider>) {
@@ -24,6 +35,8 @@ function Auth0ProviderWithNavigate({ children, ...props }: React.ComponentProps<
     </Auth0Provider>
   );
 }
+</text>
+}
 
 async function bootstrap() {
   const config = await loadConfig();
@@ -33,7 +46,9 @@ async function bootstrap() {
     throw new Error("Missing #root element in index.html");
   }
 
-  ReactDOM.createRoot(rootElement).render(
+@if (!Model.NoAuth)
+{
+<text>  ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
       <BrowserRouter>
         <Auth0ProviderWithNavigate
@@ -51,6 +66,22 @@ async function bootstrap() {
       </BrowserRouter>
     </React.StrictMode>,
   );
+</text>
+}
+else
+{
+<text>  // --noauth: authentication code generation suppressed -- no Auth0Provider.
+  ReactDOM.createRoot(rootElement).render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <ApiClientProvider apiBaseUrl={config.apiBaseUrl}>
+          <App />
+        </ApiClientProvider>
+      </BrowserRouter>
+    </React.StrictMode>,
+  );
+</text>
+}
 }
 
 bootstrap();

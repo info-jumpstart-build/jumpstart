@@ -91,7 +91,14 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.op_role_member-get-history',
     'SELECT
-        core.op_role_member.*
+        core.op_role_member.id,
+            op_role_member.principal_id,
+            op_role_member.op_role_id,
+            op_role_member.is_active,
+            op_role_member.created_by,
+            op_role_member.last_updated,
+            op_role_member.last_updated_by,
+            op_role_member.txn_id
     FROM core.op_role_member
     WHERE core.op_role_member.id = ^(id)
     ORDER BY core.op_role_member.txn_id DESC;',

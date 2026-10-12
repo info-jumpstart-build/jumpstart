@@ -21,7 +21,11 @@ namespace jumptest
                     
                     testresult.executed_at = Convert.ToDateTime(BaseTest.getTestData(testresult, "TIMESTAMP", TestDataType.random));
                     
+<<<<<<< HEAD
                     testresult.executed_by = Convert.ToString(BaseTest.getTestData(testresult, "VARCHAR", TestDataType.random));
+=======
+                    testresult.executed_by_id = (long) BaseTest.getLastId("principal");
+>>>>>>> main
                     
                     testresult.actual_result = Convert.ToString(BaseTest.getTestData(testresult, "TEXT", TestDataType.random));
                     
@@ -47,8 +51,13 @@ namespace jumptest
                         
                         testresult.executed_at = (DateTime) BaseTest.getTestData(testresult, "TIMESTAMP", TestDataType.random);
                     
+<<<<<<< HEAD
                         testresult.executed_by = (string) BaseTest.getTestData(testresult, "VARCHAR", TestDataType.random);
                     
+=======
+                            testresult.executed_by_id = (long) BaseTest.getLastId("principal");
+                        
+>>>>>>> main
                         testresult.actual_result = (string) BaseTest.getTestData(testresult, "TEXT", TestDataType.random);
                     
                         testresult.notes = (string) BaseTest.getTestData(testresult, "TEXT", TestDataType.random);

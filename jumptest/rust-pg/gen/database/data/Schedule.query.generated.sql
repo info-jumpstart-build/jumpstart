@@ -136,7 +136,22 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.schedule-get-history',
     'SELECT
-        core.schedule.*
+        core.schedule.id,
+            schedule.name,
+            schedule.cron_every_id,
+            schedule.cron_minute_id,
+            schedule.cron_hour_id,
+            schedule.cron_dom_id,
+            schedule.cron_month_id,
+            schedule.cron_dow_id,
+            schedule.schedule_label,
+            schedule.next_run_time,
+            schedule.last_run_time,
+            schedule.is_active,
+            schedule.created_by,
+            schedule.last_updated,
+            schedule.last_updated_by,
+            schedule.txn_id
     FROM core.schedule
     WHERE core.schedule.id = ^(id)
     ORDER BY core.schedule.txn_id DESC;',

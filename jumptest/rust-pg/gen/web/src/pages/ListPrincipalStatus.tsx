@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+<<<<<<< HEAD
 import { useApiClient, type ApiClient } from "../api/apiClient";
+=======
+import { useApiClient, openNotificationStream, type ApiClient } from "../api/apiClient";
+>>>>>>> main
 import DataTable, { type DataTableColumn } from "../components/DataTable";
 
 // Row shape returned by GET /api/principalstatus and /api/principalstatus/view/{id}
@@ -88,6 +92,7 @@ export default function ListPrincipalStatus() {
   // GET /api/Notification/stream the Blazor client's notifications.js
   // interop connects to. The browser's native EventSource needs no interop
   // layer here and reconnects on its own; we just clean up on unmount.
+<<<<<<< HEAD
   useEffect(() => {
     const source = new EventSource(`${api.baseUrl}/api/Notification/stream`);
     sseRef.current = source;
@@ -120,6 +125,54 @@ export default function ListPrincipalStatus() {
 
     return () => {
       source.close();
+=======
+  // Opening it is async (openNotificationStream first mints a stream ticket
+  // over a normal, authenticated POST, since EventSource can't send an
+  // Authorization header itself), so this guards against the effect's
+  // cleanup running before that mint call resolves.
+  useEffect(() => {
+    let cancelled = false;
+
+    openNotificationStream(api)
+      .then((source) => {
+        if (cancelled) {
+          source.close();
+          return;
+        }
+        sseRef.current = source;
+
+        // MessageEvent's generic parameter defaults to `any` when omitted, so
+        // this stays a bare `MessageEvent` rather than `MessageEvent<string>`
+        // (same reasoning as the sseRef declaration above).
+        source.addEventListener("PropertyUpdated", async (event: MessageEvent) => {
+          try {
+            const message: PropertyUpdateMessage = JSON.parse(event.data);
+            if (message.DomainObjectName !== DOMAIN_OBJECT_NAME) return;
+
+            const index = (listRef.current ?? []).findIndex((item) => item.id === message.InstanceId);
+            if (index >= 0) {
+              const updated = await api.get<PrincipalStatusView>(`/api/principalstatus/view/${message.InstanceId}`);
+              setList((current) => {
+                if (!current) return current;
+                const next = [...current];
+                const i = next.findIndex((item) => item.id === message.InstanceId);
+                if (i >= 0) next[i] = updated;
+                return next;
+              });
+            } else {
+              await reloadList();
+            }
+          } catch (err) {
+            console.error("ListPrincipalStatus: error handling notification", err);
+          }
+        });
+      })
+      .catch((err) => console.error("ListPrincipalStatus: error opening notification stream", err));
+
+    return () => {
+      cancelled = true;
+      sseRef.current?.close();
+>>>>>>> main
       sseRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

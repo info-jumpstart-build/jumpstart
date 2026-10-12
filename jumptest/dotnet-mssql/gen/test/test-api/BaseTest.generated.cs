@@ -317,9 +317,12 @@ private static Dictionary<string, long> _lastIdMap = null;
             protected static Stack<Org> lastOrg = new Stack<Org>();
             protected static Dictionary<long, Org> mapOrg = new Dictionary<long, Org>();
             
+<<<<<<< HEAD
             protected static Stack<Principal> lastPrincipal = new Stack<Principal>();
             protected static Dictionary<long, Principal> mapPrincipal = new Dictionary<long, Principal>();
             
+=======
+>>>>>>> main
             protected static Stack<Operation> lastOperation = new Stack<Operation>();
             protected static Dictionary<long, Operation> mapOperation = new Dictionary<long, Operation>();
             
@@ -371,12 +374,19 @@ private static Dictionary<string, long> _lastIdMap = null;
             protected static Stack<WorkflowType> lastWorkflowType = new Stack<WorkflowType>();
             protected static Dictionary<long, WorkflowType> mapWorkflowType = new Dictionary<long, WorkflowType>();
             
+<<<<<<< HEAD
+=======
+            protected static Stack<PrincipalStatus> lastPrincipalStatus = new Stack<PrincipalStatus>();
+            protected static Dictionary<long, PrincipalStatus> mapPrincipalStatus = new Dictionary<long, PrincipalStatus>();
+            
+>>>>>>> main
             protected static Stack<TestCase> lastTestCase = new Stack<TestCase>();
             protected static Dictionary<long, TestCase> mapTestCase = new Dictionary<long, TestCase>();
             
             protected static Stack<TestRun> lastTestRun = new Stack<TestRun>();
             protected static Dictionary<long, TestRun> mapTestRun = new Dictionary<long, TestRun>();
             
+<<<<<<< HEAD
             protected static Stack<PrincipalOrg> lastPrincipalOrg = new Stack<PrincipalOrg>();
             protected static Dictionary<long, PrincipalOrg> mapPrincipalOrg = new Dictionary<long, PrincipalOrg>();
             
@@ -386,6 +396,11 @@ private static Dictionary<string, long> _lastIdMap = null;
             protected static Stack<OpRoleMember> lastOpRoleMember = new Stack<OpRoleMember>();
             protected static Dictionary<long, OpRoleMember> mapOpRoleMember = new Dictionary<long, OpRoleMember>();
             
+=======
+            protected static Stack<OpRoleMap> lastOpRoleMap = new Stack<OpRoleMap>();
+            protected static Dictionary<long, OpRoleMap> mapOpRoleMap = new Dictionary<long, OpRoleMap>();
+            
+>>>>>>> main
             protected static Stack<Schedule> lastSchedule = new Stack<Schedule>();
             protected static Dictionary<long, Schedule> mapSchedule = new Dictionary<long, Schedule>();
             
@@ -398,8 +413,13 @@ private static Dictionary<string, long> _lastIdMap = null;
             protected static Stack<ServerNode> lastServerNode = new Stack<ServerNode>();
             protected static Dictionary<long, ServerNode> mapServerNode = new Dictionary<long, ServerNode>();
             
+<<<<<<< HEAD
             protected static Stack<TestResult> lastTestResult = new Stack<TestResult>();
             protected static Dictionary<long, TestResult> mapTestResult = new Dictionary<long, TestResult>();
+=======
+            protected static Stack<Principal> lastPrincipal = new Stack<Principal>();
+            protected static Dictionary<long, Principal> mapPrincipal = new Dictionary<long, Principal>();
+>>>>>>> main
             
             protected static Stack<EventService> lastEventService = new Stack<EventService>();
             protected static Dictionary<long, EventService> mapEventService = new Dictionary<long, EventService>();
@@ -407,6 +427,18 @@ private static Dictionary<string, long> _lastIdMap = null;
             protected static Stack<Process> lastProcess = new Stack<Process>();
             protected static Dictionary<long, Process> mapProcess = new Dictionary<long, Process>();
             
+<<<<<<< HEAD
+=======
+            protected static Stack<TestResult> lastTestResult = new Stack<TestResult>();
+            protected static Dictionary<long, TestResult> mapTestResult = new Dictionary<long, TestResult>();
+            
+            protected static Stack<PrincipalOrg> lastPrincipalOrg = new Stack<PrincipalOrg>();
+            protected static Dictionary<long, PrincipalOrg> mapPrincipalOrg = new Dictionary<long, PrincipalOrg>();
+            
+            protected static Stack<OpRoleMember> lastOpRoleMember = new Stack<OpRoleMember>();
+            protected static Dictionary<long, OpRoleMember> mapOpRoleMember = new Dictionary<long, OpRoleMember>();
+            
+>>>>>>> main
             protected static Stack<Workflow> lastWorkflow = new Stack<Workflow>();
             protected static Dictionary<long, Workflow> mapWorkflow = new Dictionary<long, Workflow>();
             

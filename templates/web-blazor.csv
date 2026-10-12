@@ -84,7 +84,7 @@ Blazor wasm content,model,web/blazor/template.csproj.cshtml,./gen/web,FALSE
 Blazor wasm content,model,web/blazor/template.sln.cshtml,./gen/web,FALSE
 Blazor wasm content,object,web/blazor/Pages/Edittemplate.razor.cshtml,./gen/web/Pages,TRUE
 Blazor wasm content,object,web/blazor/Pages/Listtemplate.razor.cshtml,./gen/web/Pages,TRUE
-Blazor wasm content,model,web/blazor/Pages/Home.razor,./gen/web/Pages,TRUE
+Blazor wasm content,model,web/blazor/Pages/Home.razor.cshtml,./gen/web/Pages,TRUE
 Blazor wasm content,model,web/blazor/Pages/ListWorkflowCore.razor.cshtml,./gen/web/Pages,TRUE
 Blazor wasm content,model,web/blazor/Auth/LoginDisplay.razor.cshtml,./gen/web/Auth,TRUE
 Blazor wasm content,model,web/blazor/Auth/RedirectToLogin.razor.cshtml,./gen/web/Auth,TRUE

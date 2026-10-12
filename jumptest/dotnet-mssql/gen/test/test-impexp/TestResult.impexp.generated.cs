@@ -27,7 +27,10 @@ namespace jumptest
         private static readonly string[] TestColumns = new string[]
         {
             "executed_at",
+<<<<<<< HEAD
             "executed_by",
+=======
+>>>>>>> main
             "actual_result",
             "notes",
         };
@@ -119,9 +122,12 @@ namespace jumptest
                 if (csv.HeaderRecord != null && Array.IndexOf(csv.HeaderRecord, "executed_at") >= 0)
                     testresult.executed_at = string.IsNullOrEmpty(csv.GetField("executed_at")) ? default : Convert.ToDateTime(csv.GetField("executed_at"));
 
+<<<<<<< HEAD
                 if (csv.HeaderRecord != null && Array.IndexOf(csv.HeaderRecord, "executed_by") >= 0)
                     testresult.executed_by = csv.GetField("executed_by") ?? string.Empty;
 
+=======
+>>>>>>> main
                 if (csv.HeaderRecord != null && Array.IndexOf(csv.HeaderRecord, "actual_result") >= 0)
                     testresult.actual_result = csv.GetField("actual_result") ?? string.Empty;
 
@@ -148,7 +154,10 @@ namespace jumptest
 
             // Header
             csv.WriteField("executed_at");
+<<<<<<< HEAD
             csv.WriteField("executed_by");
+=======
+>>>>>>> main
             csv.WriteField("actual_result");
             csv.WriteField("notes");
             csv.NextRecord();
@@ -157,7 +166,10 @@ namespace jumptest
             foreach (var record in records)
             {
                 csv.WriteField(record.executed_at);
+<<<<<<< HEAD
                 csv.WriteField(record.executed_by);
+=======
+>>>>>>> main
                 csv.WriteField(record.actual_result);
                 csv.WriteField(record.notes);
                 csv.NextRecord();
@@ -181,6 +193,7 @@ namespace jumptest
                     Logger.Error($"TestResult row {rowNum}: 'executed_at' mismatch — imported='{importVal}' exported='{exportVal}'");
             }
 
+<<<<<<< HEAD
             if (importRow.ContainsKey("executed_by"))
             {
                 string importVal = importRow["executed_by"];
@@ -191,6 +204,8 @@ namespace jumptest
                     Logger.Error($"TestResult row {rowNum}: 'executed_by' mismatch — imported='{importVal}' exported='{exportVal}'");
             }
 
+=======
+>>>>>>> main
             if (importRow.ContainsKey("actual_result"))
             {
                 string importVal = importRow["actual_result"];

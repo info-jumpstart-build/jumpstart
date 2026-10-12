@@ -33,7 +33,11 @@ INSERT INTO core.sql (
         test_result.test_case_id,
         test_result.test_result_status_id,
         test_result.executed_at,
+<<<<<<< HEAD
         test_result.executed_by,
+=======
+        test_result.executed_by_id,
+>>>>>>> main
         test_result.actual_result,
         test_result.notes,
         test_result.is_active,
@@ -46,14 +50,27 @@ INSERT INTO core.sql (
         test_case.test_plan_id AS test_case_test_plan_id,
         test_case.code AS test_case_code,
         test_case.title AS test_case_title,
+<<<<<<< HEAD
         test_result_status.name AS test_result_status_name
+=======
+        test_result_status.name AS test_result_status_name,
+        executed_by.email AS executed_by_email,
+        executed_by.principal_status_id AS executed_by_principal_status_id
+>>>>>>> main
 	FROM app.test_result
     LEFT JOIN app.test_run test_run ON test_result.test_run_id = test_run.id AND test_run.is_active = 1
     LEFT JOIN app.test_case test_case ON test_result.test_case_id = test_case.id AND test_case.is_active = 1
     LEFT JOIN app.test_result_status test_result_status ON test_result.test_result_status_id = test_result_status.id AND test_result_status.is_active = 1
+<<<<<<< HEAD
 	WHERE test_result.test_run_id = ^(id) AND test_result.is_active = 1
 	ORDER BY test_result.id;',
 	'Select all Test Run records for TestRun with related TestRun, TestCase, TestResultStatus information',
+=======
+    LEFT JOIN core.principal executed_by ON test_result.executed_by_id = executed_by.id AND executed_by.is_active = 1
+	WHERE test_result.test_run_id = ^(id) AND test_result.is_active = 1
+	ORDER BY test_result.id;',
+	'Select all Test Run records for TestRun with related TestRun, TestCase, TestResultStatus, Principal information',
+>>>>>>> main
 	SYSTEM_USER,
 	GETDATE(),
 	SYSTEM_USER,

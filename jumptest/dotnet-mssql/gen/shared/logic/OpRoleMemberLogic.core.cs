@@ -47,6 +47,7 @@ namespace jumptest
                     string sql = @"select 1 from
 core.operation op
 inner join core.op_role_map orm on
+<<<<<<< HEAD
     orm.op_id=op.id
 inner join core.op_role r on
     r.id=orm.op_role_id
@@ -58,6 +59,23 @@ where
     op.objectname = '^(objectname)' and
     op.methodname = '^(methodname)' and
     (p.email = '^(email)' OR p.username = '^(username)')";
+=======
+    orm.op_id=op.id 
+	and orm.is_active=1
+inner join core.op_role r on
+    r.id=orm.op_role_id
+	and r.is_active=1
+inner join core.op_role_member m on
+    m.op_role_id=r.id
+	and m.is_active=1
+inner join core.principal p on
+    p.id=m.principal_id
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name='Enabled')
+where op.objectname = '^(objectname)' 
+    and op.methodname = '^(methodname)'
+    and (p.email = '^(email)' OR p.username = '^(username)')";
+>>>>>>> main
 
                     BaseObject filter = new();
                     filter["objectname"] = objectName;
@@ -79,6 +97,24 @@ where
             return result;
         }
 
+<<<<<<< HEAD
+=======
+        // Busts the entire authorization cache. Entries never expire on their
+        // own (see Authorized above), so a permission/operation-seed change
+        // (e.g. reloading the database with a newly generated core.operation
+        // row) is invisible to a long-running process until either it
+        // restarts or this runs. Exposed via POST /api/admin/clear-auth-cache
+        // (see AdminController) so that doesn't require a restart during
+        // iterative development.
+        public static void ClearAuthCache()
+        {
+            lock (cacheLock)
+            {
+                authorizedCache.Clear();
+            }
+        }
+
+>>>>>>> main
     }
 }
 

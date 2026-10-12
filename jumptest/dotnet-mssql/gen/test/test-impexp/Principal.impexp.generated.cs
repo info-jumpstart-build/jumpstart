@@ -30,7 +30,10 @@ namespace jumptest
             "last_name",
             "username",
             "email",
+<<<<<<< HEAD
             "enabled",
+=======
+>>>>>>> main
             "created_date",
             "last_login_date",
         };
@@ -131,9 +134,12 @@ namespace jumptest
                 if (csv.HeaderRecord != null && Array.IndexOf(csv.HeaderRecord, "email") >= 0)
                     principal.email = csv.GetField("email") ?? string.Empty;
 
+<<<<<<< HEAD
                 if (csv.HeaderRecord != null && Array.IndexOf(csv.HeaderRecord, "enabled") >= 0)
                     principal.enabled = string.IsNullOrEmpty(csv.GetField("enabled")) ? default : Convert.ToInt32(csv.GetField("enabled"));
 
+=======
+>>>>>>> main
                 if (csv.HeaderRecord != null && Array.IndexOf(csv.HeaderRecord, "created_date") >= 0)
                     principal.created_date = string.IsNullOrEmpty(csv.GetField("created_date")) ? default : Convert.ToDateTime(csv.GetField("created_date"));
 
@@ -163,7 +169,10 @@ namespace jumptest
             csv.WriteField("last_name");
             csv.WriteField("username");
             csv.WriteField("email");
+<<<<<<< HEAD
             csv.WriteField("enabled");
+=======
+>>>>>>> main
             csv.WriteField("created_date");
             csv.WriteField("last_login_date");
             csv.NextRecord();
@@ -175,7 +184,10 @@ namespace jumptest
                 csv.WriteField(record.last_name);
                 csv.WriteField(record.username);
                 csv.WriteField(record.email);
+<<<<<<< HEAD
                 csv.WriteField(record.enabled);
+=======
+>>>>>>> main
                 csv.WriteField(record.created_date);
                 csv.WriteField(record.last_login_date);
                 csv.NextRecord();
@@ -229,6 +241,7 @@ namespace jumptest
                     Logger.Error($"Principal row {rowNum}: 'email' mismatch — imported='{importVal}' exported='{exportVal}'");
             }
 
+<<<<<<< HEAD
             if (importRow.ContainsKey("enabled"))
             {
                 string importVal = importRow["enabled"];
@@ -239,6 +252,8 @@ namespace jumptest
                     Logger.Error($"Principal row {rowNum}: 'enabled' mismatch — imported='{importVal}' exported='{exportVal}'");
             }
 
+=======
+>>>>>>> main
             if (importRow.ContainsKey("created_date"))
             {
                 string importVal = importRow["created_date"];

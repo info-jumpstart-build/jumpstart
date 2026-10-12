@@ -21,7 +21,11 @@ namespace jumptest
                     
                     principal.email = Convert.ToString(BaseTest.getTestData(principal, "VARCHAR", TestDataType.emailAddresses));
                     
+<<<<<<< HEAD
                     principal.enabled = Convert.ToInt32(BaseTest.getTestData(principal, "INTEGER", TestDataType.enabled));
+=======
+                    principal.principal_status_id = (int) BaseTest.getLastId("principalstatus");
+>>>>>>> main
                     
                     principal.created_date = Convert.ToDateTime(BaseTest.getTestData(principal, "TIMESTAMP", TestDataType.random));
                     
@@ -47,8 +51,13 @@ namespace jumptest
                     
                         principal.email = (string) BaseTest.getTestData(principal, "VARCHAR", TestDataType.emailAddresses);
                     
+<<<<<<< HEAD
                         principal.enabled = (int) BaseTest.getTestData(principal, "INTEGER", TestDataType.enabled);
                     
+=======
+                            principal.principal_status_id = (int) BaseTest.getLastId("principalstatus");
+                        
+>>>>>>> main
                         principal.created_date = (DateTime) BaseTest.getTestData(principal, "TIMESTAMP", TestDataType.random);
                     
                         principal.last_login_date = (DateTime) BaseTest.getTestData(principal, "TIMESTAMP", TestDataType.random);

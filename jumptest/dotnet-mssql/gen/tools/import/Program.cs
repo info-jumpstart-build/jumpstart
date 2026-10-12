@@ -75,7 +75,10 @@ namespace jumptest
             { "testresultstatus", path => TestResultStatusImporter.Import(path) },
             { "testplan", path => TestPlanImporter.Import(path) },
             { "org", path => OrgImporter.Import(path) },
+<<<<<<< HEAD
             { "principal", path => PrincipalImporter.Import(path) },
+=======
+>>>>>>> main
             { "operation", path => OperationImporter.Import(path) },
             { "oprole", path => OpRoleImporter.Import(path) },
             { "cronevery", path => CronEveryImporter.Import(path) },
@@ -93,18 +96,34 @@ namespace jumptest
             { "scripttype", path => ScriptTypeImporter.Import(path) },
             { "servernodetype", path => ServerNodeTypeImporter.Import(path) },
             { "workflowtype", path => WorkflowTypeImporter.Import(path) },
+<<<<<<< HEAD
             { "testcase", path => TestCaseImporter.Import(path) },
             { "testrun", path => TestRunImporter.Import(path) },
             { "principalorg", path => PrincipalOrgImporter.Import(path) },
             { "oprolemap", path => OpRoleMapImporter.Import(path) },
             { "oprolemember", path => OpRoleMemberImporter.Import(path) },
+=======
+            { "principalstatus", path => PrincipalStatusImporter.Import(path) },
+            { "testcase", path => TestCaseImporter.Import(path) },
+            { "testrun", path => TestRunImporter.Import(path) },
+            { "oprolemap", path => OpRoleMapImporter.Import(path) },
+>>>>>>> main
             { "schedule", path => ScheduleImporter.Import(path) },
             { "sql", path => SqlImporter.Import(path) },
             { "script", path => ScriptImporter.Import(path) },
             { "servernode", path => ServerNodeImporter.Import(path) },
+<<<<<<< HEAD
             { "testresult", path => TestResultImporter.Import(path) },
             { "eventservice", path => EventServiceImporter.Import(path) },
             { "process", path => ProcessImporter.Import(path) },
+=======
+            { "principal", path => PrincipalImporter.Import(path) },
+            { "eventservice", path => EventServiceImporter.Import(path) },
+            { "process", path => ProcessImporter.Import(path) },
+            { "testresult", path => TestResultImporter.Import(path) },
+            { "principalorg", path => PrincipalOrgImporter.Import(path) },
+            { "oprolemember", path => OpRoleMemberImporter.Import(path) },
+>>>>>>> main
             { "workflow", path => WorkflowImporter.Import(path) },
             { "execlog", path => ExecLogImporter.Import(path) },
         };

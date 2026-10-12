@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@if (!Model.NoAuth)
+{
+<text>using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+</text>
+}
 using Microsoft.Extensions.DependencyInjection;
 
 using @Model.Name;
@@ -9,7 +13,9 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-// ── Auth0 OIDC authentication ─────────────────────────────────────────────────
+@if (!Model.NoAuth)
+{
+<text>// ── Auth0 OIDC authentication ─────────────────────────────────────────────────
 builder.Services.AddOidcAuthentication(options =>
 {
     builder.Configuration.Bind("Auth0", options.ProviderOptions);
@@ -19,11 +25,15 @@ builder.Services.AddOidcAuthentication(options =>
     options.ProviderOptions.AdditionalProviderParameters.Add(
         "audience", builder.Configuration["Auth0:Audience"] ?? string.Empty);
 });
+</text>
+}
 
 // Read API base URL from wwwroot/appsettings.json (editable per deployment)
 var apiBaseUrl = builder.Configuration["ApiBaseUrl"] ?? "http://localhost:5200";
 
-// Named client for the "Remote API" — automatically attaches the OIDC Bearer token
+@if (!Model.NoAuth)
+{
+<text>// Named client for the "Remote API" — automatically attaches the OIDC Bearer token
 builder.Services.AddHttpClient("RemoteAPI", client2 =>
 {
     client2.BaseAddress = new Uri(apiBaseUrl);
@@ -33,6 +43,17 @@ builder.Services.AddHttpClient("RemoteAPI", client2 =>
         .ConfigureHandler(authorizedUrls: new[] { apiBaseUrl });
     return handler;
 });
+</text>
+}
+else
+{
+<text>// --noauth: authentication code generation suppressed. Plain named client, no bearer token.
+builder.Services.AddHttpClient("RemoteAPI", client2 =>
+{
+    client2.BaseAddress = new Uri(apiBaseUrl);
+});
+</text>
+}
 
 await builder.Build().RunAsync();
 

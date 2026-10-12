@@ -3,11 +3,19 @@
 // and hands the currently-selected parent down to <NavMenu> for the sidebar.
 import { useEffect, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth0 } from "@@auth0/auth0-react";
+@if (!Model.NoAuth)
+{
+<text>import { useAuth0 } from "@@auth0/auth0-react";
+</text>
+}
 import { useApiClient } from "../api/apiClient";
 import type { NavMenu as NavMenuItem } from "../types/NavMenu";
 import NavMenu from "./NavMenu";
-import LoginDisplay from "../auth/LoginDisplay";
+@if (!Model.NoAuth)
+{
+<text>import LoginDisplay from "../auth/LoginDisplay";
+</text>
+}
 import "./MainLayout.css";
 
 interface MainLayoutProps {
@@ -16,7 +24,18 @@ interface MainLayoutProps {
 
 export default function MainLayout({ children }: MainLayoutProps) {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth0();
+@if (!Model.NoAuth)
+{
+<text>  const { isAuthenticated } = useAuth0();
+</text>
+}
+else
+{
+<text>  // --noauth: authentication code generation suppressed -- there is no login
+  // gate, so the menu always loads and this stays true.
+  const isAuthenticated = true;
+</text>
+}
   const api = useApiClient();
 
   // Typed via the initial value's "as" cast rather than useState<T>(...) --
@@ -101,7 +120,11 @@ export default function MainLayout({ children }: MainLayoutProps) {
             )}
           </nav>
 
-          <LoginDisplay />
+@if (!Model.NoAuth)
+{
+<text>          <LoginDisplay />
+</text>
+}
         </div>
 
         <article className="content px-4">{children}</article>

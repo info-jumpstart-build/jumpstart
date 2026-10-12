@@ -45,10 +45,18 @@ For each domain object the generator emits a **list page** and an **edit page** 
 Both clients subscribe to the API's Server-Sent Events stream:
 
 ```
-GET /api/Notification/stream  →  PropertyUpdated { DomainObjectName, InstanceId, JsonData }
+GET /api/Notification/stream?ticket=<ticket>  →  PropertyUpdated { DomainObjectName, InstanceId, JsonData }
 ```
 
 Pages filter events by domain object name, re-fetch the changed record, and update the list in place — the workflow list shows live status transitions (Dispatched → Executing → Completed) without polling.
+
+**Stream auth is a ticket, not the access token.** The browser's native `EventSource` API can't set an `Authorization` header, so it can't carry the normal Auth0 bearer token the way `fetch`/`HttpClient` calls do. If Auth0 is configured, connecting straight to `/api/Notification/stream` with no token gets a `401` and the client never registers — SSE broadcasts then log `to 0 client(s)` even though the page looks "connected" in your UI.
+
+Instead, immediately before opening the stream, both clients call `POST /api/Notification/stream-ticket` (a normal endpoint, gated by the usual `Authorization` header) which mints a random, single-use ticket good for ~30 seconds, tied to the caller's identity. That ticket — not the JWT — goes in the stream URL's `?ticket=` param; the server redeems (and immediately invalidates) it in place of the Authorization header. Redeeming removes it from the server's ticket store, so a ticket that ends up in an access log or browser history is already worthless. See:
+- Rust: `notification_stream_ticket` / `redeem_stream_ticket` in `main.generated.rs`
+- .NET: `NotificationController.MintStreamTicket` and `SseNotificationService.RedeemStreamTicket`
+- React: `openNotificationStream` in `src/api/apiClient.tsx`
+- Blazor: `ConnectNotifications` in `Listtemplate.razor` / `ListWorkflowCore.razor`
 
 ## Configuration
 

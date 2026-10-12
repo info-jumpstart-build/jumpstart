@@ -6,7 +6,8 @@
 // Three writers are supported, mirroring the .NET LogConsoleWriter /
 // LogFileWriter / LogTableWriter:
 //   * console  — timestamped lines to stderr.
-//   * file     — appended to a per-program, day-rolling `<program>.log` file.
+//   * file     — appended to a per-program, day-rolling `logs/<program>.log`
+//                file (the `logs` directory is created on first use).
 //   * database — inserted into `core.log` via a pluggable sink.
 //
 // The database writer cannot live here: `common` is the lowest crate and may
@@ -27,6 +28,10 @@ use std::sync::{Mutex, OnceLock};
 use chrono::Utc;
 
 use crate::config::Config;
+
+/// Directory (relative to the process's working directory, i.e. the `bin`
+/// folder the binary is launched from) that file-writer log output lands in.
+const LOG_DIR: &str = "logs";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum LogLevel {
@@ -220,18 +225,29 @@ impl Logger {
     }
 }
 
-/// Append a line to `<program>.log`, rolling the file over once per day. If the
-/// existing file was last written on an earlier UTC day, it is renamed to
-/// `<program>-YYYY-MM-DD.log` before the new line is written.
+/// Append a line to `logs/<program>.log`, rolling the file over once per day.
+/// If the existing file was last written on an earlier UTC day, it is renamed
+/// to `logs/<program>-YYYY-MM-DD.log` before the new line is written. The
+/// `logs` directory (relative to the process's working directory) is created
+/// on first use if it does not already exist.
 fn write_file(program: &str, line: &str) {
-    let base = format!("{}.log", program);
+    if fs::create_dir_all(LOG_DIR).is_err() {
+        return;
+    }
+
+    let base = format!("{}/{}.log", LOG_DIR, program);
 
     if let Ok(meta) = fs::metadata(&base) {
         if let Ok(modified) = meta.modified() {
             let modified: chrono::DateTime<Utc> = modified.into();
             let now = Utc::now();
             if modified.date_naive() < now.date_naive() {
-                let rolled = format!("{}-{}.log", program, modified.format("%Y-%m-%d"));
+                let rolled = format!(
+                    "{}/{}-{}.log",
+                    LOG_DIR,
+                    program,
+                    modified.format("%Y-%m-%d")
+                );
                 let _ = fs::rename(&base, &rolled);
             }
         }

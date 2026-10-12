@@ -158,6 +158,19 @@ namespace jumptest.Controllers
 
             return options;
         }
+<<<<<<< HEAD
+=======
+
+        // Applies the "Organization" checklist submitted from the Edit page: the full set of
+        // Organization ids that should be mapped to this Principal after the call.
+        [HttpPut("{id}/map/org_org")]
+        public void Putorg_org_Map(long id, [FromBody] List<long> checkedIds)
+        {
+            //Console.WriteLine($"Processing PUT Organization map for Principal ID={id}");
+
+            PrincipalLogic.Create().mapsync(id, "org-org", checkedIds ?? new List<long>());
+        }
+>>>>>>> main
         
        // Retrieves the "Operation Role" checklist (id/label/mapped rows) for a given Principal id.
         [HttpGet("{id}/map/oprole_op_role")]
@@ -169,5 +182,18 @@ namespace jumptest.Controllers
 
             return options;
         }
+<<<<<<< HEAD
+=======
+
+        // Applies the "Operation Role" checklist submitted from the Edit page: the full set of
+        // Operation Role ids that should be mapped to this Principal after the call.
+        [HttpPut("{id}/map/oprole_op_role")]
+        public void Putoprole_op_role_Map(long id, [FromBody] List<long> checkedIds)
+        {
+            //Console.WriteLine($"Processing PUT Operation Role map for Principal ID={id}");
+
+            PrincipalLogic.Create().mapsync(id, "oprole-op_role", checkedIds ?? new List<long>());
+        }
+>>>>>>> main
             }
 }

@@ -21,7 +21,11 @@ namespace jumptest
                     
                     testresult.executed_at = Convert.ToDateTime(BaseTest.getTestData(testresult, "TIMESTAMP", TestDataType.random));
                     
+<<<<<<< HEAD
                     testresult.executed_by = Convert.ToString(BaseTest.getTestData(testresult, "VARCHAR", TestDataType.random));
+=======
+                    testresult.executed_by_id = BaseTest.getLastId("Principal");
+>>>>>>> main
                     
                     testresult.actual_result = Convert.ToString(BaseTest.getTestData(testresult, "TEXT", TestDataType.random));
                     
@@ -61,8 +65,13 @@ namespace jumptest
                         
                         testresult.executed_at = (DateTime) BaseTest.getTestData(testresult, "TIMESTAMP", TestDataType.random);
                     
+<<<<<<< HEAD
                         testresult.executed_by = (string) BaseTest.getTestData(testresult, "VARCHAR", TestDataType.random);
                     
+=======
+                            testresult.executed_by_id = BaseTest.getLastId("Principal");
+                        
+>>>>>>> main
                         testresult.actual_result = (string) BaseTest.getTestData(testresult, "TEXT", TestDataType.random);
                     
                         testresult.notes = (string) BaseTest.getTestData(testresult, "TEXT", TestDataType.random);
@@ -86,8 +95,13 @@ namespace jumptest
                         
                         testresult.executed_at = (DateTime) BaseTest.getTestData(testresult, "TIMESTAMP", TestDataType.random);
                     
+<<<<<<< HEAD
                         testresult.executed_by = (string) BaseTest.getTestData(testresult, "VARCHAR", TestDataType.random);
                     
+=======
+                            testresult.executed_by_id = BaseTest.getLastId("Principal");
+                        
+>>>>>>> main
                         testresult.actual_result = (string) BaseTest.getTestData(testresult, "TEXT", TestDataType.random);
                     
                         testresult.notes = (string) BaseTest.getTestData(testresult, "TEXT", TestDataType.random);
@@ -128,7 +142,11 @@ namespace jumptest
                                 
                         Console.WriteLine($"  executed_at: {testresult.executed_at}");
                                 
+<<<<<<< HEAD
                         Console.WriteLine($"  executed_by: {testresult.executed_by}");
+=======
+                        Console.WriteLine($"  executed_by_id: {testresult.executed_by_id}");
+>>>>>>> main
                                 
                         Console.WriteLine($"  actual_result: {testresult.actual_result}");
                                 

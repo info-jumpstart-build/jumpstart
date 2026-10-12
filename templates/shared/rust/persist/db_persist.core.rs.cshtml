@@ -449,7 +449,10 @@ impl DBPersist {
 
         Ok(())
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
     // ── QUERY CACHE ──────────────────────────────────────────────────────
 
     pub fn get_query_by_name(

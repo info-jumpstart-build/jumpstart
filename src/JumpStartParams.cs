@@ -26,6 +26,9 @@ namespace jumpstart
         public string modelpath { get; set; } = string.Empty;
         public List<string> templatedefs { get; set; } = new List<string>();
         public Auth0Config auth0 { get; set; } = new Auth0Config();
+
+        /// <summary>When true, suppresses authentication code generation (equivalent to the --noauth CLI flag).</summary>
+        public bool noauth { get; set; } = false;
     }
 }
 

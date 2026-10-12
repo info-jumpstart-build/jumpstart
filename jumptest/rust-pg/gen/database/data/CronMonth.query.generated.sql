@@ -73,7 +73,13 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.cron_month-get-history',
     'SELECT
-        core.cron_month.*
+        core.cron_month.id,
+            cron_month.name,
+            cron_month.is_active,
+            cron_month.created_by,
+            cron_month.last_updated,
+            cron_month.last_updated_by,
+            cron_month.txn_id
     FROM core.cron_month
     WHERE core.cron_month.id = ^(id)
     ORDER BY core.cron_month.txn_id DESC;',

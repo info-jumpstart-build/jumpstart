@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useApiClient, type ApiClient } from "../api/apiClient";
+import { useApiClient, openNotificationStream, type ApiClient } from "../api/apiClient";
 import DataTableContextMenu, { type DataTableContextMenuColumn, type ContextMenuItem } from "../components/DataTableContextMenu";
 
 // Row shape returned by GET /api/workflow and /api/workflow/view/{id} --
@@ -118,36 +118,50 @@ export default function ListWorkflowCore() {
     };
   }, [api]);
 
-  // Real-time updates, same SSE stream every other list page uses.
+  // Real-time updates, same SSE stream every other list page uses. Opening
+  // the stream is async (it first mints a stream ticket over a normal,
+  // authenticated POST -- see openNotificationStream), so this guards against
+  // the effect's cleanup running before that mint call resolves (e.g. fast
+  // unmount right after mount).
   useEffect(() => {
-    const source = new EventSource(`${api.baseUrl}/api/Notification/stream`);
-    sseRef.current = source;
+    let cancelled = false;
 
-    source.addEventListener("PropertyUpdated", async (event: MessageEvent) => {
-      try {
-        const message: PropertyUpdateMessage = JSON.parse(event.data);
-        if (message.DomainObjectName !== DOMAIN_OBJECT_NAME) return;
-
-        const index = (listRef.current ?? []).findIndex((item) => item.id === message.InstanceId);
-        if (index >= 0) {
-          const updated = (await api.get(`/api/workflow/view/${message.InstanceId}`)) as WorkflowView;
-          setList((current) => {
-            if (!current) return current;
-            const next = [...current];
-            const i = next.findIndex((item) => item.id === message.InstanceId);
-            if (i >= 0) next[i] = updated;
-            return next;
-          });
-        } else {
-          await reloadList();
+    openNotificationStream(api)
+      .then((source) => {
+        if (cancelled) {
+          source.close();
+          return;
         }
-      } catch (err) {
-        console.error("ListWorkflowCore: error handling notification", err);
-      }
-    });
+        sseRef.current = source;
+
+        source.addEventListener("PropertyUpdated", async (event: MessageEvent) => {
+          try {
+            const message: PropertyUpdateMessage = JSON.parse(event.data);
+            if (message.DomainObjectName !== DOMAIN_OBJECT_NAME) return;
+
+            const index = (listRef.current ?? []).findIndex((item) => item.id === message.InstanceId);
+            if (index >= 0) {
+              const updated = (await api.get(`/api/workflow/view/${message.InstanceId}`)) as WorkflowView;
+              setList((current) => {
+                if (!current) return current;
+                const next = [...current];
+                const i = next.findIndex((item) => item.id === message.InstanceId);
+                if (i >= 0) next[i] = updated;
+                return next;
+              });
+            } else {
+              await reloadList();
+            }
+          } catch (err) {
+            console.error("ListWorkflowCore: error handling notification", err);
+          }
+        });
+      })
+      .catch((err) => console.error("ListWorkflowCore: error opening notification stream", err));
 
     return () => {
-      source.close();
+      cancelled = true;
+      sseRef.current?.close();
       sseRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

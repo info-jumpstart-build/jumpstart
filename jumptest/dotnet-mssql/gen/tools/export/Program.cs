@@ -66,7 +66,10 @@ namespace jumptest
             { "testresultstatus", path => TestResultStatusExporter.Export(path) },
             { "testplan", path => TestPlanExporter.Export(path) },
             { "org", path => OrgExporter.Export(path) },
+<<<<<<< HEAD
             { "principal", path => PrincipalExporter.Export(path) },
+=======
+>>>>>>> main
             { "operation", path => OperationExporter.Export(path) },
             { "oprole", path => OpRoleExporter.Export(path) },
             { "cronevery", path => CronEveryExporter.Export(path) },
@@ -84,18 +87,34 @@ namespace jumptest
             { "scripttype", path => ScriptTypeExporter.Export(path) },
             { "servernodetype", path => ServerNodeTypeExporter.Export(path) },
             { "workflowtype", path => WorkflowTypeExporter.Export(path) },
+<<<<<<< HEAD
             { "testcase", path => TestCaseExporter.Export(path) },
             { "testrun", path => TestRunExporter.Export(path) },
             { "principalorg", path => PrincipalOrgExporter.Export(path) },
             { "oprolemap", path => OpRoleMapExporter.Export(path) },
             { "oprolemember", path => OpRoleMemberExporter.Export(path) },
+=======
+            { "principalstatus", path => PrincipalStatusExporter.Export(path) },
+            { "testcase", path => TestCaseExporter.Export(path) },
+            { "testrun", path => TestRunExporter.Export(path) },
+            { "oprolemap", path => OpRoleMapExporter.Export(path) },
+>>>>>>> main
             { "schedule", path => ScheduleExporter.Export(path) },
             { "sql", path => SqlExporter.Export(path) },
             { "script", path => ScriptExporter.Export(path) },
             { "servernode", path => ServerNodeExporter.Export(path) },
+<<<<<<< HEAD
             { "testresult", path => TestResultExporter.Export(path) },
             { "eventservice", path => EventServiceExporter.Export(path) },
             { "process", path => ProcessExporter.Export(path) },
+=======
+            { "principal", path => PrincipalExporter.Export(path) },
+            { "eventservice", path => EventServiceExporter.Export(path) },
+            { "process", path => ProcessExporter.Export(path) },
+            { "testresult", path => TestResultExporter.Export(path) },
+            { "principalorg", path => PrincipalOrgExporter.Export(path) },
+            { "oprolemember", path => OpRoleMemberExporter.Export(path) },
+>>>>>>> main
             { "workflow", path => WorkflowExporter.Export(path) },
             { "execlog", path => ExecLogExporter.Export(path) },
         };

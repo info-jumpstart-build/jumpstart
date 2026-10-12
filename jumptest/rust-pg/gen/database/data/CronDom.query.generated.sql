@@ -73,7 +73,13 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.cron_dom-get-history',
     'SELECT
-        core.cron_dom.*
+        core.cron_dom.id,
+            cron_dom.name,
+            cron_dom.is_active,
+            cron_dom.created_by,
+            cron_dom.last_updated,
+            cron_dom.last_updated_by,
+            cron_dom.txn_id
     FROM core.cron_dom
     WHERE core.cron_dom.id = ^(id)
     ORDER BY core.cron_dom.txn_id DESC;',

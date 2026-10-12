@@ -31,7 +31,11 @@ namespace jumptest
             csv.WriteField("test_case_id");
             csv.WriteField("test_result_status_id");
             csv.WriteField("executed_at");
+<<<<<<< HEAD
             csv.WriteField("executed_by");
+=======
+            csv.WriteField("executed_by_id");
+>>>>>>> main
             csv.WriteField("actual_result");
             csv.WriteField("notes");
             csv.WriteField("is_active");
@@ -49,7 +53,11 @@ namespace jumptest
                 csv.WriteField(record.test_case_id);
                 csv.WriteField(record.test_result_status_id);
                 csv.WriteField(record.executed_at);
+<<<<<<< HEAD
                 csv.WriteField(record.executed_by);
+=======
+                csv.WriteField(record.executed_by_id);
+>>>>>>> main
                 csv.WriteField(record.actual_result);
                 csv.WriteField(record.notes);
                 csv.WriteField(record.is_active);

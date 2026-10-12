@@ -20,6 +20,10 @@ namespace jumptest
 
         List<TBaseObject> children<TBaseObject>(long id, string childSuffix) where TBaseObject : BaseObject, new();
         List<MapOption> maplist(long id, string mapSuffix);
+<<<<<<< HEAD
+=======
+        void mapsync(long id, string mapSuffix, List<long> checkedOtherIds);
+>>>>>>> main
         List<TestResultHistory> history(long id);
         void insert(TestResult testresult);
         void update(long id, TestResult testresult);
@@ -157,6 +161,39 @@ namespace jumptest
         }
 
         /// <summary>
+<<<<<<< HEAD
+=======
+        /// Applies a many-to-many ("map") relationship checklist submitted from
+        /// the Edit page: the full set of "other side" ids that should be
+        /// mapped to this object after the call (see DBPersist.mapSync). The
+        /// junction table/column names are resolved here from generation-time
+        /// metadata (MetaObject.MapRelationships), never trusted from the
+        /// client -- mapSuffix only selects which relationship to sync.
+        /// </summary>
+        /// <param name="id">This object's id.</param>
+        /// <param name="mapSuffix">The suffix identifying which map relationship to sync (e.g. "org-org").</param>
+        /// <param name="checkedOtherIds">The full set of other-side ids that should be checked/mapped.</param>
+        public virtual void mapsync(long id, string mapSuffix, List<long> checkedOtherIds)
+        {
+            Logger.Debug($"Processing TestResultLogic mapsync for ID={id}, mapSuffix={mapSuffix}");
+
+            // Defaulted outside the generated switch below (rather than
+            // inline as "checkedOtherIds ?? new List<long>()" in each case)
+            // -- a bare "List<long>" inside the <text> excursion that
+            // generates the switch cases gets parsed as an HTML tag by
+            // RazorLight's markup tokenizer, same issue documented in
+            // web/blazor/Pages/Edittemplate.razor.cshtml.
+            List<long> ids = checkedOtherIds ?? new List<long>();
+
+            switch (mapSuffix)
+            {
+                default:
+                    throw new Exception($"Unknown map relationship suffix '{mapSuffix}' on TestResult");
+            }
+        }
+
+        /// <summary>
+>>>>>>> main
         /// Retrieves a single domain object by id.
         /// </summary>
         /// <param name="id">The id of the domain object to retrieve.</param>

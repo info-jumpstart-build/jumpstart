@@ -66,6 +66,7 @@ The model filename becomes the application namespace (`myapp.csv` → `myapp`).
 ```bash
 jumpstart                              # uses ~/.jumpstart.json
 jumpstart myapp.csv server-rust        # or explicit: <model.csv> <template-def>
+jumpstart myapp.csv web-nodejs --noauth  # skip generating the Auth0 login/JWT flow
 ```
 
 ### 4. Build and run

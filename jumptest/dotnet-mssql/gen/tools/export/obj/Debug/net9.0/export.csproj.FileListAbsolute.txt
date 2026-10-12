@@ -1,0 +1,17 @@
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\bin\export\net9.0\export.exe
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\bin\export\net9.0\export.deps.json
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\bin\export\net9.0\export.runtimeconfig.json
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\bin\export\net9.0\export.dll
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\bin\export\net9.0\export.pdb
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\tools\export\obj\Debug\net9.0\export.csproj.AssemblyReference.cache
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\tools\export\obj\Debug\net9.0\export.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\tools\export\obj\Debug\net9.0\export.AssemblyInfoInputs.cache
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\tools\export\obj\Debug\net9.0\export.AssemblyInfo.cs
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\tools\export\obj\Debug\net9.0\export.csproj.CoreCompileInputs.cache
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\tools\export\obj\Debug\net9.0\export.sourcelink.json
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\tools\export\obj\Debug\net9.0\export.csproj.Up2Date
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\tools\export\obj\Debug\net9.0\export.dll
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\tools\export\obj\Debug\net9.0\refint\export.dll
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\tools\export\obj\Debug\net9.0\export.pdb
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\tools\export\obj\Debug\net9.0\export.genruntimeconfig.cache
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\tools\export\obj\Debug\net9.0\ref\export.dll

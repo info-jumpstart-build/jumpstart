@@ -35,13 +35,25 @@ namespace jumptest
 
     public class LogFileWriter : BaseLogWriter, ILogWriter
     {
+<<<<<<< HEAD
+=======
+        // Directory (relative to the process's working directory, i.e. the
+        // "bin" folder the binary is launched from) that log files land in.
+        private const string LogDir = "logs";
+
+>>>>>>> main
         private readonly string _baseFileName;
         private string _currentFileName;
 
         public LogFileWriter()
             : base()
         {
+<<<<<<< HEAD
             _baseFileName = $"{ProgramName}.log";
+=======
+            Directory.CreateDirectory(LogDir);
+            _baseFileName = Path.Combine(LogDir, $"{ProgramName}.log");
+>>>>>>> main
             _currentFileName = _baseFileName;
         }
 
@@ -72,7 +84,11 @@ namespace jumptest
             {
                 if (File.Exists(_currentFileName))
                 {
+<<<<<<< HEAD
                     string newFileName = $"{ProgramName}-{lastWriteTime:yyyy-MM-dd}.log";
+=======
+                    string newFileName = Path.Combine(LogDir, $"{ProgramName}-{lastWriteTime:yyyy-MM-dd}.log");
+>>>>>>> main
                     File.Move(_currentFileName, newFileName);
                 }
 

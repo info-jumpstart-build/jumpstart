@@ -75,13 +75,25 @@ else
     // Open the SSE notification stream. The browser's EventSource (via the JS
     // interop) handles reconnection on its own. Every "PropertyUpdated" event is
     // routed back to OnPropertyUpdated below.
+    //
+    // The browser's native EventSource can't attach an Authorization header,
+    // so it can't reuse the bearer token "RemoteAPI" normally attaches --
+    // instead a short-lived, single-use ticket is minted first over a normal
+    // (authenticated) POST, then passed as `?ticket=` on the stream URL. See
+    // the API server's stream-ticket handler (NotificationController) for the
+    // full rationale.
     private async Task ConnectNotifications()
     {
         try
         {
             var remoteClient = ClientFactory.CreateClient("RemoteAPI");
             var baseAddress = remoteClient.BaseAddress?.ToString() ?? "http://localhost:5200";
-            var streamUrl = $"{baseAddress.TrimEnd('/')}/api/Notification/stream";
+
+            var ticketResponse = await remoteClient.PostAsJsonAsync("api/Notification/stream-ticket", new { });
+            ticketResponse.EnsureSuccessStatusCode();
+            var ticket = await ticketResponse.Content.ReadFromJsonAsync<StreamTicketResponse>();
+
+            var streamUrl = $"{baseAddress.TrimEnd('/')}/api/Notification/stream?ticket={Uri.EscapeDataString(ticket?.Ticket ?? string.Empty)}";
 
             _sseRef = DotNetObjectReference.Create(this);
             _sseHandle = await JS.InvokeAsync<IJSObjectReference>("jumpstartSse.connect", streamUrl, _sseRef);
@@ -91,6 +103,15 @@ else
         {
             Console.WriteLine($"ListWorkflowCore: Error connecting notification stream: {ex.Message}");
         }
+    }
+
+    // Response shape for POST api/Notification/stream-ticket (mirrors the
+    // API server's StreamTicketResponse). ReadFromJsonAsync defaults to
+    // case-insensitive, camelCase-aware deserialization, so this matches the
+    // server's `{ "ticket": "..." }` without needing a [JsonPropertyName].
+    private class StreamTicketResponse
+    {
+        public string Ticket { get; set; }
     }
 
     // Invoked from JS for every "PropertyUpdated" SSE event. Filters to this

@@ -40,7 +40,11 @@ namespace jumptest
             
             _defaults["executed_at"] = default(DateTime);
             
+<<<<<<< HEAD
             _defaults["executed_by"] = default(string);
+=======
+            _defaults["executed_by_id"] = default(long);
+>>>>>>> main
             
             _defaults["actual_result"] = default(string);
             
@@ -208,6 +212,7 @@ namespace jumptest
                 }
             }
             
+<<<<<<< HEAD
             [ColumnInfo("Executed By", "", "", "", "", false)]
             public string executed_by
             {
@@ -222,19 +227,46 @@ namespace jumptest
                         if(this.ContainsKey("executed_by"))
                         {
                         _executed_by = Convert.ToString(this["executed_by"].ToString());
+=======
+            [ColumnInfo("Executed By", "Principal", "enum", "principal", "principal", false)]
+            public long executed_by_id
+            {
+                get
+                {
+                    long _executed_by_id;
+
+                             _executed_by_id = default(long);
+                                                 
+                    try
+                    {
+                        if(this.ContainsKey("executed_by_id"))
+                        {
+                        _executed_by_id = Convert.ToInt64(this["executed_by_id"].ToString());
+>>>>>>> main
                         }
                     }
                     catch(Exception )
                     {
+<<<<<<< HEAD
                         //Logger.Error($"Error getting executed_by: {e.Message}");
                         _executed_by = default(string);
                     }
                     return _executed_by;
+=======
+                        //Logger.Error($"Error getting executed_by_id: {e.Message}");
+                        _executed_by_id = default(long);
+                    }
+                    return _executed_by_id;
+>>>>>>> main
                 }
                 set
                 {
                    
+<<<<<<< HEAD
                     this["executed_by"] = value;
+=======
+                    this["executed_by_id"] = value;
+>>>>>>> main
                 }
             }
             
@@ -645,5 +677,68 @@ namespace jumptest
                     this["test_result_status_name"] = value;
                 }
             }
+<<<<<<< HEAD
+=======
+            
+            [ColumnInfo("Executed By Email", "", "", "", "", false)]
+            public string executed_by_email
+            {
+                get
+                {
+                    string _executed_by_email;
+
+                            _executed_by_email = string.Empty;
+                                                
+                    try
+                    {
+                        if(this.ContainsKey("executed_by_email"))
+                        {
+                        _executed_by_email = Convert.ToString(this["executed_by_email"].ToString());
+                        }
+                    }
+                    catch(Exception )
+                    {
+                        //Logger.Error($"Error getting executed_by_email: {e.Message}");
+                        _executed_by_email = default(string);
+                    }
+                    return _executed_by_email;
+                }
+                set
+                {
+                   
+                    this["executed_by_email"] = value;
+                }
+            }
+            
+            [ColumnInfo("Executed By Status", "PrincipalStatus", "enum", "principal_status", "principalstatus", false)]
+            public int executed_by_principal_status_id
+            {
+                get
+                {
+                    int _executed_by_principal_status_id;
+
+                             _executed_by_principal_status_id = default(int);
+                                                 
+                    try
+                    {
+                        if(this.ContainsKey("executed_by_principal_status_id"))
+                        {
+                        _executed_by_principal_status_id = Convert.ToInt32(this["executed_by_principal_status_id"].ToString());
+                        }
+                    }
+                    catch(Exception )
+                    {
+                        //Logger.Error($"Error getting executed_by_principal_status_id: {e.Message}");
+                        _executed_by_principal_status_id = default(int);
+                    }
+                    return _executed_by_principal_status_id;
+                }
+                set
+                {
+                   
+                    this["executed_by_principal_status_id"] = value;
+                }
+            }
+>>>>>>> main
                 }
         }

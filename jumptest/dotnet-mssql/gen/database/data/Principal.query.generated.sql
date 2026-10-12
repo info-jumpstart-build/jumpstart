@@ -31,18 +31,32 @@ INSERT INTO core.sql (
             principal.last_name,
             principal.username,
             principal.email,
+<<<<<<< HEAD
             principal.enabled,
+=======
+            principal.principal_status_id,
+>>>>>>> main
             principal.created_date,
             principal.last_login_date,
             principal.is_active,
             principal.created_by,
             principal.last_updated,
             principal.last_updated_by,
+<<<<<<< HEAD
             principal.txn_id
 	FROM core.principal
 	WHERE core.principal.is_active = 1
 	ORDER BY core.principal.id;',
 	'Select all Principal records with related  information',
+=======
+            principal.txn_id,
+            principal_status.name AS principal_status_name
+	FROM core.principal
+        LEFT JOIN core.principal_status principal_status ON principal.principal_status_id = principal_status.id AND principal_status.is_active = 1
+	WHERE core.principal.is_active = 1
+	ORDER BY core.principal.id;',
+	'Select all Principal records with related PrincipalStatus information',
+>>>>>>> main
 	SYSTEM_USER,
 	GETDATE(),
 	SYSTEM_USER,
@@ -72,17 +86,30 @@ INSERT INTO core.sql (
             principal.last_name,
             principal.username,
             principal.email,
+<<<<<<< HEAD
             principal.enabled,
+=======
+            principal.principal_status_id,
+>>>>>>> main
             principal.created_date,
             principal.last_login_date,
             principal.is_active,
             principal.created_by,
             principal.last_updated,
             principal.last_updated_by,
+<<<<<<< HEAD
             principal.txn_id
 	FROM core.principal
 	WHERE core.principal.id = ^(id) AND core.principal.is_active = 1;',
 	'Select single Principal record by ID with related  information',
+=======
+            principal.txn_id,
+            principal_status.name AS principal_status_name
+	FROM core.principal
+        LEFT JOIN core.principal_status principal_status ON principal.principal_status_id = principal_status.id AND principal_status.is_active = 1
+	WHERE core.principal.id = ^(id) AND core.principal.is_active = 1;',
+	'Select single Principal record by ID with related PrincipalStatus information',
+>>>>>>> main
 	SYSTEM_USER,
 	GETDATE(),
 	SYSTEM_USER,
@@ -112,17 +139,30 @@ INSERT INTO core.sql (
             principal.last_name,
             principal.username,
             principal.email,
+<<<<<<< HEAD
             principal.enabled,
+=======
+            principal.principal_status_id,
+>>>>>>> main
             principal.created_date,
             principal.last_login_date,
             principal.is_active,
             principal.created_by,
             principal.last_updated,
             principal.last_updated_by,
+<<<<<<< HEAD
             principal.txn_id
 	FROM core.principal
 	WHERE principal.email = ^(email) AND principal.enabled = ^(enabled) AND core.principal.is_active = 1;',
 	'Select single Principal record by RWK columns with related  information',
+=======
+            principal.txn_id,
+            principal_status.name AS principal_status_name
+	FROM core.principal
+        LEFT JOIN core.principal_status principal_status ON principal.principal_status_id = principal_status.id AND principal_status.is_active = 1
+	WHERE principal.email = ^(email) AND principal.principal_status_id = ^(principal_status_id) AND core.principal.is_active = 1;',
+	'Select single Principal record by RWK columns with related PrincipalStatus information',
+>>>>>>> main
 	SYSTEM_USER,
 	GETDATE(),
 	SYSTEM_USER,

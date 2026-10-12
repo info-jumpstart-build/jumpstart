@@ -91,7 +91,14 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.op_role_map-get-history',
     'SELECT
-        core.op_role_map.*
+        core.op_role_map.id,
+            op_role_map.op_id,
+            op_role_map.op_role_id,
+            op_role_map.is_active,
+            op_role_map.created_by,
+            op_role_map.last_updated,
+            op_role_map.last_updated_by,
+            op_role_map.txn_id
     FROM core.op_role_map
     WHERE core.op_role_map.id = ^(id)
     ORDER BY core.op_role_map.txn_id DESC;',

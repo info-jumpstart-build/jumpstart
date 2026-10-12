@@ -965,6 +965,21 @@ public class ViewRelationship
         /// <summary>Auth0 API audience, e.g. "https://your-api-identifier"</summary>
         public string Auth0Audience { get; set; } = string.Empty;
 
+        // ── NoAuth toggle (populated from the --noauth CLI flag) ──────────────
+        // When true, templates suppress authentication code generation: no
+        // Auth0 login flow in the web frontends, no JWT enforcement in the
+        // servers. Templates reference this as @Model.NoAuth.
+        public bool NoAuth { get; set; } = false;
+
+        // ── Selected stack (populated from ~/.jumpstart.json "templatedefs") ──
+        // The full list of template registry names requested for this run, e.g.
+        // ["database-pgsql", "server-rust", "web-nodejs", "test-rust", "tools-rust"].
+        // Only meaningful when driven via ~/.jumpstart.json, since that's the only
+        // mode where all registries for a project are known in a single invocation.
+        // Templates reference this as @Model.TemplateDefNames to conditionally emit
+        // stack-specific content (see templates/root/makefile.cshtml).
+        public List<string> TemplateDefNames { get; set; } = new();
+
         public MetaModel(string _namespace)
         {
             Name = _namespace;

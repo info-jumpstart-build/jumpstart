@@ -15,7 +15,10 @@ insert into core.server_node_status (id, txn_id, name, is_active, created_by, la
 -- Insert principal status values
 insert into core.principal_status (id, txn_id, name, is_active, created_by, last_updated, last_updated_by) values (1, 1, 'Enabled', 1, current_user, current_timestamp, current_user);
 insert into core.principal_status (id, txn_id, name, is_active, created_by, last_updated, last_updated_by) values (2, 2, 'Disabled', 1, current_user, current_timestamp, current_user);
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 -- Insert schedule values (Manual = no automatic cron schedule; cron FK fields left NULL)
 insert into core.schedule (id, txn_id, name, is_active, created_by, last_updated, last_updated_by) values (1, 1, 'Manual', 1, current_user, current_timestamp, current_user);
 
@@ -274,8 +277,29 @@ insert into core.operation (id, txn_id, objectname, methodname, is_active, last_
 		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, '@metaObject.DomainObj', 'delete', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
 		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, '@metaObject.DomainObj', 'history', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
 		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, '@metaObject.DomainObj', 'children', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
+<<<<<<< HEAD
 		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, '@metaObject.DomainObj', 'maplist', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
 		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, '@metaObject.DomainObj', 'mapsync', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
+=======
+		</text>
+
+		if (metaObject.MapRelationships.Count > 0)
+		{
+			// 'maplist'/'mapsync' (the many-to-many checklist tab, see
+			// template.map.generated.sql.cshtml + logic_exec.core.rs.cshtml)
+			// need their own registered operations same as every other
+			// method here -- Administrator's grant is built by copying every
+			// row currently in core.operation (template.admin.generated.sql.cshtml),
+			// so an operation that's never inserted here can never be
+			// granted to anyone, ever, regardless of role.
+			<text>
+		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, '@metaObject.DomainObj', 'maplist', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
+		insert into core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) SELECT n, n, '@metaObject.DomainObj', 'mapsync', 1, current_timestamp, current_user, current_user FROM (SELECT nextval('core.operation_identity') n) t;
+			</text>
+		}
+
+		<text>
+>>>>>>> main
 
 		</text>
 

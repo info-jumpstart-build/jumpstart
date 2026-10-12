@@ -1,0 +1,975 @@
+API Server listening on http://0.0.0.0:5200
+2026-08-26 03:47:01 INFO erickohlenberg api API server listening on http://0.0.0.0:5200
+2026-08-26 03:47:01 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:01', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'API server listening on http://0.0.0.0:5200'); on connection 'default'.
+2026-08-26 03:47:01 INFO erickohlenberg api notification: in-process delivery registered for http://MacBookPro:5200
+==============================================
+API Server Registration
+==============================================
+API Server ID: MacBookPro:5200
+Computer Name: MacBookPro
+Port:          5200
+URL:           http://MacBookPro:5200
+User:          erickohlenberg@MacBookPro
+OS:            macOS 24.6.0 (aarch64)
+==============================================
+2026-08-26 03:47:01 DEBUG erickohlenberg api Processing ServerNodeLogic put
+2026-08-26 03:47:01 DEBUG erickohlenberg api Executing sql select * from "core"."server_node" where "hostname"='MacBookPro' and "port"=5200 and is_active=1 on connection 'default'.
+2026-08-26 03:47:01 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:01', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'notification: in-process delivery registered for http://MacBookPro:5200'); on connection 'default'.
+2026-08-26 03:47:01 DEBUG erickohlenberg api Executing sql update "core"."server_node" set "id"=1000, "user_domain"='MacBookPro', "os_version"='24.6.0', "hostname"='MacBookPro', "server_node_type_id"=3, "created_by"='erickohlenberg', "last_updated"='2026-08-26T03:47:01.488740', "port"=5200, "ip_address"='0.0.0.0', "url"='http://MacBookPro:5200', "os_name"='macOS', "username"='erickohlenberg', "architecture"='aarch64', "server_node_status_id"=2, "is_active"=1, "registered_at"='2026-08-26 03:47:01', "last_updated_by"='erickohlenberg' where "id"=1000; on connection 'default'.
+2026-08-26 03:47:01 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:01', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing ServerNodeLogic put'); on connection 'default'.
+2026-08-26 03:47:01 INFO erickohlenberg api API server registered as ServerNode id 1000 (http://MacBookPro:5200)
+2026-08-26 03:47:01 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:01', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql select * from "core"."server_node" where "hostname"=''MacBookPro'' and "port"=5200 and is_active=1 on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:01 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:01', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql update "core"."server_node" set "id"=1000, "user_domain"=''MacBookPro'', "os_version"=''24.6.0'', "hostname"=''MacBookPro'', "server_node_type_id"=3, "created_by"=''erickohlenberg'', "last_updated"=''2026-08-26T03:47:01.488740'', "port"=5200, "ip_address"=''0.0.0.0'', "url"=''http://MacBookPro:5200'', "os_name"=''macOS'', "username"=''erickohlenberg'', "architecture"=''aarch64'', "server_node_status_id"=2, "is_active"=1, "registered_at"=''2026-08-26 03:47:01'', "last_updated_by"=''erickohlenberg'' where "id"=1000; on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:01 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:01', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'API server registered as ServerNode id 1000 (http://MacBookPro:5200)'); on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:31 INFO erickohlenberg api Invoking TestRun.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking eric.kohlenberg@gmail.com authorization for TestRun.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking authorization for eric.kohlenberg@gmail.com on TestRun.select
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql select 1 from
+core.operation op
+inner join core.op_role_map orm on
+    orm.op_id=op.id 
+	and orm.is_active=1
+inner join core.op_role r on
+    r.id=orm.op_role_id
+	and r.is_active=1
+inner join core.op_role_member m on
+    m.op_role_id=r.id
+	and m.is_active=1
+inner join core."principal" p on
+    p.id=m.principal_id
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name='Enabled')
+where op.objectname = 'TestRun' 
+    and op.methodname = 'select'
+    and (p.email = 'eric.kohlenberg@gmail.com' OR p.username = 'eric.kohlenberg@gmail.com') on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:31 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:31 DEBUG erickohlenberg api Processing NavMenuLogic select_by_parent_id parent_id=0, orderby=ordinal
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql SELECT * FROM core.nav_menu WHERE parent_id = 0 ORDER BY ordinal on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:31 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'Invoking TestRun.select.'); on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Processing TestRunLogic select
+2026-08-26 03:47:31 INFO erickohlenberg api Invoking TestCase.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql SELECT s.id, s.name, s.sql_text, s.description, s.created_by, ds.name as data_source_name FROM "core"."sql" s LEFT JOIN "core"."data_source" ds ON s.data_source_id = ds.id WHERE s."name" = 'app.test_run-select' on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking eric.kohlenberg@gmail.com authorization for TestCase.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking authorization for eric.kohlenberg@gmail.com on TestCase.select
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql select 1 from
+core.operation op
+inner join core.op_role_map orm on
+    orm.op_id=op.id 
+	and orm.is_active=1
+inner join core.op_role r on
+    r.id=orm.op_role_id
+	and r.is_active=1
+inner join core.op_role_member m on
+    m.op_role_id=r.id
+	and m.is_active=1
+inner join core."principal" p on
+    p.id=m.principal_id
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name='Enabled')
+where op.objectname = 'TestCase' 
+    and op.methodname = 'select'
+    and (p.email = 'eric.kohlenberg@gmail.com' OR p.username = 'eric.kohlenberg@gmail.com') on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:31 DEBUG erickohlenberg api Processing NavMenuLogic select_by_parent_id parent_id=0, orderby=ordinal
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql SELECT * FROM core.nav_menu WHERE parent_id = 0 ORDER BY ordinal on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Processing TestCaseLogic select
+2026-08-26 03:47:31 INFO erickohlenberg api Invoking TestResultStatus.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql SELECT s.id, s.name, s.sql_text, s.description, s.created_by, ds.name as data_source_name FROM "core"."sql" s LEFT JOIN "core"."data_source" ds ON s.data_source_id = ds.id WHERE s."name" = 'app.test_case-select' on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking eric.kohlenberg@gmail.com authorization for TestResultStatus.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking authorization for eric.kohlenberg@gmail.com on TestResultStatus.select
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql select 1 from
+core.operation op
+inner join core.op_role_map orm on
+    orm.op_id=op.id 
+	and orm.is_active=1
+inner join core.op_role r on
+    r.id=orm.op_role_id
+	and r.is_active=1
+inner join core.op_role_member m on
+    m.op_role_id=r.id
+	and m.is_active=1
+inner join core."principal" p on
+    p.id=m.principal_id
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name='Enabled')
+where op.objectname = 'TestResultStatus' 
+    and op.methodname = 'select'
+    and (p.email = 'eric.kohlenberg@gmail.com' OR p.username = 'eric.kohlenberg@gmail.com') on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql SELECT
+        app.test_run.id,
+            test_run.name,
+            test_run.test_plan_id,
+            test_run.run_at,
+            test_run.run_by,
+            test_run.notes,
+            test_run.is_active,
+            test_run.created_by,
+            test_run.last_updated,
+            test_run.last_updated_by,
+            test_run.txn_id,
+            test_plan.name AS test_plan_name
+    FROM app.test_run
+        LEFT JOIN app.test_plan test_plan ON test_run.test_plan_id = test_plan.id AND test_plan.is_active = 1
+    WHERE app.test_run.is_active = 1
+    ORDER BY app.test_run.id; on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking eric.kohlenberg@gmail.com authorization for TestRun.select.'); on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Processing TestResultStatusLogic select
+2026-08-26 03:47:31 INFO erickohlenberg api Invoking Principal.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql SELECT s.id, s.name, s.sql_text, s.description, s.created_by, ds.name as data_source_name FROM "core"."sql" s LEFT JOIN "core"."data_source" ds ON s.data_source_id = ds.id WHERE s."name" = 'app.test_result_status-select' on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking eric.kohlenberg@gmail.com authorization for Principal.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking authorization for eric.kohlenberg@gmail.com on Principal.select
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql select 1 from
+core.operation op
+inner join core.op_role_map orm on
+    orm.op_id=op.id 
+	and orm.is_active=1
+inner join core.op_role r on
+    r.id=orm.op_role_id
+	and r.is_active=1
+inner join core.op_role_member m on
+    m.op_role_id=r.id
+	and m.is_active=1
+inner join core."principal" p on
+    p.id=m.principal_id
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name='Enabled')
+where op.objectname = 'Principal' 
+    and op.methodname = 'select'
+    and (p.email = 'eric.kohlenberg@gmail.com' OR p.username = 'eric.kohlenberg@gmail.com') on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking authorization for eric.kohlenberg@gmail.com on TestRun.select'); on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql SELECT
+        app.test_case.id,
+            test_case.test_plan_id,
+            test_case.code,
+            test_case.area,
+            test_case.title,
+            test_case.preconditions,
+            test_case.steps,
+            test_case.expected_result,
+            test_case.priority,
+            test_case.component,
+            test_case.is_active,
+            test_case.created_by,
+            test_case.last_updated,
+            test_case.last_updated_by,
+            test_case.txn_id,
+            test_plan.name AS test_plan_name
+    FROM app.test_case
+        LEFT JOIN app.test_plan test_plan ON test_case.test_plan_id = test_plan.id AND test_plan.is_active = 1
+    WHERE app.test_case.is_active = 1
+    ORDER BY app.test_case.id; on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql select 1 from
+core.operation op
+inner join core.op_role_map orm on
+    orm.op_id=op.id 
+	and orm.is_active=1
+inner join core.op_role r on
+    r.id=orm.op_role_id
+	and r.is_active=1
+inner join core.op_role_member m on
+    m.op_role_id=r.id
+	and m.is_active=1
+inner join core."principal" p on
+    p.id=m.principal_id
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name=''Enabled'')
+where op.objectname = ''TestRun'' 
+    and op.methodname = ''select''
+    and (p.email = ''eric.kohlenberg@gmail.com'' OR p.username = ''eric.kohlenberg@gmail.com'') on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql SELECT
+        app.test_result_status.id,
+            test_result_status.name,
+            test_result_status.is_active,
+            test_result_status.created_by,
+            test_result_status.last_updated,
+            test_result_status.last_updated_by,
+            test_result_status.txn_id
+    FROM app.test_result_status
+    WHERE app.test_result_status.is_active = 1
+    ORDER BY app.test_result_status.id; on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Processing PrincipalLogic select
+2026-08-26 03:47:31 INFO erickohlenberg api After invoking select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql SELECT s.id, s.name, s.sql_text, s.description, s.created_by, ds.name as data_source_name FROM "core"."sql" s LEFT JOIN "core"."data_source" ds ON s.data_source_id = ds.id WHERE s."name" = 'core.principal-select' on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:31 INFO erickohlenberg api Invoking TestRun.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking eric.kohlenberg@gmail.com authorization for TestRun.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking authorization for eric.kohlenberg@gmail.com on TestRun.select
+2026-08-26 03:47:31 DEBUG erickohlenberg api Processing TestRunLogic select
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql SELECT
+        app.test_run.id,
+            test_run.name,
+            test_run.test_plan_id,
+            test_run.run_at,
+            test_run.run_by,
+            test_run.notes,
+            test_run.is_active,
+            test_run.created_by,
+            test_run.last_updated,
+            test_run.last_updated_by,
+            test_run.txn_id,
+            test_plan.name AS test_plan_name
+    FROM app.test_run
+        LEFT JOIN app.test_plan test_plan ON test_run.test_plan_id = test_plan.id AND test_plan.is_active = 1
+    WHERE app.test_run.is_active = 1
+    ORDER BY app.test_run.id; on connection 'default'.
+2026-08-26 03:47:31 INFO erickohlenberg api After invoking select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:31 INFO erickohlenberg api Invoking TestCase.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking eric.kohlenberg@gmail.com authorization for TestCase.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking authorization for eric.kohlenberg@gmail.com on TestCase.select
+2026-08-26 03:47:31 DEBUG erickohlenberg api Processing TestCaseLogic select
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql SELECT
+        app.test_case.id,
+            test_case.test_plan_id,
+            test_case.code,
+            test_case.area,
+            test_case.title,
+            test_case.preconditions,
+            test_case.steps,
+            test_case.expected_result,
+            test_case.priority,
+            test_case.component,
+            test_case.is_active,
+            test_case.created_by,
+            test_case.last_updated,
+            test_case.last_updated_by,
+            test_case.txn_id,
+            test_plan.name AS test_plan_name
+    FROM app.test_case
+        LEFT JOIN app.test_plan test_plan ON test_case.test_plan_id = test_plan.id AND test_plan.is_active = 1
+    WHERE app.test_case.is_active = 1
+    ORDER BY app.test_case.id; on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:31 INFO erickohlenberg api After invoking select.
+2026-08-26 03:47:31 INFO erickohlenberg api After invoking select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql SELECT
+        core.principal.id,
+            principal.first_name,
+            principal.last_name,
+            principal.username,
+            principal.email,
+            principal.principal_status_id,
+            principal.created_date,
+            principal.last_login_date,
+            principal.is_active,
+            principal.created_by,
+            principal.last_updated,
+            principal.last_updated_by,
+            principal.txn_id,
+            principal_status.name AS principal_status_name
+    FROM core.principal
+        LEFT JOIN core.principal_status principal_status ON principal.principal_status_id = principal_status.id AND principal_status.is_active = 1
+    WHERE core.principal.is_active = 1
+    ORDER BY core.principal.id; on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:31 INFO erickohlenberg api Invoking TestResultStatus.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking eric.kohlenberg@gmail.com authorization for TestResultStatus.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking authorization for eric.kohlenberg@gmail.com on TestResultStatus.select
+2026-08-26 03:47:31 DEBUG erickohlenberg api Processing TestResultStatusLogic select
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql SELECT
+        app.test_result_status.id,
+            test_result_status.name,
+            test_result_status.is_active,
+            test_result_status.created_by,
+            test_result_status.last_updated,
+            test_result_status.last_updated_by,
+            test_result_status.txn_id
+    FROM app.test_result_status
+    WHERE app.test_result_status.is_active = 1
+    ORDER BY app.test_result_status.id; on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:31 INFO erickohlenberg api After invoking select.
+2026-08-26 03:47:31 INFO erickohlenberg api After invoking select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:31 INFO erickohlenberg api Invoking Principal.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking eric.kohlenberg@gmail.com authorization for Principal.select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Checking authorization for eric.kohlenberg@gmail.com on Principal.select
+2026-08-26 03:47:31 DEBUG erickohlenberg api Processing PrincipalLogic select
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql SELECT
+        core.principal.id,
+            principal.first_name,
+            principal.last_name,
+            principal.username,
+            principal.email,
+            principal.principal_status_id,
+            principal.created_date,
+            principal.last_login_date,
+            principal.is_active,
+            principal.created_by,
+            principal.last_updated,
+            principal.last_updated_by,
+            principal.txn_id,
+            principal_status.name AS principal_status_name
+    FROM core.principal
+        LEFT JOIN core.principal_status principal_status ON principal.principal_status_id = principal_status.id AND principal_status.is_active = 1
+    WHERE core.principal.is_active = 1
+    ORDER BY core.principal.id; on connection 'default'.
+2026-08-26 03:47:31 INFO erickohlenberg api After invoking select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing NavMenuLogic select_by_parent_id parent_id=0, orderby=ordinal'); on connection 'default'.
+2026-08-26 03:47:31 INFO erickohlenberg api After invoking select.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT * FROM core.nav_menu WHERE parent_id = 0 ORDER BY ordinal on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing TestRunLogic select'); on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'Invoking TestCase.select.'); on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT s.id, s.name, s.sql_text, s.description, s.created_by, ds.name as data_source_name FROM "core"."sql" s LEFT JOIN "core"."data_source" ds ON s.data_source_id = ds.id WHERE s."name" = ''app.test_run-select'' on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:31 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking eric.kohlenberg@gmail.com authorization for TestCase.select.'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking authorization for eric.kohlenberg@gmail.com on TestCase.select'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql select 1 from
+core.operation op
+inner join core.op_role_map orm on
+    orm.op_id=op.id 
+	and orm.is_active=1
+inner join core.op_role r on
+    r.id=orm.op_role_id
+	and r.is_active=1
+inner join core.op_role_member m on
+    m.op_role_id=r.id
+	and m.is_active=1
+inner join core."principal" p on
+    p.id=m.principal_id
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name=''Enabled'')
+where op.objectname = ''TestCase'' 
+    and op.methodname = ''select''
+    and (p.email = ''eric.kohlenberg@gmail.com'' OR p.username = ''eric.kohlenberg@gmail.com'') on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing NavMenuLogic select_by_parent_id parent_id=0, orderby=ordinal'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT * FROM core.nav_menu WHERE parent_id = 0 ORDER BY ordinal on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing TestCaseLogic select'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'Invoking TestResultStatus.select.'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT s.id, s.name, s.sql_text, s.description, s.created_by, ds.name as data_source_name FROM "core"."sql" s LEFT JOIN "core"."data_source" ds ON s.data_source_id = ds.id WHERE s."name" = ''app.test_case-select'' on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking eric.kohlenberg@gmail.com authorization for TestResultStatus.select.'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking authorization for eric.kohlenberg@gmail.com on TestResultStatus.select'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql select 1 from
+core.operation op
+inner join core.op_role_map orm on
+    orm.op_id=op.id 
+	and orm.is_active=1
+inner join core.op_role r on
+    r.id=orm.op_role_id
+	and r.is_active=1
+inner join core.op_role_member m on
+    m.op_role_id=r.id
+	and m.is_active=1
+inner join core."principal" p on
+    p.id=m.principal_id
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name=''Enabled'')
+where op.objectname = ''TestResultStatus'' 
+    and op.methodname = ''select''
+    and (p.email = ''eric.kohlenberg@gmail.com'' OR p.username = ''eric.kohlenberg@gmail.com'') on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT
+        app.test_run.id,
+            test_run.name,
+            test_run.test_plan_id,
+            test_run.run_at,
+            test_run.run_by,
+            test_run.notes,
+            test_run.is_active,
+            test_run.created_by,
+            test_run.last_updated,
+            test_run.last_updated_by,
+            test_run.txn_id,
+            test_plan.name AS test_plan_name
+    FROM app.test_run
+        LEFT JOIN app.test_plan test_plan ON test_run.test_plan_id = test_plan.id AND test_plan.is_active = 1
+    WHERE app.test_run.is_active = 1
+    ORDER BY app.test_run.id; on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing TestResultStatusLogic select'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'Invoking Principal.select.'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT s.id, s.name, s.sql_text, s.description, s.created_by, ds.name as data_source_name FROM "core"."sql" s LEFT JOIN "core"."data_source" ds ON s.data_source_id = ds.id WHERE s."name" = ''app.test_result_status-select'' on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking eric.kohlenberg@gmail.com authorization for Principal.select.'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking authorization for eric.kohlenberg@gmail.com on Principal.select'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql select 1 from
+core.operation op
+inner join core.op_role_map orm on
+    orm.op_id=op.id 
+	and orm.is_active=1
+inner join core.op_role r on
+    r.id=orm.op_role_id
+	and r.is_active=1
+inner join core.op_role_member m on
+    m.op_role_id=r.id
+	and m.is_active=1
+inner join core."principal" p on
+    p.id=m.principal_id
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name=''Enabled'')
+where op.objectname = ''Principal'' 
+    and op.methodname = ''select''
+    and (p.email = ''eric.kohlenberg@gmail.com'' OR p.username = ''eric.kohlenberg@gmail.com'') on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT
+        app.test_case.id,
+            test_case.test_plan_id,
+            test_case.code,
+            test_case.area,
+            test_case.title,
+            test_case.preconditions,
+            test_case.steps,
+            test_case.expected_result,
+            test_case.priority,
+            test_case.component,
+            test_case.is_active,
+            test_case.created_by,
+            test_case.last_updated,
+            test_case.last_updated_by,
+            test_case.txn_id,
+            test_plan.name AS test_plan_name
+    FROM app.test_case
+        LEFT JOIN app.test_plan test_plan ON test_case.test_plan_id = test_plan.id AND test_plan.is_active = 1
+    WHERE app.test_case.is_active = 1
+    ORDER BY app.test_case.id; on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:32 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT
+        app.test_result_status.id,
+            test_result_status.name,
+            test_result_status.is_active,
+            test_result_status.created_by,
+            test_result_status.last_updated,
+            test_result_status.last_updated_by,
+            test_result_status.txn_id
+    FROM app.test_result_status
+    WHERE app.test_result_status.is_active = 1
+    ORDER BY app.test_result_status.id; on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing PrincipalLogic select'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'After invoking select.'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT s.id, s.name, s.sql_text, s.description, s.created_by, ds.name as data_source_name FROM "core"."sql" s LEFT JOIN "core"."data_source" ds ON s.data_source_id = ds.id WHERE s."name" = ''core.principal-select'' on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'Invoking TestRun.select.'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking eric.kohlenberg@gmail.com authorization for TestRun.select.'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking authorization for eric.kohlenberg@gmail.com on TestRun.select'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing TestRunLogic select'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT
+        app.test_run.id,
+            test_run.name,
+            test_run.test_plan_id,
+            test_run.run_at,
+            test_run.run_by,
+            test_run.notes,
+            test_run.is_active,
+            test_run.created_by,
+            test_run.last_updated,
+            test_run.last_updated_by,
+            test_run.txn_id,
+            test_plan.name AS test_plan_name
+    FROM app.test_run
+        LEFT JOIN app.test_plan test_plan ON test_run.test_plan_id = test_plan.id AND test_plan.is_active = 1
+    WHERE app.test_run.is_active = 1
+    ORDER BY app.test_run.id; on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'After invoking select.'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'Invoking TestCase.select.'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking eric.kohlenberg@gmail.com authorization for TestCase.select.'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking authorization for eric.kohlenberg@gmail.com on TestCase.select'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing TestCaseLogic select'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT
+        app.test_case.id,
+            test_case.test_plan_id,
+            test_case.code,
+            test_case.area,
+            test_case.title,
+            test_case.preconditions,
+            test_case.steps,
+            test_case.expected_result,
+            test_case.priority,
+            test_case.component,
+            test_case.is_active,
+            test_case.created_by,
+            test_case.last_updated,
+            test_case.last_updated_by,
+            test_case.txn_id,
+            test_plan.name AS test_plan_name
+    FROM app.test_case
+        LEFT JOIN app.test_plan test_plan ON test_case.test_plan_id = test_plan.id AND test_plan.is_active = 1
+    WHERE app.test_case.is_active = 1
+    ORDER BY app.test_case.id; on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'After invoking select.'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'After invoking select.'); on connection 'default'.
+2026-08-26 03:47:33 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT
+        core.principal.id,
+            principal.first_name,
+            principal.last_name,
+            principal.username,
+            principal.email,
+            principal.principal_status_id,
+            principal.created_date,
+            principal.last_login_date,
+            principal.is_active,
+            principal.created_by,
+            principal.last_updated,
+            principal.last_updated_by,
+            principal.txn_id,
+            principal_status.name AS principal_status_name
+    FROM core.principal
+        LEFT JOIN core.principal_status principal_status ON principal.principal_status_id = principal_status.id AND principal_status.is_active = 1
+    WHERE core.principal.is_active = 1
+    ORDER BY core.principal.id; on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'Invoking TestResultStatus.select.'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking eric.kohlenberg@gmail.com authorization for TestResultStatus.select.'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking authorization for eric.kohlenberg@gmail.com on TestResultStatus.select'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing TestResultStatusLogic select'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT
+        app.test_result_status.id,
+            test_result_status.name,
+            test_result_status.is_active,
+            test_result_status.created_by,
+            test_result_status.last_updated,
+            test_result_status.last_updated_by,
+            test_result_status.txn_id
+    FROM app.test_result_status
+    WHERE app.test_result_status.is_active = 1
+    ORDER BY app.test_result_status.id; on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'After invoking select.'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'After invoking select.'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'Invoking Principal.select.'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking eric.kohlenberg@gmail.com authorization for Principal.select.'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking authorization for eric.kohlenberg@gmail.com on Principal.select'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing PrincipalLogic select'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT
+        core.principal.id,
+            principal.first_name,
+            principal.last_name,
+            principal.username,
+            principal.email,
+            principal.principal_status_id,
+            principal.created_date,
+            principal.last_login_date,
+            principal.is_active,
+            principal.created_by,
+            principal.last_updated,
+            principal.last_updated_by,
+            principal.txn_id,
+            principal_status.name AS principal_status_name
+    FROM core.principal
+        LEFT JOIN core.principal_status principal_status ON principal.principal_status_id = principal_status.id AND principal_status.is_active = 1
+    WHERE core.principal.is_active = 1
+    ORDER BY core.principal.id; on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'After invoking select.'); on connection 'default'.
+2026-08-26 03:47:34 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:31', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'After invoking select.'); on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:57 INFO erickohlenberg api Invoking TestResult.put.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Checking eric.kohlenberg@gmail.com authorization for TestResult.put.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Checking authorization for eric.kohlenberg@gmail.com on TestResult.put
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql select 1 from
+core.operation op
+inner join core.op_role_map orm on
+    orm.op_id=op.id 
+	and orm.is_active=1
+inner join core.op_role r on
+    r.id=orm.op_role_id
+	and r.is_active=1
+inner join core.op_role_member m on
+    m.op_role_id=r.id
+	and m.is_active=1
+inner join core."principal" p on
+    p.id=m.principal_id
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name='Enabled')
+where op.objectname = 'TestResult' 
+    and op.methodname = 'put'
+    and (p.email = 'eric.kohlenberg@gmail.com' OR p.username = 'eric.kohlenberg@gmail.com') on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'Invoking TestResult.put.'); on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Processing TestResultLogic put
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql select * from "app"."test_result" where "test_run_id"=1 and "test_case_id"=1 and is_active=1 on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking eric.kohlenberg@gmail.com authorization for TestResult.put.'); on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql SELECT nextval('app.test_result_identity'); on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking authorization for eric.kohlenberg@gmail.com on TestResult.put'); on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql insert into "app"."test_result" ("id","test_run_id","test_case_id","test_result_status_id","executed_at","executed_by_id","actual_result","notes","is_active","created_by","last_updated","last_updated_by","txn_id") values (1002,1,1,2,NULL,1000,'Verified via live browser test pass','',1,'erickohlenberg','2026-08-26T03:47:57.532908','erickohlenberg',1002); on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql select 1 from
+core.operation op
+inner join core.op_role_map orm on
+    orm.op_id=op.id 
+	and orm.is_active=1
+inner join core.op_role r on
+    r.id=orm.op_role_id
+	and r.is_active=1
+inner join core.op_role_member m on
+    m.op_role_id=r.id
+	and m.is_active=1
+inner join core."principal" p on
+    p.id=m.principal_id
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name=''Enabled'')
+where op.objectname = ''TestResult'' 
+    and op.methodname = ''put''
+    and (p.email = ''eric.kohlenberg@gmail.com'' OR p.username = ''eric.kohlenberg@gmail.com'') on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:57 INFO erickohlenberg api After invoking put.
+2026-08-26 03:47:57 INFO erickohlenberg api notification: publish TestResult[1002] (local sink registered: true)
+2026-08-26 03:47:57 INFO erickohlenberg api SSE broadcast 'PropertyUpdated' to 0 client(s)
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql SELECT * FROM core.server_node WHERE server_node_type_id = 3 AND server_node_status_id = 2 AND is_active = 1 ORDER BY registered_at DESC on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:57 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:57 INFO erickohlenberg api Invoking TestResult.select.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Checking eric.kohlenberg@gmail.com authorization for TestResult.select.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:57 DEBUG erickohlenberg api Checking authorization for eric.kohlenberg@gmail.com on TestResult.select
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql select 1 from
+core.operation op
+inner join core.op_role_map orm on
+    orm.op_id=op.id 
+	and orm.is_active=1
+inner join core.op_role r on
+    r.id=orm.op_role_id
+	and r.is_active=1
+inner join core.op_role_member m on
+    m.op_role_id=r.id
+	and m.is_active=1
+inner join core."principal" p on
+    p.id=m.principal_id
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name='Enabled')
+where op.objectname = 'TestResult' 
+    and op.methodname = 'select'
+    and (p.email = 'eric.kohlenberg@gmail.com' OR p.username = 'eric.kohlenberg@gmail.com') on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:57 INFO erickohlenberg api SSE client connected (total 1)
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing TestResultLogic put'); on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Processing TestResultLogic select
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql SELECT s.id, s.name, s.sql_text, s.description, s.created_by, ds.name as data_source_name FROM "core"."sql" s LEFT JOIN "core"."data_source" ds ON s.data_source_id = ds.id WHERE s."name" = 'app.test_result-select' on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql select * from "app"."test_result" where "test_run_id"=1 and "test_case_id"=1 and is_active=1 on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql SELECT
+        app.test_result.id,
+            test_result.test_run_id,
+            test_result.test_case_id,
+            test_result.test_result_status_id,
+            test_result.executed_at,
+            test_result.executed_by_id,
+            test_result.actual_result,
+            test_result.notes,
+            test_result.is_active,
+            test_result.created_by,
+            test_result.last_updated,
+            test_result.last_updated_by,
+            test_result.txn_id,
+            test_run.name AS test_run_name,
+            test_run.test_plan_id AS test_run_test_plan_id,
+            test_case.test_plan_id AS test_case_test_plan_id,
+            test_case.code AS test_case_code,
+            test_case.title AS test_case_title,
+            test_result_status.name AS test_result_status_name,
+            executed_by.email AS executed_by_email,
+            executed_by.principal_status_id AS executed_by_principal_status_id
+    FROM app.test_result
+        LEFT JOIN app.test_run test_run ON test_result.test_run_id = test_run.id AND test_run.is_active = 1
+        LEFT JOIN app.test_case test_case ON test_result.test_case_id = test_case.id AND test_case.is_active = 1
+        LEFT JOIN app.test_result_status test_result_status ON test_result.test_result_status_id = test_result_status.id AND test_result_status.is_active = 1
+        LEFT JOIN core.principal executed_by ON test_result.executed_by_id = executed_by.id AND executed_by.is_active = 1
+    WHERE app.test_result.is_active = 1
+    ORDER BY app.test_result.id; on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT nextval(''app.test_result_identity''); on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:57 INFO erickohlenberg api After invoking select.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:47:57 INFO erickohlenberg api Invoking TestResult.select.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Checking eric.kohlenberg@gmail.com authorization for TestResult.select.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Checking authorization for eric.kohlenberg@gmail.com on TestResult.select
+2026-08-26 03:47:57 DEBUG erickohlenberg api Processing TestResultLogic select
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql SELECT
+        app.test_result.id,
+            test_result.test_run_id,
+            test_result.test_case_id,
+            test_result.test_result_status_id,
+            test_result.executed_at,
+            test_result.executed_by_id,
+            test_result.actual_result,
+            test_result.notes,
+            test_result.is_active,
+            test_result.created_by,
+            test_result.last_updated,
+            test_result.last_updated_by,
+            test_result.txn_id,
+            test_run.name AS test_run_name,
+            test_run.test_plan_id AS test_run_test_plan_id,
+            test_case.test_plan_id AS test_case_test_plan_id,
+            test_case.code AS test_case_code,
+            test_case.title AS test_case_title,
+            test_result_status.name AS test_result_status_name,
+            executed_by.email AS executed_by_email,
+            executed_by.principal_status_id AS executed_by_principal_status_id
+    FROM app.test_result
+        LEFT JOIN app.test_run test_run ON test_result.test_run_id = test_run.id AND test_run.is_active = 1
+        LEFT JOIN app.test_case test_case ON test_result.test_case_id = test_case.id AND test_case.is_active = 1
+        LEFT JOIN app.test_result_status test_result_status ON test_result.test_result_status_id = test_result_status.id AND test_result_status.is_active = 1
+        LEFT JOIN core.principal executed_by ON test_result.executed_by_id = executed_by.id AND executed_by.is_active = 1
+    WHERE app.test_result.is_active = 1
+    ORDER BY app.test_result.id; on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql insert into "app"."test_result" ("id","test_run_id","test_case_id","test_result_status_id","executed_at","executed_by_id","actual_result","notes","is_active","created_by","last_updated","last_updated_by","txn_id") values (1002,1,1,2,NULL,1000,''Verified via live browser test pass'','''',1,''erickohlenberg'',''2026-08-26T03:47:57.532908'',''erickohlenberg'',1002); on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:57 INFO erickohlenberg api After invoking select.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'After invoking put.'); on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'notification: publish TestResult[1002] (local sink registered: true)'); on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'SSE broadcast ''PropertyUpdated'' to 0 client(s)'); on connection 'default'.
+2026-08-26 03:47:57 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT * FROM core.server_node WHERE server_node_type_id = 3 AND server_node_status_id = 2 AND is_active = 1 ORDER BY registered_at DESC on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'Invoking TestResult.select.'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking eric.kohlenberg@gmail.com authorization for TestResult.select.'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking authorization for eric.kohlenberg@gmail.com on TestResult.select'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql select 1 from
+core.operation op
+inner join core.op_role_map orm on
+    orm.op_id=op.id 
+	and orm.is_active=1
+inner join core.op_role r on
+    r.id=orm.op_role_id
+	and r.is_active=1
+inner join core.op_role_member m on
+    m.op_role_id=r.id
+	and m.is_active=1
+inner join core."principal" p on
+    p.id=m.principal_id
+	and p.is_active=1 
+	and p.principal_status_id=(select id from core.principal_status where name=''Enabled'')
+where op.objectname = ''TestResult'' 
+    and op.methodname = ''select''
+    and (p.email = ''eric.kohlenberg@gmail.com'' OR p.username = ''eric.kohlenberg@gmail.com'') on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'SSE client connected (total 1)'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing TestResultLogic select'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT s.id, s.name, s.sql_text, s.description, s.created_by, ds.name as data_source_name FROM "core"."sql" s LEFT JOIN "core"."data_source" ds ON s.data_source_id = ds.id WHERE s."name" = ''app.test_result-select'' on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT
+        app.test_result.id,
+            test_result.test_run_id,
+            test_result.test_case_id,
+            test_result.test_result_status_id,
+            test_result.executed_at,
+            test_result.executed_by_id,
+            test_result.actual_result,
+            test_result.notes,
+            test_result.is_active,
+            test_result.created_by,
+            test_result.last_updated,
+            test_result.last_updated_by,
+            test_result.txn_id,
+            test_run.name AS test_run_name,
+            test_run.test_plan_id AS test_run_test_plan_id,
+            test_case.test_plan_id AS test_case_test_plan_id,
+            test_case.code AS test_case_code,
+            test_case.title AS test_case_title,
+            test_result_status.name AS test_result_status_name,
+            executed_by.email AS executed_by_email,
+            executed_by.principal_status_id AS executed_by_principal_status_id
+    FROM app.test_result
+        LEFT JOIN app.test_run test_run ON test_result.test_run_id = test_run.id AND test_run.is_active = 1
+        LEFT JOIN app.test_case test_case ON test_result.test_case_id = test_case.id AND test_case.is_active = 1
+        LEFT JOIN app.test_result_status test_result_status ON test_result.test_result_status_id = test_result_status.id AND test_result_status.is_active = 1
+        LEFT JOIN core.principal executed_by ON test_result.executed_by_id = executed_by.id AND executed_by.is_active = 1
+    WHERE app.test_result.is_active = 1
+    ORDER BY app.test_result.id; on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'After invoking select.'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'Invoking TestResult.select.'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking eric.kohlenberg@gmail.com authorization for TestResult.select.'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking authorization for eric.kohlenberg@gmail.com on TestResult.select'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing TestResultLogic select'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT
+        app.test_result.id,
+            test_result.test_run_id,
+            test_result.test_case_id,
+            test_result.test_result_status_id,
+            test_result.executed_at,
+            test_result.executed_by_id,
+            test_result.actual_result,
+            test_result.notes,
+            test_result.is_active,
+            test_result.created_by,
+            test_result.last_updated,
+            test_result.last_updated_by,
+            test_result.txn_id,
+            test_run.name AS test_run_name,
+            test_run.test_plan_id AS test_run_test_plan_id,
+            test_case.test_plan_id AS test_case_test_plan_id,
+            test_case.code AS test_case_code,
+            test_case.title AS test_case_title,
+            test_result_status.name AS test_result_status_name,
+            executed_by.email AS executed_by_email,
+            executed_by.principal_status_id AS executed_by_principal_status_id
+    FROM app.test_result
+        LEFT JOIN app.test_run test_run ON test_result.test_run_id = test_run.id AND test_run.is_active = 1
+        LEFT JOIN app.test_case test_case ON test_result.test_case_id = test_case.id AND test_case.is_active = 1
+        LEFT JOIN app.test_result_status test_result_status ON test_result.test_result_status_id = test_result_status.id AND test_result_status.is_active = 1
+        LEFT JOIN core.principal executed_by ON test_result.executed_by_id = executed_by.id AND executed_by.is_active = 1
+    WHERE app.test_result.is_active = 1
+    ORDER BY app.test_result.id; on connection ''default''.'); on connection 'default'.
+2026-08-26 03:47:58 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:47:57', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'After invoking select.'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:48:21 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:48:21 INFO erickohlenberg api Invoking TestResult.select.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Checking eric.kohlenberg@gmail.com authorization for TestResult.select.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Checking authorization for eric.kohlenberg@gmail.com on TestResult.select
+2026-08-26 03:48:21 DEBUG erickohlenberg api Processing TestResultLogic select
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql SELECT
+        app.test_result.id,
+            test_result.test_run_id,
+            test_result.test_case_id,
+            test_result.test_result_status_id,
+            test_result.executed_at,
+            test_result.executed_by_id,
+            test_result.actual_result,
+            test_result.notes,
+            test_result.is_active,
+            test_result.created_by,
+            test_result.last_updated,
+            test_result.last_updated_by,
+            test_result.txn_id,
+            test_run.name AS test_run_name,
+            test_run.test_plan_id AS test_run_test_plan_id,
+            test_case.test_plan_id AS test_case_test_plan_id,
+            test_case.code AS test_case_code,
+            test_case.title AS test_case_title,
+            test_result_status.name AS test_result_status_name,
+            executed_by.email AS executed_by_email,
+            executed_by.principal_status_id AS executed_by_principal_status_id
+    FROM app.test_result
+        LEFT JOIN app.test_run test_run ON test_result.test_run_id = test_run.id AND test_run.is_active = 1
+        LEFT JOIN app.test_case test_case ON test_result.test_case_id = test_case.id AND test_case.is_active = 1
+        LEFT JOIN app.test_result_status test_result_status ON test_result.test_result_status_id = test_result_status.id AND test_result_status.is_active = 1
+        LEFT JOIN core.principal executed_by ON test_result.executed_by_id = executed_by.id AND executed_by.is_active = 1
+    WHERE app.test_result.is_active = 1
+    ORDER BY app.test_result.id; on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:48:21 INFO erickohlenberg api SSE client connected (total 2)
+2026-08-26 03:48:21 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:48:21 DEBUG erickohlenberg api Processing NavMenuLogic select_by_parent_id parent_id=0, orderby=ordinal
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql SELECT * FROM core.nav_menu WHERE parent_id = 0 ORDER BY ordinal on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:48:21 INFO erickohlenberg api After invoking select.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:48:21 DEBUG erickohlenberg api Setting current user to Some("eric.kohlenberg@gmail.com")
+2026-08-26 03:48:21 DEBUG erickohlenberg api Processing NavMenuLogic select_by_parent_id parent_id=0, orderby=ordinal
+2026-08-26 03:48:21 INFO erickohlenberg api Invoking TestResult.select.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql SELECT * FROM core.nav_menu WHERE parent_id = 0 ORDER BY ordinal on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Checking eric.kohlenberg@gmail.com authorization for TestResult.select.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Checking authorization for eric.kohlenberg@gmail.com on TestResult.select
+2026-08-26 03:48:21 DEBUG erickohlenberg api Processing TestResultLogic select
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql SELECT
+        app.test_result.id,
+            test_result.test_run_id,
+            test_result.test_case_id,
+            test_result.test_result_status_id,
+            test_result.executed_at,
+            test_result.executed_by_id,
+            test_result.actual_result,
+            test_result.notes,
+            test_result.is_active,
+            test_result.created_by,
+            test_result.last_updated,
+            test_result.last_updated_by,
+            test_result.txn_id,
+            test_run.name AS test_run_name,
+            test_run.test_plan_id AS test_run_test_plan_id,
+            test_case.test_plan_id AS test_case_test_plan_id,
+            test_case.code AS test_case_code,
+            test_case.title AS test_case_title,
+            test_result_status.name AS test_result_status_name,
+            executed_by.email AS executed_by_email,
+            executed_by.principal_status_id AS executed_by_principal_status_id
+    FROM app.test_result
+        LEFT JOIN app.test_run test_run ON test_result.test_run_id = test_run.id AND test_run.is_active = 1
+        LEFT JOIN app.test_case test_case ON test_result.test_case_id = test_case.id AND test_case.is_active = 1
+        LEFT JOIN app.test_result_status test_result_status ON test_result.test_result_status_id = test_result_status.id AND test_result_status.is_active = 1
+        LEFT JOIN core.principal executed_by ON test_result.executed_by_id = executed_by.id AND executed_by.is_active = 1
+    WHERE app.test_result.is_active = 1
+    ORDER BY app.test_result.id; on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:48:21 INFO erickohlenberg api After invoking select.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'Invoking TestResult.select.'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking eric.kohlenberg@gmail.com authorization for TestResult.select.'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking authorization for eric.kohlenberg@gmail.com on TestResult.select'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing TestResultLogic select'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT
+        app.test_result.id,
+            test_result.test_run_id,
+            test_result.test_case_id,
+            test_result.test_result_status_id,
+            test_result.executed_at,
+            test_result.executed_by_id,
+            test_result.actual_result,
+            test_result.notes,
+            test_result.is_active,
+            test_result.created_by,
+            test_result.last_updated,
+            test_result.last_updated_by,
+            test_result.txn_id,
+            test_run.name AS test_run_name,
+            test_run.test_plan_id AS test_run_test_plan_id,
+            test_case.test_plan_id AS test_case_test_plan_id,
+            test_case.code AS test_case_code,
+            test_case.title AS test_case_title,
+            test_result_status.name AS test_result_status_name,
+            executed_by.email AS executed_by_email,
+            executed_by.principal_status_id AS executed_by_principal_status_id
+    FROM app.test_result
+        LEFT JOIN app.test_run test_run ON test_result.test_run_id = test_run.id AND test_run.is_active = 1
+        LEFT JOIN app.test_case test_case ON test_result.test_case_id = test_case.id AND test_case.is_active = 1
+        LEFT JOIN app.test_result_status test_result_status ON test_result.test_result_status_id = test_result_status.id AND test_result_status.is_active = 1
+        LEFT JOIN core.principal executed_by ON test_result.executed_by_id = executed_by.id AND executed_by.is_active = 1
+    WHERE app.test_result.is_active = 1
+    ORDER BY app.test_result.id; on connection ''default''.'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'SSE client connected (total 2)'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing NavMenuLogic select_by_parent_id parent_id=0, orderby=ordinal'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT * FROM core.nav_menu WHERE parent_id = 0 ORDER BY ordinal on connection ''default''.'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'After invoking select.'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to Some("eric.kohlenberg@gmail.com")'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing NavMenuLogic select_by_parent_id parent_id=0, orderby=ordinal'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'Invoking TestResult.select.'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT * FROM core.nav_menu WHERE parent_id = 0 ORDER BY ordinal on connection ''default''.'); on connection 'default'.
+2026-08-26 03:48:21 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking eric.kohlenberg@gmail.com authorization for TestResult.select.'); on connection 'default'.
+2026-08-26 03:48:22 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Checking authorization for eric.kohlenberg@gmail.com on TestResult.select'); on connection 'default'.
+2026-08-26 03:48:22 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Processing TestResultLogic select'); on connection 'default'.
+2026-08-26 03:48:22 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Executing sql SELECT
+        app.test_result.id,
+            test_result.test_run_id,
+            test_result.test_case_id,
+            test_result.test_result_status_id,
+            test_result.executed_at,
+            test_result.executed_by_id,
+            test_result.actual_result,
+            test_result.notes,
+            test_result.is_active,
+            test_result.created_by,
+            test_result.last_updated,
+            test_result.last_updated_by,
+            test_result.txn_id,
+            test_run.name AS test_run_name,
+            test_run.test_plan_id AS test_run_test_plan_id,
+            test_case.test_plan_id AS test_case_test_plan_id,
+            test_case.code AS test_case_code,
+            test_case.title AS test_case_title,
+            test_result_status.name AS test_result_status_name,
+            executed_by.email AS executed_by_email,
+            executed_by.principal_status_id AS executed_by_principal_status_id
+    FROM app.test_result
+        LEFT JOIN app.test_run test_run ON test_result.test_run_id = test_run.id AND test_run.is_active = 1
+        LEFT JOIN app.test_case test_case ON test_result.test_case_id = test_case.id AND test_case.is_active = 1
+        LEFT JOIN app.test_result_status test_result_status ON test_result.test_result_status_id = test_result_status.id AND test_result_status.is_active = 1
+        LEFT JOIN core.principal executed_by ON test_result.executed_by_id = executed_by.id AND executed_by.is_active = 1
+    WHERE app.test_result.is_active = 1
+    ORDER BY app.test_result.id; on connection ''default''.'); on connection 'default'.
+2026-08-26 03:48:22 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-26 03:48:21', 'INFO', 'erickohlenberg', 'api', '', 0, '', 'After invoking select.'); on connection 'default'.
+2026-08-27 00:34:26 DEBUG erickohlenberg api Setting current user to None
+2026-08-27 00:34:26 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-27 00:34:26', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to None'); on connection 'default'.
+2026-08-27 00:34:26 DEBUG erickohlenberg api Setting current user to None
+2026-08-27 00:34:26 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-27 00:34:26', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to None'); on connection 'default'.
+2026-08-27 00:37:18 DEBUG erickohlenberg api Setting current user to None
+2026-08-27 00:37:18 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-27 00:37:18', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to None'); on connection 'default'.
+2026-08-27 00:37:18 DEBUG erickohlenberg api Setting current user to None
+2026-08-27 00:37:18 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-27 00:37:18', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to None'); on connection 'default'.
+2026-08-27 00:37:26 DEBUG erickohlenberg api Setting current user to None
+2026-08-27 00:37:26 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-27 00:37:26', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to None'); on connection 'default'.
+2026-08-27 00:37:26 DEBUG erickohlenberg api Setting current user to None
+2026-08-27 00:37:26 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-27 00:37:26', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to None'); on connection 'default'.
+2026-08-27 00:46:08 DEBUG erickohlenberg api Setting current user to None
+2026-08-27 00:46:08 DEBUG erickohlenberg api Executing sql insert into "core"."log" (timestamp, level, principalname, program, filepath, linenumber, membername, message) values ('2026-08-27 00:46:08', 'DEBUG', 'erickohlenberg', 'api', '', 0, '', 'Setting current user to None'); on connection 'default'.

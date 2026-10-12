@@ -54,9 +54,15 @@ namespace jumptest
                 if (csv.HeaderRecord != null && Array.IndexOf(csv.HeaderRecord, "email") >= 0)
                     principal.email = csv.GetField("email") ?? string.Empty;
 
+<<<<<<< HEAD
                 // enabled  (INTEGER → int)
                 if (csv.HeaderRecord != null && Array.IndexOf(csv.HeaderRecord, "enabled") >= 0)
                     principal.enabled = string.IsNullOrEmpty(csv.GetField("enabled")) ? default : Convert.ToInt32(csv.GetField("enabled"));
+=======
+                // principal_status_id  (INTEGER → int)
+                if (csv.HeaderRecord != null && Array.IndexOf(csv.HeaderRecord, "principal_status_id") >= 0)
+                    principal.principal_status_id = string.IsNullOrEmpty(csv.GetField("principal_status_id")) ? default : Convert.ToInt32(csv.GetField("principal_status_id"));
+>>>>>>> main
 
                 // created_date  (TIMESTAMP → DateTime)
                 if (csv.HeaderRecord != null && Array.IndexOf(csv.HeaderRecord, "created_date") >= 0)

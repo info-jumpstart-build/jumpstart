@@ -50,7 +50,10 @@ impl ColumnInfo {
     pub fn is_string_numeric(&self) -> bool {
         matches!(self.data_type, "numeric" | "decimal" | "money")
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
     /// True for date/time column types. An empty string is not valid input
     /// for these on either backing database (Postgres error 22007, "invalid
     /// input syntax for type timestamp"), unlike a plain varchar column where

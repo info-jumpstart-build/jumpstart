@@ -54,9 +54,15 @@ namespace jumptest
                 if (csv.HeaderRecord != null && Array.IndexOf(csv.HeaderRecord, "executed_at") >= 0)
                     testresult.executed_at = string.IsNullOrEmpty(csv.GetField("executed_at")) ? default : Convert.ToDateTime(csv.GetField("executed_at"));
 
+<<<<<<< HEAD
                 // executed_by  (VARCHAR → string)
                 if (csv.HeaderRecord != null && Array.IndexOf(csv.HeaderRecord, "executed_by") >= 0)
                     testresult.executed_by = csv.GetField("executed_by") ?? string.Empty;
+=======
+                // executed_by_id  (BIGINT → long)
+                if (csv.HeaderRecord != null && Array.IndexOf(csv.HeaderRecord, "executed_by_id") >= 0)
+                    testresult.executed_by_id = string.IsNullOrEmpty(csv.GetField("executed_by_id")) ? default : Convert.ToInt64(csv.GetField("executed_by_id"));
+>>>>>>> main
 
                 // actual_result  (TEXT → string)
                 if (csv.HeaderRecord != null && Array.IndexOf(csv.HeaderRecord, "actual_result") >= 0)

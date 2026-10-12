@@ -131,7 +131,7 @@ if (-not (Test-Path $sqlFile)) {
     continue
 }
 
-sqlcmd -S $connectionString -d $database @@authParams -v "admin_email=$adminEmail" -i "$sqlFile"
+sqlcmd -S $connectionString -d $database @@authParams -v "admin_email=$adminEmail" -v "os_login=$env:USERNAME" -i "$sqlFile"
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to load: $sqlFile"
     Write-Error "Check the SQL file for syntax errors and ensure the database connection is working."

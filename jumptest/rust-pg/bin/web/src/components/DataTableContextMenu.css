@@ -1,0 +1,48 @@
+/* Ported from web/blazor/Components/DataTableContextMenu.razor.cshtml's
+   embedded <style> block. */
+.ctx-row {
+  cursor: context-menu;
+}
+
+.ctx-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  background: transparent;
+}
+
+.ctx-menu {
+  position: fixed;
+  z-index: 1000;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 160px;
+  padding: 4px 0;
+}
+
+.ctx-menu-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.ctx-menu-item:hover {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.table-responsive {
+  margin-bottom: 1rem;
+}

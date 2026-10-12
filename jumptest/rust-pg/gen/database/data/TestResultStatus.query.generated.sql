@@ -73,7 +73,13 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'app.test_result_status-get-history',
     'SELECT
-        app.test_result_status.*
+        app.test_result_status.id,
+            test_result_status.name,
+            test_result_status.is_active,
+            test_result_status.created_by,
+            test_result_status.last_updated,
+            test_result_status.last_updated_by,
+            test_result_status.txn_id
     FROM app.test_result_status
     WHERE app.test_result_status.id = ^(id)
     ORDER BY app.test_result_status.txn_id DESC;',

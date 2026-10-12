@@ -8,6 +8,7 @@ const int StartPort = 5000;
 const int EndPort = 5100;
 const int MaxRetries = 100;
 
+<<<<<<< HEAD
 int boundPort = 0;
 //IPAddress boundIP = Config.getNetworkInterfaceIP();
 IPAddress boundIP = IPAddress.Any; // Listen on all interfaces. The actual IP will be determined by the client when it connects.
@@ -35,15 +36,76 @@ for (int port = StartPort; port <= EndPort && port < StartPort + MaxRetries; por
     {
         // Port is in use, try next port
         continue;
+=======
+//IPAddress boundIP = Config.getNetworkInterfaceIP();
+IPAddress boundIP = IPAddress.Any; // Listen on all interfaces. The actual IP will be determined by the client when it connects.
+
+int boundPort = 0;
+
+// A fixed port from servers.scheduler.port in ~/.<namespace>.json (if
+// configured) is tried first, exactly -- not silently skipped if it's busy. A
+// busy configured port is usually a stale process from a previous run;
+// scanning forward from it (with a warning) instead of silently landing
+// elsewhere keeps that mismatch visible in the log rather than surfacing
+// later as misrouted dispatch (a stale process holding the port other nodes
+// expect, while a freshly started one is on a different port).
+int? configuredPort = Config.GetServerPort("scheduler");
+if (configuredPort.HasValue)
+{
+    boundPort = TryBindPort(configuredPort.Value, boundIP);
+    if (boundPort == 0)
+    {
+        Console.WriteLine($"WARNING: configured port {configuredPort.Value} (servers.scheduler.port in ~/.<namespace>.json) is already in use -- possibly a stale process from a previous run. Scanning forward for a free port instead; kill the stale process if clients expect {configuredPort.Value} specifically.");
+        boundPort = FindFreePort(configuredPort.Value, configuredPort.Value + (EndPort - StartPort), MaxRetries, boundIP);
+>>>>>>> main
     }
 }
 
 if (boundPort == 0)
 {
+<<<<<<< HEAD
+=======
+    boundPort = FindFreePort(StartPort, EndPort, MaxRetries, boundIP);
+}
+
+if (boundPort == 0)
+{
+>>>>>>> main
     Console.WriteLine($"ERROR: Could not find available port in range {StartPort}-{EndPort}");
     Environment.Exit(1);
 }
 
+<<<<<<< HEAD
+=======
+var builder = WebApplication.CreateBuilder(args);
+// Configure Kestrel to listen on the resolved network interface
+builder.WebHost.UseUrls($"http://{boundIP}:{boundPort}");
+Console.WriteLine($"Scheduler will bind to IP: {boundIP}, Port: {boundPort}");
+
+static int TryBindPort(int port, IPAddress ip)
+{
+    try
+    {
+        using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        socket.Bind(new IPEndPoint(ip, port));
+        return port;
+    }
+    catch (SocketException)
+    {
+        return 0;
+    }
+}
+
+static int FindFreePort(int start, int end, int maxRetries, IPAddress ip)
+{
+    for (int port = start; port <= end && port < start + maxRetries; port++)
+    {
+        if (TryBindPort(port, ip) != 0) return port;
+    }
+    return 0;
+}
+
+>>>>>>> main
 // ── Auth0 M2M token provider (outbound calls to ScriptAgents) ───────────────
 M2MTokenProvider.Initialize(builder.Configuration);
 

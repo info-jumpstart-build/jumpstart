@@ -37,6 +37,15 @@ namespace jumptest
         public string Password { get; set; }
     }
     
+<<<<<<< HEAD
+=======
+    public class ServerConfig
+    {
+        [JsonPropertyName("port")]
+        public string Port { get; set; }
+    }
+
+>>>>>>> main
     public class NamespaceConfig
     {
         [JsonPropertyName("namespace")]
@@ -47,6 +56,15 @@ namespace jumptest
 
         [JsonPropertyName("network_interface")]
         public int? NetworkInterface { get; set; }
+<<<<<<< HEAD
+=======
+
+        // Optional fixed listening port per service ("api", "scheduler",
+        // "scriptagent"). Absent or empty means "keep scanning the service's
+        // default port range", as before. See Config.GetServerPort.
+        [JsonPropertyName("servers")]
+        public Dictionary<string, ServerConfig> Servers { get; set; }
+>>>>>>> main
     }
 
     public class Config
@@ -120,6 +138,29 @@ namespace jumptest
             return _currentDataSource;
         }
 
+<<<<<<< HEAD
+=======
+        /// <summary>
+        /// This service's fixed listening port ("api", "scheduler", or
+        /// "scriptagent"), from the "servers" section of ~/.namespace.json.
+        /// Returns null when the section, the service's entry, or its port is
+        /// absent, empty, or not a valid port number -- callers should then
+        /// fall back to scanning the service's default port range, as before
+        /// this setting existed.
+        /// </summary>
+        static public int? GetServerPort(string serviceName)
+        {
+            var config = LoadNamespaceConfig();
+            if (config?.Servers != null
+                && config.Servers.TryGetValue(serviceName, out var server)
+                && !string.IsNullOrWhiteSpace(server?.Port)
+                && int.TryParse(server.Port.Trim(), out int port))
+            {
+                return port;
+            }
+            return null;
+        }
+>>>>>>> main
         static public NamespaceConfig LoadNamespaceConfig()
         {
             if (_namespaceConfig == null)

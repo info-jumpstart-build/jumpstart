@@ -21,7 +21,11 @@ namespace jumptest
                     
                     principal.email = Convert.ToString(BaseTest.getTestData(principal, "VARCHAR", TestDataType.emailAddresses));
                     
+<<<<<<< HEAD
                     principal.enabled = Convert.ToInt32(BaseTest.getTestData(principal, "INTEGER", TestDataType.enabled));
+=======
+                    principal.principal_status_id = BaseTest.getLastId("PrincipalStatus");
+>>>>>>> main
                     
                     principal.created_date = Convert.ToDateTime(BaseTest.getTestData(principal, "TIMESTAMP", TestDataType.random));
                     
@@ -39,7 +43,11 @@ namespace jumptest
 
                         principal.email = Convert.ToString(BaseTest.getTestData(principal, "VARCHAR", TestDataType.emailAddresses));
                         
+<<<<<<< HEAD
                         principal.enabled = Convert.ToInt32(BaseTest.getTestData(principal, "INTEGER", TestDataType.enabled));
+=======
+                        principal.principal_status_id = BaseTest.getLastId("PrincipalStatus");
+>>>>>>> main
                         
                 Console.WriteLine("Testing Principal API insert (RWK only): " + principal.ToString());
                 var createdPrincipal = await PostAsyncReturn("Principal", principal);
@@ -61,8 +69,13 @@ namespace jumptest
                     
                         principal.email = (string) BaseTest.getTestData(principal, "VARCHAR", TestDataType.emailAddresses);
                     
+<<<<<<< HEAD
                         principal.enabled = (int) BaseTest.getTestData(principal, "INTEGER", TestDataType.enabled);
                     
+=======
+                            principal.principal_status_id = BaseTest.getLastId("PrincipalStatus");
+                        
+>>>>>>> main
                         principal.created_date = (DateTime) BaseTest.getTestData(principal, "TIMESTAMP", TestDataType.random);
                     
                         principal.last_login_date = (DateTime) BaseTest.getTestData(principal, "TIMESTAMP", TestDataType.random);
@@ -86,8 +99,13 @@ namespace jumptest
                     
                         principal.email = (string) BaseTest.getTestData(principal, "VARCHAR", TestDataType.emailAddresses);
                     
+<<<<<<< HEAD
                         principal.enabled = (int) BaseTest.getTestData(principal, "INTEGER", TestDataType.enabled);
                     
+=======
+                            principal.principal_status_id = BaseTest.getLastId("PrincipalStatus");
+                        
+>>>>>>> main
                         principal.created_date = (DateTime) BaseTest.getTestData(principal, "TIMESTAMP", TestDataType.random);
                     
                         principal.last_login_date = (DateTime) BaseTest.getTestData(principal, "TIMESTAMP", TestDataType.random);
@@ -128,7 +146,11 @@ namespace jumptest
                                 
                         Console.WriteLine($"  email: {principal.email}");
                                 
+<<<<<<< HEAD
                         Console.WriteLine($"  enabled: {principal.enabled}");
+=======
+                        Console.WriteLine($"  principal_status_id: {principal.principal_status_id}");
+>>>>>>> main
                                 
                         Console.WriteLine($"  created_date: {principal.created_date}");
                                 

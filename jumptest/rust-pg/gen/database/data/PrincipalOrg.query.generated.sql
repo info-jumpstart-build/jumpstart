@@ -91,7 +91,14 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.principal_org-get-history',
     'SELECT
-        core.principal_org.*
+        core.principal_org.id,
+            principal_org.org_id,
+            principal_org.principal_id,
+            principal_org.is_active,
+            principal_org.created_by,
+            principal_org.last_updated,
+            principal_org.last_updated_by,
+            principal_org.txn_id
     FROM core.principal_org
     WHERE core.principal_org.id = ^(id)
     ORDER BY core.principal_org.txn_id DESC;',

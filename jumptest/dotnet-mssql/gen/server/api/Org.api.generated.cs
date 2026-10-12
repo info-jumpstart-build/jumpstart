@@ -158,5 +158,18 @@ namespace jumptest.Controllers
 
             return options;
         }
+<<<<<<< HEAD
+=======
+
+        // Applies the "Principal" checklist submitted from the Edit page: the full set of
+        // Principal ids that should be mapped to this Org after the call.
+        [HttpPut("{id}/map/principal_principal")]
+        public void Putprincipal_principal_Map(long id, [FromBody] List<long> checkedIds)
+        {
+            //Console.WriteLine($"Processing PUT Principal map for Org ID={id}");
+
+            OrgLogic.Create().mapsync(id, "principal-principal", checkedIds ?? new List<long>());
+        }
+>>>>>>> main
             }
 }

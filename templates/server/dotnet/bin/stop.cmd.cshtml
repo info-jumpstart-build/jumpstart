@@ -1,0 +1,24 @@
+@@echo off
+rem Stop all backend components started by start.cmd, by closing the console
+rem window each one was launched into (start.cmd/api.cmd/etc. title each
+rem window with the component's name, e.g. `start "api" cmd /k ...`).
+rem /T also kills each window's child processes (e.g. web's npm wrapper
+rem alongside the vite process it spawns).
+rem Note: window-title matching only sees classic conhost windows. If your
+rem terminal is Windows Terminal, each tab may not report its own title to
+rem tasklist/taskkill -- in that case close the tabs by hand or run the
+rem component binaries directly instead of via these launchers.
+
+echo Stopping api...
+taskkill /FI "WINDOWTITLE eq api" /T /F >nul 2>&1
+
+echo Stopping scheduler...
+taskkill /FI "WINDOWTITLE eq scheduler" /T /F >nul 2>&1
+
+echo Stopping scriptagent...
+taskkill /FI "WINDOWTITLE eq scriptagent" /T /F >nul 2>&1
+
+echo Stopping web...
+taskkill /FI "WINDOWTITLE eq web" /T /F >nul 2>&1
+
+echo All components stopped.

@@ -1,0 +1,13 @@
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\common\bin\Debug\net9.0\common.deps.json
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\common\bin\Debug\net9.0\common.dll
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\common\bin\Debug\net9.0\common.pdb
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\common\obj\Debug\net9.0\common.csproj.AssemblyReference.cache
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\common\obj\Debug\net9.0\common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\common\obj\Debug\net9.0\common.AssemblyInfoInputs.cache
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\common\obj\Debug\net9.0\common.AssemblyInfo.cs
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\common\obj\Debug\net9.0\common.csproj.CoreCompileInputs.cache
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\common\obj\Debug\net9.0\common.sourcelink.json
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\common\obj\Debug\net9.0\common.dll
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\common\obj\Debug\net9.0\refint\common.dll
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\common\obj\Debug\net9.0\common.pdb
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\common\obj\Debug\net9.0\ref\common.dll

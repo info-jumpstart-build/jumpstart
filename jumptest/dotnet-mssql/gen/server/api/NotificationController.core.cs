@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+<<<<<<< HEAD
+=======
+using Microsoft.Extensions.Configuration;
+>>>>>>> main
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,10 +17,40 @@ namespace jumptest.Controllers
     public class NotificationController : ControllerBase
     {
         private readonly SseNotificationService _sse;
+<<<<<<< HEAD
 
         public NotificationController(SseNotificationService sse)
         {
             _sse = sse;
+=======
+        private readonly IConfiguration _configuration;
+
+        public NotificationController(SseNotificationService sse, IConfiguration configuration)
+        {
+            _sse = sse;
+            _configuration = configuration;
+        }
+
+        // POST api/Notification/stream-ticket
+        // Mints a short-lived, single-use ticket for opening the SSE stream (see
+        // SseNotificationService.MintStreamTicket for why: EventSource can't send
+        // an Authorization header). If Auth0 is configured for this app, the
+        // caller must already be authenticated -- same "configured means
+        // required" rule the Rust API server applies; if Auth0 isn't configured,
+        // this falls back to OpRoleMemberLogic.CurrentUser (the OS user), same as
+        // every other endpoint in an Auth0-unconfigured (local dev) setup.
+        [HttpPost("stream-ticket")]
+        public ActionResult<StreamTicketResponse> MintStreamTicket()
+        {
+            var auth0Domain = _configuration["Auth0:Domain"];
+            if (!string.IsNullOrWhiteSpace(auth0Domain) && User?.Identity?.IsAuthenticated != true)
+            {
+                return Unauthorized("missing or invalid bearer token");
+            }
+
+            var ticket = _sse.MintStreamTicket(OpRoleMemberLogic.CurrentUser);
+            return Ok(new StreamTicketResponse { Ticket = ticket });
+>>>>>>> main
         }
 
         // POST api/Notification/publish
@@ -50,12 +84,33 @@ namespace jumptest.Controllers
             }
         }
 
+<<<<<<< HEAD
         // GET api/Notification/stream
         // Server-Sent Events stream. Replaces the SignalR /notificationHub; the
         // Blazor client connects via EventSource and filters by domain object.
         [HttpGet("stream")]
         public async Task Stream()
         {
+=======
+        // GET api/Notification/stream?ticket=...
+        // Server-Sent Events stream. Replaces the SignalR /notificationHub; the
+        // Blazor client connects via EventSource and filters by domain object.
+        // Authenticated via a single-use ticket (see MintStreamTicket above and
+        // SseNotificationService.RedeemStreamTicket) instead of a bearer token,
+        // since EventSource can't attach an Authorization header.
+        [HttpGet("stream")]
+        public async Task Stream([FromQuery] string ticket)
+        {
+            var user = _sse.RedeemStreamTicket(ticket);
+            if (user == null)
+            {
+                Response.StatusCode = 401;
+                await Response.WriteAsync("missing or expired stream ticket");
+                return;
+            }
+            OpRoleMemberLogic.SetCurrentUser(user);
+
+>>>>>>> main
             Response.ContentType = "text/event-stream";
             Response.Headers.Append("Cache-Control", "no-cache");
             Response.Headers.Append("X-Accel-Buffering", "no");
@@ -112,4 +167,15 @@ namespace jumptest.Controllers
         public long InstanceId { get; set; }
         public string JsonData { get; set; }
     }
+<<<<<<< HEAD
+=======
+
+    /// <summary>
+    /// Response for POST api/Notification/stream-ticket.
+    /// </summary>
+    public class StreamTicketResponse
+    {
+        public string Ticket { get; set; }
+    }
+>>>>>>> main
 }
