@@ -82,6 +82,13 @@ main {
     }
 }
 
+/* Wide page content (e.g. a DataTable with many columns) scrolls inside
+   this box instead of stretching main -- keeps the sticky top-row parent
+   menu and login display fully visible regardless of window width. */
+.content {
+    overflow-x: auto;
+}
+
 /* Navigation button text color for main content area */
 main .nav-link {
     color: #212529 !important;

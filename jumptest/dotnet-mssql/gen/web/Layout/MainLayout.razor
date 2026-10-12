@@ -1,0 +1,131 @@
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject NavigationManager NavigationManager
+@using System.Net.Http;
+@using System.Net.Http.Json;
+@using Microsoft.Extensions.DependencyInjection;
+@using Microsoft.AspNetCore.Components.Authorization;
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@inject IHttpClientFactory ClientFactory
+@inject AuthenticationStateProvider AuthStateProvider
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+<div class="page">
+    <div class="sidebar">
+        <div class="top-row ps-3 navbar navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="">jumptest</a>
+            </div>
+        </div>
+
+
+        <NavMenuLayout SelectedParentId="@selectedParentId" />
+    </div>
+
+    <main>
+        <!-- Parent Navigation Menu - Top Row -->
+        <div class="top-row px-4">
+            <nav class="nav nav-pills">
+                <button class="nav-link" @onclick="@(() => NavigationManager.NavigateTo("/"))">
+                    <span class="bi bi-house-door-fill" aria-hidden="true"></span> Home
+                </button>
+                @if (!isAuthenticated)
+                {
+                    <!-- not authenticated: menu hidden, LoginDisplay shows Log in button -->
+                }
+                else if (isMenuLoading)
+                {
+                    <p><em>Loading menu...</em></p>
+                }
+                else if (menuError != null)
+                {
+                    <p class="text-danger small">@menuError</p>
+                }
+                else if (navMenuList != null)
+                {
+                    @foreach (var navMenu in navMenuList)
+                    {
+                        <div class="nav-item">
+                            <button class="nav-link @(selectedParent == navMenu.name ? "active" : "")" @onclick="@(() => SelectParent(navMenu.name))">
+                                <span class="bi bi-folder-fill" aria-hidden="true"></span> @navMenu.name
+                            </button>
+                        </div>
+                    }
+                }
+            </nav>
+
+            <LoginDisplay />
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    private string? selectedParent = null;
+    private long? selectedParentId = null;
+    protected NavMenu[]? navMenuList;
+    private bool isAuthenticated = false;
+    private bool isMenuLoading = false;
+    private string? menuError = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        AuthStateProvider.AuthenticationStateChanged += OnAuthStateChanged;
+        await LoadMenuAsync();
+    }
+
+    private async void OnAuthStateChanged(Task<AuthenticationState> task)
+    {
+        var authState = await task;
+        isAuthenticated = authState.User.Identity?.IsAuthenticated == true;
+        if (isAuthenticated && navMenuList == null)
+        {
+            await LoadMenuAsync();
+            await InvokeAsync(StateHasChanged);
+        }
+        else if (!isAuthenticated)
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task LoadMenuAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        isAuthenticated = authState.User.Identity?.IsAuthenticated == true;
+        if (!isAuthenticated) return;
+
+        isMenuLoading = true;
+        menuError = null;
+        try
+        {
+            var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+            navMenuList = await remoteClient.GetFromJsonAsync<NavMenu[]>("api/navmenu/byparent?parent_id=0&orderby=ordinal");
+        }
+        catch (AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
+        catch (Exception ex)
+        {
+            menuError = $"Menu error: {ex.Message}";
+        }
+        finally
+        {
+            isMenuLoading = false;
+        }
+    }
+
+    private void SelectParent(string parent)
+    {
+        selectedParent = parent;
+        selectedParentId = navMenuList?.FirstOrDefault(n => n.name == parent)?.id;
+    }
+
+    public void Dispose()
+    {
+        AuthStateProvider.AuthenticationStateChanged -= OnAuthStateChanged;
+    }
+}

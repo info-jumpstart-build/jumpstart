@@ -12,7 +12,11 @@ create table app.test_result (
 		test_case_id BIGINT  not null,
 		test_result_status_id BIGINT  not null,
 		executed_at DATETIME2 ,
+<<<<<<< HEAD
+		executed_by VARCHAR(50) ,
+=======
 		executed_by_id BIGINT ,
+>>>>>>> main
 		actual_result TEXT ,
 		notes TEXT ,
 		is_active INT  not null,

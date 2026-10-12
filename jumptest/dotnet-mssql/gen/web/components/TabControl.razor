@@ -1,0 +1,92 @@
+
+@namespace jumptest.Components
+
+<div class="tab-container">
+    <!-- Tab Navigation -->
+    <ul class="nav nav-tabs" id="@Id" role="tablist">
+        @for (int i = 0; i < Tabs.Count; i++)
+        {
+            var tab = Tabs[i];
+            var tabIndex = i;
+            <li class="nav-item" role="presentation">
+                <button class="nav-link @(ActiveTab == tabIndex ? "active" : "")" 
+                        id="@(Id)-tab-@tabIndex" 
+                        data-bs-toggle="tab" 
+                        data-bs-target="#@(Id)-pane-@tabIndex" 
+                        type="button" 
+                        role="tab" 
+                        aria-controls="@(Id)-pane-@tabIndex" 
+                        aria-selected="@(ActiveTab == tabIndex ? "true" : "false")"
+                        @onclick="@(() => SetActiveTab(tabIndex))">
+                    @tab.Title
+                </button>
+            </li>
+        }
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="@(Id)-content">
+        @for (int i = 0; i < Tabs.Count; i++)
+        {
+            var tabIndex = i;
+            <div class="tab-pane fade @(ActiveTab == tabIndex ? "show active" : "")" 
+                 id="@(Id)-pane-@tabIndex" 
+                 role="tabpanel" 
+                 aria-labelledby="@(Id)-tab-@tabIndex">
+                @Tabs[tabIndex].Content
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .tab-container {
+        margin-bottom: 1rem;
+    }
+    
+    /* Tab styling */
+    .nav-tabs {
+        border-bottom: 1px solid #dee2e6;
+        margin-bottom: 0;
+    }
+    
+    .nav-tabs .nav-link {
+        border: 1px solid transparent;
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+        color: #495057;
+        background-color: #f8f9fa;
+    }
+    
+    .nav-tabs .nav-link:hover {
+        border-color: #e9ecef #e9ecef #dee2e6;
+        background-color: #e9ecef;
+    }
+    
+    .nav-tabs .nav-link.active {
+        color: #495057;
+        background-color: #fff;
+        border-color: #dee2e6 #dee2e6 transparent;
+        border-bottom: 1px solid #fff;
+    }
+    
+    .tab-content {
+        border: 1px solid #dee2e6;
+        border-top: none;
+        background-color: #fff;
+    }
+</style>
+
+@code {
+    [Parameter] public string Id { get; set; } = "defaultTabs";
+    [Parameter] public List<TabItem> Tabs { get; set; } = new();
+    [Parameter] public int ActiveTab { get; set; } = 0;
+    [Parameter] public EventCallback<int> OnTabChanged { get; set; }
+
+    private void SetActiveTab(int tabIndex)
+    {
+        ActiveTab = tabIndex;
+        OnTabChanged.InvokeAsync(tabIndex);
+        StateHasChanged();
+    }
+}

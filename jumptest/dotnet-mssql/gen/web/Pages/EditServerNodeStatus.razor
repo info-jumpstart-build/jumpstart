@@ -1,0 +1,722 @@
+@page "/edit-servernodestatus"
+@page "/edit-servernodestatus/{id:long}"
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@using System.Linq
+@using System.Reflection
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components
+@using jumptest
+@using jumptest.Components
+
+<style>
+    .form-label {
+        color: #6c757d !important;
+        font-size: 0.875rem !important;
+        font-weight: 500 !important;
+        margin-bottom: 0.25rem !important;
+        padding-top: 0.25rem !important;
+    }
+    .form-control {
+        border: 1px solid #ced4da !important;
+        border-radius: 0.25rem !important;
+        padding: 0.375rem 0.75rem !important;
+        font-size: 1rem !important;
+        line-height: 1.5 !important;
+        background-color: #fff !important;
+        box-shadow: none !important;
+    }
+    .form-control:focus {
+        border-color: #80bdff !important;
+        outline: 0 !important;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+    }
+</style>
+
+@if(id == null)
+{
+	<h3>Create Server Node Status</h3>
+}
+else
+{
+	<h3>Edit Server Node Status @(servernodestatus.getRwkString())</h3>
+}
+
+<TabControl Id="editTabs" Tabs="@editTabs" ActiveTab="@activeTabIndex" OnTabChanged="@OnTabChanged" />
+
+
+@code {
+	[Parameter]
+	public long? id {get;set;}
+
+	private string? _returnUrl;
+
+	public ServerNodeStatus servernodestatus {get;set;} = new ServerNodeStatus();
+	
+	
+	
+	// History data
+	private ServerNodeStatusHistory[]? servernodestatusHistoryList;
+	
+	
+	// Dictionary to store enum data for dropdowns
+	private Dictionary<string, List<EnumHelper>> enumData = new Dictionary<string, List<EnumHelper>>();
+	
+	// Tab management
+	private List<TabItem> editTabs = new();
+	private int activeTabIndex = 0;
+	
+	// Child tab management
+	private List<TabItem> childTabs = new();
+	private int activeChildTabIndex = 0;
+
+	protected override async Task OnParametersSetAsync()
+	{
+		// Read returnUrl from query string
+		var uri = new Uri(Navigation.Uri);
+		if (!string.IsNullOrEmpty(uri.Query))
+		{
+			foreach (var param in uri.Query.TrimStart('?').Split('&'))
+			{
+				var parts = param.Split('=', 2);
+				if (parts.Length == 2 && parts[0] == "returnUrl")
+				{
+					_returnUrl = Uri.UnescapeDataString(parts[1]);
+					break;
+				}
+			}
+		}
+
+		if (id is not null) {
+			var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+			var result = await remoteClient.GetFromJsonAsync<ServerNodeStatus>($"api/servernodestatus/{id}");
+			if (result is not null)
+				servernodestatus = result;
+				
+			// Load history data
+			await LoadHistoryData();
+			
+			// Load child data
+			await LoadChildData();
+
+			// Load map-relationship checklist data
+			await LoadMapData();
+		}
+	
+		// Load enum data for dropdowns
+		await LoadEnumData();
+		InitializeTabs();
+		InitializeChildTabs();
+	}
+	
+	private void InitializeTabs()
+	{
+		editTabs = new List<TabItem>
+		{
+			new TabItem 
+			{ 
+				Title = "Edit",
+				Content = CreateEditTabContent()
+			},
+			new TabItem 
+			{ 
+				Title = "History",
+				Content = CreateHistoryTabContent()
+			}
+		};
+	}
+
+	private void InitializeChildTabs()
+	{
+		childTabs = new List<TabItem>();
+		
+	}
+	
+	private RenderFragment CreateEditTabContent() => builder =>
+	{
+		builder.OpenComponent<EditForm>(0);
+		builder.AddAttribute(1, "Model", servernodestatus);
+		builder.AddAttribute(2, "OnValidSubmit", EventCallback.Factory.Create<EditContext>(this, HandleSubmit));
+		builder.AddAttribute(3, "ChildContent", (RenderFragment<EditContext>)(context => editBuilder =>
+		{
+			editBuilder.OpenElement(4, "div");
+			editBuilder.AddAttribute(5, "class", "form-group");
+			
+			// Add the form table content here
+			editBuilder.OpenElement(6, "table");
+			editBuilder.AddAttribute(7, "class", "table table-borderless");
+			
+			// Generate dynamic form fields
+			var properties = GetEditableProperties();
+			var propertiesPerRow = 3;
+			
+			for (int i = 0; i < properties.Length; i += propertiesPerRow)
+			{
+				editBuilder.OpenElement(8 + i, "tr");
+				
+				for (int j = 0; j < propertiesPerRow && (i + j) < properties.Length; j++)
+				{
+					var propInfo = properties[i + j];
+					editBuilder.OpenElement(9 + i + j, "td");
+					editBuilder.AddAttribute(10 + i + j, "style", "width: 33%; padding: 0.5rem;");
+					
+					// Label
+					editBuilder.OpenElement(11 + i + j, "div");
+					editBuilder.AddAttribute(12 + i + j, "class", "mb-2");
+					
+					editBuilder.OpenElement(13 + i + j, "label");
+					editBuilder.AddAttribute(14 + i + j, "for", propInfo.Name);
+					editBuilder.AddAttribute(15 + i + j, "class", "form-label");
+					editBuilder.AddContent(16 + i + j, GetPropertyLabel(propInfo));
+					editBuilder.CloseElement(); // label
+					
+					// Input field based on type
+					var underlyingType = Nullable.GetUnderlyingType(propInfo.PropertyType) ?? propInfo.PropertyType;
+
+					if (ReflectionHelper.IsGlobalProperty(propInfo))
+					{
+						// Global/audit column (is_active, created_by, last_updated,
+						// last_updated_by, txn_id) -- managed by the persistence
+						// layer, so render as a read-only label instead of an
+						// editable input. Mirrors field.isGlobal in
+						// web/nodejs/src/pages/Edittemplate.tsx.cshtml.
+						editBuilder.OpenElement(17 + i + j, "div");
+						editBuilder.AddAttribute(18 + i + j, "id", propInfo.Name);
+						editBuilder.AddAttribute(19 + i + j, "class", "form-control-plaintext");
+						editBuilder.AddContent(20 + i + j, GetReadOnlyDisplayValue(propInfo));
+						editBuilder.CloseElement(); // div
+					}
+					else if (IsEnumForeignKey(propInfo))
+					{
+						// Enum dropdown
+						editBuilder.OpenElement(17 + i + j, "select");
+						editBuilder.AddAttribute(18 + i + j, "id", propInfo.Name);
+						editBuilder.AddAttribute(19 + i + j, "class", "form-control");
+						editBuilder.AddAttribute(20 + i + j, "onchange", EventCallback.Factory.Create<ChangeEventArgs>(this, async (e) => await SetEnumProperty(propInfo, e.Value?.ToString() ?? "")));
+						
+						editBuilder.OpenElement(21 + i + j, "option");
+						editBuilder.AddAttribute(22 + i + j, "value", "");
+						editBuilder.AddContent(23 + i + j, "-- Select --");
+						editBuilder.CloseElement(); // option
+						
+						if (enumData.ContainsKey(propInfo.Name))
+						{
+							var currentValue = GetEnumProperty(propInfo);
+							foreach (var enumItem in enumData[propInfo.Name])
+							{
+								editBuilder.OpenElement(24 + i + j, "option");
+								editBuilder.AddAttribute(25 + i + j, "value", enumItem.id.ToString());
+								if (enumItem.id == currentValue)
+								{
+									editBuilder.AddAttribute(26 + i + j, "selected", "selected");
+								}
+								editBuilder.AddContent(27 + i + j, enumItem.rwkString);
+								editBuilder.CloseElement(); // option
+							}
+						}
+						
+						editBuilder.CloseElement(); // select
+					}
+					else if (underlyingType == typeof(string))
+					{
+						editBuilder.OpenElement(17 + i + j, "input");
+						editBuilder.AddAttribute(18 + i + j, "type", "text");
+						editBuilder.AddAttribute(19 + i + j, "id", propInfo.Name);
+						editBuilder.AddAttribute(20 + i + j, "value", GetStringProperty(propInfo));
+						editBuilder.AddAttribute(21 + i + j, "onchange", EventCallback.Factory.Create<ChangeEventArgs>(this, async (e) => await SetStringProperty(propInfo, e.Value?.ToString() ?? "")));
+						editBuilder.AddAttribute(22 + i + j, "class", "form-control");
+						editBuilder.CloseElement(); // input
+					}
+					else if (underlyingType == typeof(int))
+					{
+						editBuilder.OpenElement(17 + i + j, "input");
+						editBuilder.AddAttribute(18 + i + j, "type", "number");
+						editBuilder.AddAttribute(19 + i + j, "id", propInfo.Name);
+						editBuilder.AddAttribute(20 + i + j, "value", GetIntProperty(propInfo).ToString());
+						editBuilder.AddAttribute(21 + i + j, "onchange", EventCallback.Factory.Create<ChangeEventArgs>(this, async (e) => await SetIntProperty(propInfo, int.TryParse(e.Value?.ToString(), out var val) ? val : 0)));
+						editBuilder.AddAttribute(22 + i + j, "class", "form-control");
+						editBuilder.CloseElement(); // input
+					}
+					else if (underlyingType == typeof(long))
+					{
+						editBuilder.OpenElement(17 + i + j, "input");
+						editBuilder.AddAttribute(18 + i + j, "type", "number");
+						editBuilder.AddAttribute(19 + i + j, "id", propInfo.Name);
+						editBuilder.AddAttribute(20 + i + j, "value", GetLongProperty(propInfo).ToString());
+						editBuilder.AddAttribute(21 + i + j, "onchange", EventCallback.Factory.Create<ChangeEventArgs>(this, async (e) => await SetLongProperty(propInfo, long.TryParse(e.Value?.ToString(), out var val) ? val : 0)));
+						editBuilder.AddAttribute(22 + i + j, "class", "form-control");
+						editBuilder.CloseElement(); // input
+					}
+					else if (underlyingType == typeof(bool))
+					{
+						editBuilder.OpenElement(17 + i + j, "input");
+						editBuilder.AddAttribute(18 + i + j, "type", "checkbox");
+						editBuilder.AddAttribute(19 + i + j, "id", propInfo.Name);
+						editBuilder.AddAttribute(20 + i + j, "checked", GetBoolProperty(propInfo));
+						editBuilder.AddAttribute(21 + i + j, "onchange", EventCallback.Factory.Create<ChangeEventArgs>(this, async (e) => await SetBoolProperty(propInfo, bool.TryParse(e.Value?.ToString(), out var val) ? val : false)));
+						editBuilder.AddAttribute(22 + i + j, "class", "form-check-input");
+						editBuilder.CloseElement(); // input
+					}
+					else if (underlyingType == typeof(DateTime))
+					{
+						editBuilder.OpenElement(17 + i + j, "input");
+						editBuilder.AddAttribute(18 + i + j, "type", "date");
+						editBuilder.AddAttribute(19 + i + j, "id", propInfo.Name);
+						editBuilder.AddAttribute(20 + i + j, "value", GetDateTimeProperty(propInfo).ToString("yyyy-MM-dd"));
+						editBuilder.AddAttribute(21 + i + j, "onchange", EventCallback.Factory.Create<ChangeEventArgs>(this, async (e) => await SetDateTimeProperty(propInfo, DateTime.Parse(e.Value?.ToString() ?? DateTime.MinValue.ToString()))));
+						editBuilder.AddAttribute(22 + i + j, "class", "form-control");
+						editBuilder.CloseElement(); // input
+					}
+					else
+					{
+						// Default to string input
+						editBuilder.OpenElement(17 + i + j, "input");
+						editBuilder.AddAttribute(18 + i + j, "type", "text");
+						editBuilder.AddAttribute(19 + i + j, "id", propInfo.Name);
+						editBuilder.AddAttribute(20 + i + j, "value", GetStringProperty(propInfo));
+						editBuilder.AddAttribute(21 + i + j, "onchange", EventCallback.Factory.Create<ChangeEventArgs>(this, async (e) => await SetStringProperty(propInfo, e.Value?.ToString() ?? "")));
+						editBuilder.AddAttribute(22 + i + j, "class", "form-control");
+						editBuilder.CloseElement(); // input
+					}
+					
+					editBuilder.CloseElement(); // div mb-2
+					editBuilder.CloseElement(); // td
+				}
+				
+				editBuilder.CloseElement(); // tr
+			}
+			
+			editBuilder.CloseElement(); // table
+			editBuilder.CloseElement(); // div
+			
+			// Add buttons -- Save/Cancel grouped on the left, Delete (when
+			// editing an existing record) right-justified via the flex
+			// container. Mirrors the button layout in
+			// web/nodejs/src/pages/Edittemplate.tsx.cshtml.
+			editBuilder.OpenElement(9, "div");
+			editBuilder.AddAttribute(10, "class", "mb-3 d-flex justify-content-between align-items-center");
+
+			editBuilder.OpenElement(11, "div");
+
+			editBuilder.OpenElement(12, "button");
+			editBuilder.AddAttribute(13, "type", "submit");
+			editBuilder.AddAttribute(14, "class", "btn btn-primary");
+			editBuilder.AddContent(15, "Save");
+			editBuilder.CloseElement(); // button
+
+			editBuilder.OpenElement(16, "button");
+			editBuilder.AddAttribute(17, "type", "button");
+			editBuilder.AddAttribute(18, "class", "btn btn-secondary");
+			editBuilder.AddAttribute(19, "onclick", EventCallback.Factory.Create(this, Cancel));
+			editBuilder.AddContent(20, "Cancel");
+			editBuilder.CloseElement(); // button
+
+			editBuilder.CloseElement(); // div (Save/Cancel group)
+
+			if (id is not null)
+			{
+				// Soft delete -- DELETE api/servernodestatus/{id} sets
+				// is_active=0 server-side (see ServerNodeStatusLogic.delete() /
+				// server/dotnet/api/template.api.generated.cs.cshtml's Delete
+				// action), it doesn't remove the row. Only shown for an
+				// existing record, since there's nothing to delete while
+				// creating a new one.
+				editBuilder.OpenElement(21, "button");
+				editBuilder.AddAttribute(22, "type", "button");
+				editBuilder.AddAttribute(23, "class", "btn");
+				editBuilder.AddAttribute(24, "style", "background-color:#8b0000;color:#fff;");
+				editBuilder.AddAttribute(25, "onclick", EventCallback.Factory.Create(this, HandleDelete));
+				editBuilder.AddContent(26, "Delete");
+				editBuilder.CloseElement(); // button
+			}
+
+			editBuilder.CloseElement(); // div (mb-3 flex container)
+		}));
+		builder.CloseComponent(); // EditForm
+	};
+	
+	private RenderFragment CreateHistoryTabContent() => builder =>
+	{
+		builder.OpenElement(0, "div");
+		builder.AddAttribute(1, "class", "mt-3");
+		
+		// Add debug info
+		builder.OpenElement(2, "div");
+		builder.AddAttribute(3, "class", "alert alert-info");
+		builder.AddContent(4, $"History records: {servernodestatusHistoryList?.Length ?? 0}");
+		builder.CloseElement(); // div
+		
+		// Add DataTable component
+		builder.OpenComponent<DataTable>(5);
+		builder.AddAttribute(6, "Data", servernodestatusHistoryList);
+		builder.AddAttribute(7, "DataType", typeof(ServerNodeStatusHistory));
+		builder.AddAttribute(8, "ShowActions", false);
+		builder.AddAttribute(9, "ShowAddButton", false);
+		builder.CloseComponent(); // DataTable
+		
+		builder.CloseElement(); // div
+	};
+
+
+	// A foreign key renders as an rwk-string dropdown (display = rwk string,
+	// value = referenced id) for both "enum" lookups and "parent" relationships.
+	// Any other fkType falls through to a plain input.
+	private bool IsEnumForeignKey(System.Reflection.PropertyInfo propInfo)
+	{
+		var columnInfo = propInfo.GetCustomAttribute<ColumnInfoAttribute>();
+		if (columnInfo == null ||
+			string.IsNullOrEmpty(columnInfo.fkObject) ||
+			string.IsNullOrEmpty(columnInfo.fkType))
+		{
+			return false;
+		}
+		var fkType = columnInfo.fkType.ToLower();
+		return fkType == "enum" || fkType == "parent";
+	}
+
+	// Load enum data for dropdowns
+	private async Task LoadEnumData()
+	{
+		try
+		{
+			var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+			var properties = GetEditableProperties();
+			
+			foreach (var propInfo in properties)
+			{
+				if (IsEnumForeignKey(propInfo))
+				{
+					var columnInfo = propInfo.GetCustomAttribute<ColumnInfoAttribute>();
+					if (columnInfo != null && !string.IsNullOrEmpty(columnInfo.fkObject))
+					{
+						var enumDataResult = await remoteClient.GetFromJsonAsync<List<EnumHelper>>($"api/{columnInfo.fkObject.ToLower()}/enum");
+						if (enumDataResult != null)
+						{
+							enumData[propInfo.Name] = enumDataResult;
+						}
+					}
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error loading enum data: {ex.Message}");
+		}
+	}
+
+	private async Task LoadHistoryData()
+	{
+		try
+		{
+			if (id is not null)
+			{
+				var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+				servernodestatusHistoryList = await remoteClient.GetFromJsonAsync<ServerNodeStatusHistory[]>($"api/servernodestatus/{id}/history");
+				
+				Console.WriteLine($"Loaded {servernodestatusHistoryList?.Length ?? 0} history records for servernodestatus {id}");
+			}
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error loading history data: {ex.Message}");
+			servernodestatusHistoryList = new ServerNodeStatusHistory[0];
+		}
+	}
+
+	private async Task LoadChildData()
+	{
+		try
+		{
+			if (id is not null)
+			{
+				var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+			}
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error loading child data: {ex.Message}");
+		}
+	}
+
+	private async Task LoadMapData()
+	{
+		if (id is null)
+		{
+			return;
+		}
+
+		var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+	}
+
+	// Tab management method
+	private void OnTabChanged(int tabIndex)
+	{
+		activeTabIndex = tabIndex;
+		StateHasChanged();
+	}
+
+	// Child tab management method
+	private void OnChildTabChanged(int tabIndex)
+	{
+		activeChildTabIndex = tabIndex;
+		StateHasChanged();
+	}
+
+	async Task HandleSubmit(EditContext context)
+	{
+		if (context.Validate())
+		{
+			try
+			{
+				var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+				if (id is null)
+				{
+					// Create new record
+					var response = await remoteClient.PostAsJsonAsync($"api/servernodestatus", servernodestatus);
+					if (response.IsSuccessStatusCode)
+					{
+						var createdObj = await response.Content.ReadFromJsonAsync<ServerNodeStatus>();
+						if (createdObj != null)
+						{
+							servernodestatus = createdObj;
+						}
+					}
+				}
+				else
+				{
+					// Update existing record
+					await remoteClient.PutAsJsonAsync($"api/servernodestatus/{id}", servernodestatus);
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error saving servernodestatus: {ex.Message}");
+			}
+		}
+
+		// Navigate back to list after successful save
+		Navigation.NavigateTo(_returnUrl ?? "/servernodestatus");
+	}
+
+	void Cancel()
+	{
+		Navigation.NavigateTo(_returnUrl ?? "/servernodestatus");
+	}
+
+	async Task HandleDelete()
+	{
+		if (id is null)
+		{
+			return;
+		}
+
+		// Plain browser confirm() via JS interop -- matches window.confirm in
+		// web/nodejs/src/pages/Edittemplate.tsx.cshtml's handleDelete, so both
+		// clients behave identically.
+		bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Delete this Server Node Status? This cannot be undone.");
+		if (!confirmed)
+		{
+			return;
+		}
+
+		try
+		{
+			var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+			await remoteClient.DeleteAsync($"api/servernodestatus/{id}");
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error deleting servernodestatus: {ex.Message}");
+			return;
+		}
+
+		Navigation.NavigateTo(_returnUrl ?? "/servernodestatus");
+	}
+
+	// Helper methods using ReflectionHelper
+	private System.Reflection.PropertyInfo[] GetEditableProperties()
+	{
+		return ReflectionHelper.GetEditFormProperties<ServerNodeStatus>();
+	}
+
+	private string GetPropertyLabel(System.Reflection.PropertyInfo propInfo)
+	{
+		return ReflectionHelper.GetPropertyLabel(propInfo);
+	}
+
+	// Property getter methods
+	private string GetStringProperty(System.Reflection.PropertyInfo propInfo)
+	{
+		return ReflectionHelper.GetPropertyValueAsString(servernodestatus, propInfo);
+	}
+
+	// Display text for global/audit fields (see ReflectionHelper.IsGlobalProperty
+	// above) -- same value as GetStringProperty, with a friendlier Yes/No for
+	// boolean columns like is_active.
+	private string GetReadOnlyDisplayValue(System.Reflection.PropertyInfo propInfo)
+	{
+		var underlyingType = Nullable.GetUnderlyingType(propInfo.PropertyType) ?? propInfo.PropertyType;
+		if (underlyingType == typeof(bool))
+		{
+			return GetBoolProperty(propInfo) ? "Yes" : "No";
+		}
+		return GetStringProperty(propInfo);
+	}
+
+	private int GetIntProperty(System.Reflection.PropertyInfo propInfo)
+	{
+		return ReflectionHelper.GetPropertyValueAsInt(servernodestatus, propInfo);
+	}
+
+	private int? GetNullableIntProperty(System.Reflection.PropertyInfo propInfo)
+	{
+		return ReflectionHelper.GetPropertyValueAsNullableInt(servernodestatus, propInfo);
+	}
+
+	private long GetLongProperty(System.Reflection.PropertyInfo propInfo)
+	{
+		return ReflectionHelper.GetPropertyValueAsLong(servernodestatus, propInfo);
+	}
+
+	private long? GetNullableLongProperty(System.Reflection.PropertyInfo propInfo)
+	{
+		return ReflectionHelper.GetPropertyValueAsNullableLong(servernodestatus, propInfo);
+	}
+
+	private decimal GetDecimalProperty(System.Reflection.PropertyInfo propInfo)
+	{
+		return ReflectionHelper.GetPropertyValueAsDecimal(servernodestatus, propInfo);
+	}
+
+	private decimal? GetNullableDecimalProperty(System.Reflection.PropertyInfo propInfo)
+	{
+		return ReflectionHelper.GetPropertyValueAsNullableDecimal(servernodestatus, propInfo);
+	}
+
+	private bool GetBoolProperty(System.Reflection.PropertyInfo propInfo)
+	{
+		return ReflectionHelper.GetPropertyValueAsBool(servernodestatus, propInfo);
+	}
+
+	private bool? GetNullableBoolProperty(System.Reflection.PropertyInfo propInfo)
+	{
+		return ReflectionHelper.GetPropertyValueAsNullableBool(servernodestatus, propInfo);
+	}
+
+	private DateTime GetDateTimeProperty(System.Reflection.PropertyInfo propInfo)
+	{
+		return ReflectionHelper.GetPropertyValueAsDateTime(servernodestatus, propInfo);
+	}
+
+	private DateTime? GetNullableDateTimeProperty(System.Reflection.PropertyInfo propInfo)
+	{
+		return ReflectionHelper.GetPropertyValueAsNullableDateTime(servernodestatus, propInfo);
+	}
+
+	private DateOnly GetDateOnlyProperty(System.Reflection.PropertyInfo propInfo)
+	{
+		return ReflectionHelper.GetPropertyValueAsDateOnly(servernodestatus, propInfo);
+	}
+
+	private DateOnly? GetNullableDateOnlyProperty(System.Reflection.PropertyInfo propInfo)
+	{
+		return ReflectionHelper.GetPropertyValueAsNullableDateOnly(servernodestatus, propInfo);
+	}
+
+	private long GetEnumProperty(System.Reflection.PropertyInfo propInfo)
+	{
+		var value = propInfo.GetValue(servernodestatus);
+		return value != null ? Convert.ToInt64(value) : 0;
+	}
+
+	// Property setter methods
+	private async Task SetStringProperty(System.Reflection.PropertyInfo propInfo, string value)
+	{
+		propInfo.SetValue(servernodestatus, value);
+		await InvokeAsync(StateHasChanged);
+	}
+
+	private async Task SetIntProperty(System.Reflection.PropertyInfo propInfo, int value)
+	{
+		propInfo.SetValue(servernodestatus, value);
+		await InvokeAsync(StateHasChanged);
+	}
+
+	private async Task SetNullableIntProperty(System.Reflection.PropertyInfo propInfo, int? value)
+	{
+		propInfo.SetValue(servernodestatus, value);
+		await InvokeAsync(StateHasChanged);
+	}
+
+	private async Task SetLongProperty(System.Reflection.PropertyInfo propInfo, long value)
+	{
+		propInfo.SetValue(servernodestatus, value);
+		await InvokeAsync(StateHasChanged);
+	}
+
+	private async Task SetNullableLongProperty(System.Reflection.PropertyInfo propInfo, long? value)
+	{
+		propInfo.SetValue(servernodestatus, value);
+		await InvokeAsync(StateHasChanged);
+	}
+
+	private async Task SetDecimalProperty(System.Reflection.PropertyInfo propInfo, decimal value)
+	{
+		propInfo.SetValue(servernodestatus, value);
+		await InvokeAsync(StateHasChanged);
+	}
+
+	private async Task SetNullableDecimalProperty(System.Reflection.PropertyInfo propInfo, decimal? value)
+	{
+		propInfo.SetValue(servernodestatus, value);
+		await InvokeAsync(StateHasChanged);
+	}
+
+	private async Task SetBoolProperty(System.Reflection.PropertyInfo propInfo, bool value)
+	{
+		propInfo.SetValue(servernodestatus, value);
+		await InvokeAsync(StateHasChanged);
+	}
+
+	private async Task SetNullableBoolProperty(System.Reflection.PropertyInfo propInfo, bool? value)
+	{
+		propInfo.SetValue(servernodestatus, value);
+		await InvokeAsync(StateHasChanged);
+	}
+
+	private async Task SetDateTimeProperty(System.Reflection.PropertyInfo propInfo, DateTime value)
+	{
+		propInfo.SetValue(servernodestatus, value);
+		await InvokeAsync(StateHasChanged);
+	}
+
+	private async Task SetNullableDateTimeProperty(System.Reflection.PropertyInfo propInfo, DateTime? value)
+	{
+		propInfo.SetValue(servernodestatus, value);
+		await InvokeAsync(StateHasChanged);
+	}
+
+	private async Task SetDateOnlyProperty(System.Reflection.PropertyInfo propInfo, DateOnly value)
+	{
+		propInfo.SetValue(servernodestatus, value);
+		await InvokeAsync(StateHasChanged);
+	}
+
+	private async Task SetNullableDateOnlyProperty(System.Reflection.PropertyInfo propInfo, DateOnly? value)
+	{
+		propInfo.SetValue(servernodestatus, value);
+		await InvokeAsync(StateHasChanged);
+	}
+
+	private async Task SetEnumProperty(System.Reflection.PropertyInfo propInfo, string value)
+	{
+		if (long.TryParse(value, out var longValue))
+		{
+			propInfo.SetValue(servernodestatus, longValue);
+			await InvokeAsync(StateHasChanged);
+		}
+	}
+}

@@ -290,7 +290,11 @@ export default function EditOpRole() {
     // window.confirm here (rather than a custom modal) matches the plain
     // browser confirm() the Blazor Edit page uses via JS interop below --
     // keeps both clients' delete confirmation behavior identical.
+<<<<<<< HEAD
+    if (!window.confirm(`Delete this Role? This cannot be undone.`)) return;
+=======
     if (!window.confirm(`Delete this Operation Role? This cannot be undone.`)) return;
+>>>>>>> main
     try {
       await api.del(`/api/oprole/${id}`);
     } catch (err) {
@@ -482,7 +486,7 @@ export default function EditOpRole() {
 
   return (
     <>
-      {id == null ? <h3>Create Operation Role</h3> : <h3>Edit Operation Role {rwkString}</h3>}
+      {id == null ? <h3>Create Role</h3> : <h3>Edit Role {rwkString}</h3>}
 
       <TabControl id="editTabs" tabs={editTabs} activeTab={activeTab} onTabChanged={setActiveTab} />
 

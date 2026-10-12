@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.2" />
+
+  </ItemGroup>
+
+  <!-- Hand-written custom pages live outside the generated tree, under
+       <app>/usr/web/pages. Compile and route them with the generated client.
+       Each .razor there must declare its own @using directives (it does not
+       inherit the generated _Imports.razor). -->
+  <ItemGroup>
+    <RazorComponent Include="..\..\usr\web\pages\**\*.razor" />
+  </ItemGroup>
+
+</Project>

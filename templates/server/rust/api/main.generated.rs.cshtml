@@ -350,10 +350,13 @@ fn handle(request: &Request) -> Response {
         ("POST", 2) => {
             if rest[0].eq_ignore_ascii_case("notification") && rest[1].eq_ignore_ascii_case("publish") {
                 notification_publish(request)
+<<<<<<< HEAD
+=======
             } else if rest[0].eq_ignore_ascii_case("notification")
                 && rest[1].eq_ignore_ascii_case("stream-ticket")
             {
                 notification_stream_ticket()
+>>>>>>> main
             } else if rest[0].eq_ignore_ascii_case("admin") && rest[1].eq_ignore_ascii_case("clear-auth-cache") {
                 admin_clear_auth_cache()
             } else {
@@ -545,6 +548,8 @@ fn admin_clear_auth_cache() -> Response {
     Response::text("").with_status_code(200)
 }
 
+<<<<<<< HEAD
+=======
 // ── SSE stream tickets: single-use auth for the EventSource connection ───────
 // The browser's native EventSource API cannot set an Authorization header, so
 // GET /api/notification/stream (see below) can't be gated by the normal JWT
@@ -632,6 +637,7 @@ fn is_notification_stream_request(request: &Request) -> bool {
         && segs[2].eq_ignore_ascii_case("stream")
 }
 
+>>>>>>> main
 // ── Server-Sent Events: real-time object-change notifications ────────────────
 // Connected web clients hold open a `GET /api/notification/stream` response.
 // `notification_publish` pushes a PropertyUpdated event to every client; the

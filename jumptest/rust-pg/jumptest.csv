@@ -1,3 +1,35 @@
+<<<<<<< HEAD
+TABLE_CATALOG,TABLE_SCHEMA,TABLE_NAME,TABLE_LABEL,NAV_MENU,COLUMN_NAME,COLUMN_LABEL,FK_TYPE,FK_TABLE,TEST_DATA_SET,ORDINAL_POSITION,COLUMN_DEFAULT,RWK,IS_NULLABLE,DATA_TYPE,MSSQL_DATA_TYPE,CHARACTER_MAXIMUM_LENGTH,URI,IS_AUDITED
+jumptest,app,test_result_status,Test Result Status,,id,Test Result Status ID,,,,1,NULL,0,NO,BIGINT,bigint,NULL,,1
+,app,test_result_status,,,name,Name,,,,2,NULL,1,NO,VARCHAR,nvarchar,50,,1
+,app,test_plan,Test Plan,Testing,id,Test Plan ID,,,,1,NULL,0,NO,BIGINT,bigint,NULL,usr/testplan,1
+,app,test_plan,,,name,Name,,,,2,NULL,1,NO,VARCHAR,nvarchar,255,,1
+,app,test_plan,,,description,Description,,,,3,NULL,0,YES,TEXT,nvarchar,NULL,,1
+,app,test_case,Test Case,Testing,id,Test Case ID,,,,1,NULL,0,NO,BIGINT,bigint,NULL,,1
+,app,test_case,,,test_plan_id,Test Plan,parent,test_plan,,2,NULL,1,NO,BIGINT,bigint,NULL,,1
+,app,test_case,,,code,Code,,,,3,NULL,1,NO,VARCHAR,nvarchar,50,,1
+,app,test_case,,,area,Area,,,,4,NULL,0,NO,VARCHAR,nvarchar,100,,1
+,app,test_case,,,title,Title,,,,5,NULL,1,NO,VARCHAR,nvarchar,255,,1
+,app,test_case,,,preconditions,Preconditions,,,,6,NULL,0,YES,TEXT,nvarchar,NULL,,1
+,app,test_case,,,steps,Steps,,,,7,NULL,0,NO,TEXT,nvarchar,NULL,,1
+,app,test_case,,,expected_result,Expected Result,,,,8,NULL,0,NO,TEXT,nvarchar,NULL,,1
+,app,test_case,,,priority,Priority,,,,9,NULL,0,NO,VARCHAR,nvarchar,10,,1
+,app,test_case,,,component,Component,,,,10,NULL,0,YES,VARCHAR,nvarchar,100,,1
+,app,test_run,Test Run,Testing,id,Test Run ID,,,,1,NULL,0,NO,BIGINT,bigint,NULL,,1
+,app,test_run,,,name,Name,,,,2,NULL,1,NO,VARCHAR,nvarchar,255,,1
+,app,test_run,,,test_plan_id,Test Plan,parent,test_plan,,3,NULL,1,NO,BIGINT,bigint,NULL,,1
+,app,test_run,,,run_at,Run At,,,,4,NULL,0,YES,TIMESTAMP,datetime,NULL,,1
+,app,test_run,,,run_by,Run By,,,,5,NULL,0,YES,VARCHAR,nvarchar,50,,1
+,app,test_run,,,notes,Notes,,,,6,NULL,0,YES,TEXT,nvarchar,NULL,,1
+,app,test_result,Test Result,,id,Test Result ID,,,,1,NULL,0,NO,BIGINT,bigint,NULL,,1
+,app,test_result,,,test_run_id,Test Run,parent,test_run,,2,NULL,1,NO,BIGINT,bigint,NULL,,1
+,app,test_result,,,test_case_id,Test Case,parent,test_case,,3,NULL,1,NO,BIGINT,bigint,NULL,,1
+,app,test_result,,,test_result_status_id,Status,enum,test_result_status,,4,NULL,0,NO,BIGINT,bigint,NULL,,1
+,app,test_result,,,executed_at,Executed At,,,,5,NULL,0,YES,TIMESTAMP,datetime,NULL,,1
+,app,test_result,,,executed_by_id,Executed By,enum,principal,,6,NULL,0,YES,BIGINT,bigint,NULL,,1
+,app,test_result,,,actual_result,Actual Result,,,,7,NULL,0,YES,TEXT,nvarchar,NULL,,1
+,app,test_result,,,notes,Notes,,,,8,NULL,0,YES,TEXT,nvarchar,NULL,,1
+=======
 TABLE_CATALOG,TABLE_SCHEMA,TABLE_NAME,TABLE_LABEL,NAV_MENU,COLUMN_NAME,COLUMN_LABEL,FK_TYPE,FK_TABLE,TEST_DATA_SET,ORDINAL_POSITION,COLUMN_DEFAULT,RWK,IS_NULLABLE,DATA_TYPE,MSSQL_DATA_TYPE,CHARACTER_MAXIMUM_LENGTH,URI,IS_AUDITED
 jumptest,app,test_result_status,Test Result Status,,id,Test Result Status ID,,,,1,NULL,0,NO,BIGINT,bigint,NULL,,1
 ,app,test_result_status,,,name,Name,,,,2,NULL,1,NO,VARCHAR,nvarchar,50,,1
@@ -28,3 +60,4 @@ jumptest,app,test_result_status,Test Result Status,,id,Test Result Status ID,,,,
 ,app,test_result,,,executed_by_id,Executed By,enum,principal,,6,NULL,0,YES,BIGINT,bigint,NULL,,1
 ,app,test_result,,,actual_result,Actual Result,,,,7,NULL,0,YES,TEXT,nvarchar,NULL,,1
 ,app,test_result,,,notes,Notes,,,,8,NULL,0,YES,TEXT,nvarchar,NULL,,1
+>>>>>>> main

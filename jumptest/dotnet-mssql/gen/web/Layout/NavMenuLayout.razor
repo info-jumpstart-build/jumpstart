@@ -1,0 +1,116 @@
+@* Parameters *@
+@using System.Net.Http;
+@using Microsoft.Extensions.DependencyInjection;
+@using System.Linq;
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+@inject NavigationManager NavigationManager
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@code {
+    [Parameter] public long? SelectedParentId { get; set; }
+}
+
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="nav flex-column">
+        
+        
+        <!-- Parent Navigation Display -->
+        @if (SelectedParentId.HasValue && !string.IsNullOrEmpty(selectedParentName))
+        {
+            <div class="nav-section-header px-3 py-2">
+                <h6 class="text-muted mb-0">@selectedParentName</h6>
+            </div>
+        }
+        
+        <!-- Navigation Content for selected parent -->
+        @if (childMenuList == null && SelectedParentId.HasValue)
+        {
+            <p><em>Loading menu items...</em></p>
+        }
+        else if (childMenuList != null && childMenuList.Length > 0)
+        {
+            <div class="nav-content">
+                @foreach (var childMenu in childMenuList)
+                {
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="@childMenu.link">
+                            <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> @childMenu.name
+                        </NavLink>
+                    </div>
+                }
+            </div>
+        }
+    </nav>
+</div>
+
+<style>
+    .nav-section-header {
+        border-bottom: 1px solid #dee2e6;
+        margin-bottom: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 0.25rem;
+    }
+    
+    .nav-content {
+        margin-bottom: 1rem;
+    }
+</style>
+
+@code {
+    private bool collapseNavMenu = true;
+    protected NavMenu[]? childMenuList;
+    protected string? selectedParentName;
+    private long? previousParentId;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        if (SelectedParentId.HasValue)
+        {
+            // Only navigate if the parent actually changed
+            bool parentChanged = previousParentId != SelectedParentId.Value;
+            await LoadChildMenuItems(parentChanged);
+            previousParentId = SelectedParentId.Value;
+        }
+        else
+        {
+            childMenuList = null;
+            selectedParentName = null;
+            previousParentId = null;
+        }
+    }
+    
+    private async Task LoadChildMenuItems(bool shouldNavigate = false)
+    {
+        if (!SelectedParentId.HasValue) return;
+        
+        var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+        childMenuList = await remoteClient.GetFromJsonAsync<NavMenu[]>($"api/navmenu/byparent?parent_id={SelectedParentId.Value}&orderby=ordinal");
+        
+        // Get the parent name for display
+        if (childMenuList != null && childMenuList.Length > 0)
+        {
+            // Get parent info from the first child's parent_id
+            var parentClient = ClientFactory.CreateClient("RemoteAPI");
+            var parentMenu = await parentClient.GetFromJsonAsync<NavMenu>($"api/navmenu/{SelectedParentId.Value}");
+            selectedParentName = parentMenu?.name;
+            
+            // Navigate to the first link in the list only if parent changed
+            if (shouldNavigate)
+            {
+                var firstChild = childMenuList.FirstOrDefault();
+                if (firstChild != null && !string.IsNullOrEmpty(firstChild.link))
+                {
+                    NavigationManager.NavigateTo(firstChild.link);
+                }
+            }
+        }
+    }
+    
+}

@@ -401,11 +401,19 @@ export default function EditOperation() {
   const childTabs: TabItem[] = [
 
     {
+<<<<<<< HEAD
+      title: "Role",
+      content: (
+        <div className="mt-3">
+          <div className="alert alert-info">
+            Role mapped: {oprole_op_role_Checked.size} of{" "}
+=======
       title: "Operation Role",
       content: (
         <div className="mt-3">
           <div className="alert alert-info">
             Operation Role mapped: {oprole_op_role_Checked.size} of{" "}
+>>>>>>> main
             {oprole_op_role_Options?.length ?? 0}
           </div>
           {(oprole_op_role_Options ?? []).map((option) => (

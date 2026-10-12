@@ -26,9 +26,8 @@ impl TestResultTest {
         let v = BaseTest::get_test_data(&record, "TIMESTAMP", "random", "NULL");
         record.set("executed_at", v);
         
-        let v = BaseTest::get_test_data(&record, "VARCHAR", "random", "50");
-        record.set("executed_by", v);
-        
+        record.set("executed_by_id", serde_json::json!(BaseTest::get_last_id("principal")));
+            
         let v = BaseTest::get_test_data(&record, "TEXT", "random", "NULL");
         record.set("actual_result", v);
         
@@ -44,7 +43,7 @@ impl TestResultTest {
         let mut verify_ctx = LogicContext::for_id(id);
         let persisted = TestResultLogic::exec("get", &mut verify_ctx)?;
         let verify_fields: &[&str] = &[
-"test_run_id", "test_case_id", "test_result_status_id", "executed_by", "actual_result", "notes",         ];
+"test_run_id", "test_case_id", "test_result_status_id", "executed_by_id", "actual_result", "notes",         ];
         BaseTest::assert_persisted("TestResult::insert", &ctx.transaction, &persisted, verify_fields)?;
         Ok(())
     }
@@ -69,9 +68,8 @@ impl TestResultTest {
         let v = BaseTest::get_test_data(&record, "TIMESTAMP", "random", "NULL");
         record.set("executed_at", v);
         
-        let v = BaseTest::get_test_data(&record, "VARCHAR", "random", "50");
-        record.set("executed_by", v);
-        
+        record.set("executed_by_id", serde_json::json!(BaseTest::get_last_id("principal")));
+            
         let v = BaseTest::get_test_data(&record, "TEXT", "random", "NULL");
         record.set("actual_result", v);
         
@@ -86,7 +84,7 @@ impl TestResultTest {
         let mut verify_ctx = LogicContext::for_id(last_id);
         let persisted = TestResultLogic::exec("get", &mut verify_ctx)?;
         let verify_fields: &[&str] = &[
-"test_run_id", "test_case_id", "test_result_status_id", "executed_by", "actual_result", "notes",         ];
+"test_run_id", "test_case_id", "test_result_status_id", "executed_by_id", "actual_result", "notes",         ];
         BaseTest::assert_persisted("TestResult::update", &ctx.transaction, &persisted, verify_fields)?;
         Ok(())
     }

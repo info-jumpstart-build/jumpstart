@@ -1,0 +1,270 @@
+@page "/workflow"
+@using System.Collections.Generic;
+@using jumptest.Components;
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+
+<PageTitle>Workflow</PageTitle>
+
+<h1>Workflow</h1>
+
+<p>This component demonstrates fetching Workflow data from the server.</p>
+
+@if (workflowList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    Console.WriteLine($"ListTemplate: About to render DataTable with {@workflowList.Length} items");
+ 
+    
+    <DataTable Data="@workflowList" 
+               DataType="typeof(WorkflowView)" 
+               ShowActions="true" 
+               ShowAddButton="true"
+               OnEdit="@OnEditWorkflow"
+               OnAdd="@OnAddWorkflow" />
+    
+    Console.WriteLine($"ListTemplate: DataTable rendered");
+}
+
+@code {
+    protected  WorkflowView[]? workflowList;
+    // Real-time updates arrive over Server-Sent Events (see wwwroot/js/notifications.js).
+    private IJSObjectReference? _sseHandle;
+    private IDisposable? _sseRef;
+    private string _domainObjectName = "Workflow";
+    private Dictionary<string, Dictionary<long, string>> enumData = new Dictionary<string, Dictionary<long, string>>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+
+        workflowList = await remoteClient.GetFromJsonAsync<WorkflowView[]>("api/workflow");
+        
+        Console.WriteLine($"ListTemplate: Loaded {workflowList?.Length ?? 0} workflow records");
+        if (workflowList != null && workflowList.Length > 0)
+        {
+            Console.WriteLine($"ListTemplate: First item type: {workflowList[0].GetType().Name}");
+        }
+
+        await ConnectNotifications();
+        await InitEnumData();
+    }
+
+    // Open the SSE notification stream. The browser's EventSource (via the JS
+    // interop) handles reconnection on its own. Every "PropertyUpdated" event is
+    // routed back to OnPropertyUpdated below.
+    private async Task ConnectNotifications()
+    {
+        try
+        {
+            var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+            var baseAddress = remoteClient.BaseAddress?.ToString() ?? "http://localhost:5200";
+            var streamUrl = $"{baseAddress.TrimEnd('/')}/api/Notification/stream";
+
+            _sseRef = DotNetObjectReference.Create(this);
+            _sseHandle = await JS.InvokeAsync<IJSObjectReference>("jumpstartSse.connect", streamUrl, _sseRef);
+            Console.WriteLine($"ListTemplate: SSE notification stream connected for {_domainObjectName}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ListTemplate: Error connecting notification stream: {ex.Message}");
+        }
+    }
+
+    // Invoked from JS for every "PropertyUpdated" SSE event. Filters to this
+    // page's domain object, then updates the affected row in place.
+    [JSInvokable]
+    public async Task OnPropertyUpdated(string json)
+    {
+        try
+        {
+            var message = System.Text.Json.JsonSerializer.Deserialize<PropertyUpdateMessage>(
+                json,
+                new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            if (message != null && message.DomainObjectName == _domainObjectName)
+            {
+                Console.WriteLine($"ListTemplate: Received update for {message.DomainObjectName}[{message.InstanceId}]");
+                await HandlePropertyUpdate(message);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ListTemplate: Error handling notification: {ex.Message}");
+        }
+    }
+
+    private async Task InitEnumData()
+    {
+        var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+
+                var enumworkflow_type_idResult = await remoteClient.GetFromJsonAsync<List<EnumHelper>>($"api/workflowtype/enum");
+                if (enumworkflow_type_idResult != null)
+                {
+                    enumData["workflow_type_id"] = enumworkflow_type_idResult.ToDictionary(e => e.id, e => e.rwkString);
+                }
+             
+                var enumserver_node_idResult = await remoteClient.GetFromJsonAsync<List<EnumHelper>>($"api/servernode/enum");
+                if (enumserver_node_idResult != null)
+                {
+                    enumData["server_node_id"] = enumserver_node_idResult.ToDictionary(e => e.id, e => e.rwkString);
+                }
+             
+                var enumprocess_idResult = await remoteClient.GetFromJsonAsync<List<EnumHelper>>($"api/process/enum");
+                if (enumprocess_idResult != null)
+                {
+                    enumData["process_id"] = enumprocess_idResult.ToDictionary(e => e.id, e => e.rwkString);
+                }
+             
+                var enumexec_status_idResult = await remoteClient.GetFromJsonAsync<List<EnumHelper>>($"api/execstatus/enum");
+                if (enumexec_status_idResult != null)
+                {
+                    enumData["exec_status_id"] = enumexec_status_idResult.ToDictionary(e => e.id, e => e.rwkString);
+                }
+             
+                var enumschedule_idResult = await remoteClient.GetFromJsonAsync<List<EnumHelper>>($"api/schedule/enum");
+                if (enumschedule_idResult != null)
+                {
+                    enumData["schedule_id"] = enumschedule_idResult.ToDictionary(e => e.id, e => e.rwkString);
+                }
+             
+                var enumon_failure_action_idResult = await remoteClient.GetFromJsonAsync<List<EnumHelper>>($"api/onfailure/enum");
+                if (enumon_failure_action_idResult != null)
+                {
+                    enumData["on_failure_action_id"] = enumon_failure_action_idResult.ToDictionary(e => e.id, e => e.rwkString);
+                }
+                 }
+
+    private async Task HandlePropertyUpdate(PropertyUpdateMessage message)
+    {
+        try
+        {
+            if (workflowList == null)
+            {
+                return;
+            }
+
+            // Find the item in the list by ID
+            var index = Array.FindIndex(workflowList, item => item.id == message.InstanceId);
+            
+            if (index >= 0)
+            {
+                // Fetch the updated item from the API to ensure we have the complete View object
+                // with all computed properties and enum display values properly populated
+                var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+                var updatedObject = await remoteClient.GetFromJsonAsync<WorkflowView>($"api/workflow/view/{message.InstanceId}");
+                if (updatedObject != null)
+                { 
+
+                        //if (enumData.ContainsKey("workflow_type_id") && enumData["workflow_type_id"].ContainsKey(updatedObject.workflow_type_id))
+                        //updatedObject.workflow_type_name = enumData["workflow_type_id"][updatedObject.workflow_type_id];
+                        
+                        //if (enumData.ContainsKey("server_node_id") && enumData["server_node_id"].ContainsKey(updatedObject.server_node_id))
+                        //updatedObject.server_node_hostname = enumData["server_node_id"][updatedObject.server_node_id];
+                        
+                        //if (enumData.ContainsKey("process_id") && enumData["process_id"].ContainsKey(updatedObject.process_id))
+                        //updatedObject.process_name = enumData["process_id"][updatedObject.process_id];
+                        
+                        //if (enumData.ContainsKey("exec_status_id") && enumData["exec_status_id"].ContainsKey(updatedObject.exec_status_id))
+                        //updatedObject.exec_status_name = enumData["exec_status_id"][updatedObject.exec_status_id];
+                        
+                        //if (enumData.ContainsKey("schedule_id") && enumData["schedule_id"].ContainsKey(updatedObject.schedule_id))
+                        //updatedObject.schedule_name = enumData["schedule_id"][updatedObject.schedule_id];
+                        
+                        //if (enumData.ContainsKey("on_failure_action_id") && enumData["on_failure_action_id"].ContainsKey(updatedObject.on_failure_action_id))
+                        //updatedObject.on_failure_action_action = enumData["on_failure_action_id"][updatedObject.on_failure_action_id];
+                        
+               
+                    // Update existing item with the fetched object (enum display values are already set by the API)
+                    workflowList[index] = updatedObject;
+                    Console.WriteLine($"ListTemplate: Updated {_domainObjectName}[{message.InstanceId}] in list from API");
+                    
+                    // Notify UI to update
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
+            else
+            {
+                // Item not found, might be a new item - reload the list
+                Console.WriteLine($"ListTemplate: {_domainObjectName}[{message.InstanceId}] not found in list, reloading...");
+                await ReloadList();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ListTemplate: Error handling property update: {ex.Message}");
+            // On error, fall back to reloading the entire list
+            try
+            {
+                await ReloadList();
+            }
+            catch (Exception reloadEx)
+            {
+                Console.WriteLine($"ListTemplate: Error reloading list: {reloadEx.Message}");
+            }
+        }
+    }
+
+    private async Task ReloadList()
+    {
+        try
+        {
+            var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+            workflowList = await remoteClient.GetFromJsonAsync<WorkflowView[]>("api/workflow");
+            Console.WriteLine($"ListTemplate: Reloaded {workflowList?.Length ?? 0} workflow records");
+            await InvokeAsync(StateHasChanged);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ListTemplate: Error reloading list: {ex.Message}");
+        }
+    }
+
+    async Task OnAddWorkflow()
+    {
+        var currentPath = new Uri(Navigation.Uri).AbsolutePath;
+        Navigation.NavigateTo($"edit-workflow?returnUrl={Uri.EscapeDataString(currentPath)}");
+    }
+
+    async Task OnEditWorkflow(object item)
+    {
+        var workflow = (WorkflowView)item;
+        var currentPath = new Uri(Navigation.Uri).AbsolutePath;
+        Navigation.NavigateTo($"edit-workflow/{workflow.id}?returnUrl={Uri.EscapeDataString(currentPath)}");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_sseHandle is not null)
+        {
+            try
+            {
+                await _sseHandle.InvokeVoidAsync("close");
+                await _sseHandle.DisposeAsync();
+                Console.WriteLine($"ListTemplate: SSE notification stream closed");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ListTemplate: Error closing notification stream: {ex.Message}");
+            }
+        }
+        _sseRef?.Dispose();
+    }
+
+    // Message structure for property update notifications (matches server-side PropertyUpdateMessage)
+    private class PropertyUpdateMessage
+    {
+        public string DomainObjectName { get; set; } = string.Empty;
+        public long InstanceId { get; set; }
+        public string JsonData { get; set; } = string.Empty;
+        public DateTime Timestamp { get; set; }
+    }
+}

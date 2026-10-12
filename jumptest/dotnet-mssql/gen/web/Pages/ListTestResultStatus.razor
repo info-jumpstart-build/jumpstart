@@ -1,0 +1,216 @@
+@page "/testresultstatus"
+@using System.Collections.Generic;
+@using jumptest.Components;
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+
+<PageTitle>Test Result Status</PageTitle>
+
+<h1>Test Result Status</h1>
+
+<p>This component demonstrates fetching Test Result Status data from the server.</p>
+
+@if (testresultstatusList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    Console.WriteLine($"ListTemplate: About to render DataTable with {@testresultstatusList.Length} items");
+ 
+    
+    <DataTable Data="@testresultstatusList" 
+               DataType="typeof(TestResultStatusView)" 
+               ShowActions="true" 
+               ShowAddButton="true"
+               OnEdit="@OnEditTestResultStatus"
+               OnAdd="@OnAddTestResultStatus" />
+    
+    Console.WriteLine($"ListTemplate: DataTable rendered");
+}
+
+@code {
+    protected  TestResultStatusView[]? testresultstatusList;
+    // Real-time updates arrive over Server-Sent Events (see wwwroot/js/notifications.js).
+    private IJSObjectReference? _sseHandle;
+    private IDisposable? _sseRef;
+    private string _domainObjectName = "TestResultStatus";
+    private Dictionary<string, Dictionary<long, string>> enumData = new Dictionary<string, Dictionary<long, string>>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+
+        testresultstatusList = await remoteClient.GetFromJsonAsync<TestResultStatusView[]>("api/testresultstatus");
+        
+        Console.WriteLine($"ListTemplate: Loaded {testresultstatusList?.Length ?? 0} testresultstatus records");
+        if (testresultstatusList != null && testresultstatusList.Length > 0)
+        {
+            Console.WriteLine($"ListTemplate: First item type: {testresultstatusList[0].GetType().Name}");
+        }
+
+        await ConnectNotifications();
+        await InitEnumData();
+    }
+
+    // Open the SSE notification stream. The browser's EventSource (via the JS
+    // interop) handles reconnection on its own. Every "PropertyUpdated" event is
+    // routed back to OnPropertyUpdated below.
+    private async Task ConnectNotifications()
+    {
+        try
+        {
+            var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+            var baseAddress = remoteClient.BaseAddress?.ToString() ?? "http://localhost:5200";
+            var streamUrl = $"{baseAddress.TrimEnd('/')}/api/Notification/stream";
+
+            _sseRef = DotNetObjectReference.Create(this);
+            _sseHandle = await JS.InvokeAsync<IJSObjectReference>("jumpstartSse.connect", streamUrl, _sseRef);
+            Console.WriteLine($"ListTemplate: SSE notification stream connected for {_domainObjectName}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ListTemplate: Error connecting notification stream: {ex.Message}");
+        }
+    }
+
+    // Invoked from JS for every "PropertyUpdated" SSE event. Filters to this
+    // page's domain object, then updates the affected row in place.
+    [JSInvokable]
+    public async Task OnPropertyUpdated(string json)
+    {
+        try
+        {
+            var message = System.Text.Json.JsonSerializer.Deserialize<PropertyUpdateMessage>(
+                json,
+                new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            if (message != null && message.DomainObjectName == _domainObjectName)
+            {
+                Console.WriteLine($"ListTemplate: Received update for {message.DomainObjectName}[{message.InstanceId}]");
+                await HandlePropertyUpdate(message);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ListTemplate: Error handling notification: {ex.Message}");
+        }
+    }
+
+    private async Task InitEnumData()
+    {
+        var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+    }
+
+    private async Task HandlePropertyUpdate(PropertyUpdateMessage message)
+    {
+        try
+        {
+            if (testresultstatusList == null)
+            {
+                return;
+            }
+
+            // Find the item in the list by ID
+            var index = Array.FindIndex(testresultstatusList, item => item.id == message.InstanceId);
+            
+            if (index >= 0)
+            {
+                // Fetch the updated item from the API to ensure we have the complete View object
+                // with all computed properties and enum display values properly populated
+                var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+                var updatedObject = await remoteClient.GetFromJsonAsync<TestResultStatusView>($"api/testresultstatus/view/{message.InstanceId}");
+                if (updatedObject != null)
+                { 
+
+               
+                    // Update existing item with the fetched object (enum display values are already set by the API)
+                    testresultstatusList[index] = updatedObject;
+                    Console.WriteLine($"ListTemplate: Updated {_domainObjectName}[{message.InstanceId}] in list from API");
+                    
+                    // Notify UI to update
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
+            else
+            {
+                // Item not found, might be a new item - reload the list
+                Console.WriteLine($"ListTemplate: {_domainObjectName}[{message.InstanceId}] not found in list, reloading...");
+                await ReloadList();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ListTemplate: Error handling property update: {ex.Message}");
+            // On error, fall back to reloading the entire list
+            try
+            {
+                await ReloadList();
+            }
+            catch (Exception reloadEx)
+            {
+                Console.WriteLine($"ListTemplate: Error reloading list: {reloadEx.Message}");
+            }
+        }
+    }
+
+    private async Task ReloadList()
+    {
+        try
+        {
+            var remoteClient = ClientFactory.CreateClient("RemoteAPI");
+            testresultstatusList = await remoteClient.GetFromJsonAsync<TestResultStatusView[]>("api/testresultstatus");
+            Console.WriteLine($"ListTemplate: Reloaded {testresultstatusList?.Length ?? 0} testresultstatus records");
+            await InvokeAsync(StateHasChanged);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ListTemplate: Error reloading list: {ex.Message}");
+        }
+    }
+
+    async Task OnAddTestResultStatus()
+    {
+        var currentPath = new Uri(Navigation.Uri).AbsolutePath;
+        Navigation.NavigateTo($"edit-testresultstatus?returnUrl={Uri.EscapeDataString(currentPath)}");
+    }
+
+    async Task OnEditTestResultStatus(object item)
+    {
+        var testresultstatus = (TestResultStatusView)item;
+        var currentPath = new Uri(Navigation.Uri).AbsolutePath;
+        Navigation.NavigateTo($"edit-testresultstatus/{testresultstatus.id}?returnUrl={Uri.EscapeDataString(currentPath)}");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_sseHandle is not null)
+        {
+            try
+            {
+                await _sseHandle.InvokeVoidAsync("close");
+                await _sseHandle.DisposeAsync();
+                Console.WriteLine($"ListTemplate: SSE notification stream closed");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ListTemplate: Error closing notification stream: {ex.Message}");
+            }
+        }
+        _sseRef?.Dispose();
+    }
+
+    // Message structure for property update notifications (matches server-side PropertyUpdateMessage)
+    private class PropertyUpdateMessage
+    {
+        public string DomainObjectName { get; set; } = string.Empty;
+        public long InstanceId { get; set; }
+        public string JsonData { get; set; } = string.Empty;
+        public DateTime Timestamp { get; set; }
+    }
+}

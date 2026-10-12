@@ -158,6 +158,8 @@ namespace jumptest.Controllers
 
             return options;
         }
+<<<<<<< HEAD
+=======
 
         // Applies the "Operation Role" checklist submitted from the Edit page: the full set of
         // Operation Role ids that should be mapped to this Operation after the call.
@@ -168,5 +170,6 @@ namespace jumptest.Controllers
 
             OperationLogic.Create().mapsync(id, "oprole-op_role", checkedIds ?? new List<long>());
         }
+>>>>>>> main
             }
 }

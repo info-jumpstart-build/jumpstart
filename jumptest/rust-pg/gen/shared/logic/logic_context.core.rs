@@ -61,6 +61,10 @@ impl LogicContext {
             .map(|arr| arr.iter().filter_map(|v| v.as_i64()).collect())
             .unwrap_or_default()
     }
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
     /// The operation's id: the `id` arg if present, else the transaction's id.
     pub fn id(&self) -> i64 {
         if let Some(v) = self.args.get("id").and_then(|v| v.as_i64()) {

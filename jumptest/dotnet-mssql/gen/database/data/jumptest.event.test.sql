@@ -139,6 +139,13 @@ VALUES (@script_id, @script_id, 'test python exception script',
 raise Exception(''Test exception from Python script'')', 3, 1, SYSTEM_USER, GETDATE(), SYSTEM_USER);
 
 -- Insert process records for all test scripts
+<<<<<<< HEAD
+-- CROSS APPLY ensures NEXT VALUE FOR is called once per row so id = txn_id
+INSERT INTO [core].[process](id, txn_id, name, script_id, is_active, created_by, last_updated, last_updated_by)
+SELECT seq.n, seq.n, s.name, s.id, 1, SYSTEM_USER, GETDATE(), SYSTEM_USER
+FROM [core].[script] s
+CROSS APPLY (SELECT NEXT VALUE FOR core.process_identity AS n) seq
+=======
 -- NEXT VALUE FOR cannot be used inside a derived table/CROSS APPLY, so a contiguous
 -- block of ids is reserved up front via sp_sequence_get_range and assigned one per row
 -- (via ROW_NUMBER) -- this keeps id = txn_id for every inserted row.
@@ -155,6 +162,7 @@ SELECT @process_range_first + ROW_NUMBER() OVER (ORDER BY s.id) - 1,
        @process_range_first + ROW_NUMBER() OVER (ORDER BY s.id) - 1,
        s.name, s.id, 1, SYSTEM_USER, GETDATE(), SYSTEM_USER
 FROM [core].[script] s
+>>>>>>> main
 WHERE s.name LIKE 'test%' AND s.is_active = 1;
 
 -- Insert workflow record for test workflow (type=Process, link to hello-world process)
@@ -166,6 +174,23 @@ FROM [core].[process] p
 WHERE p.name = 'test hello world process' AND p.is_active = 1;
 
 -- Insert event services
+<<<<<<< HEAD
+WITH all_object_insert_script AS (
+    SELECT id FROM [core].[script] WHERE name = 'all-object insert event' AND is_active = 1
+)
+INSERT INTO [core].[event_service](id, txn_id, event_type, objectname_filter, methodname_filter, script_id, is_active, created_by, last_updated, last_updated_by)
+SELECT seq.n, seq.n, 'pre', '%', 'insert', all_object_insert_script.id, 1, SYSTEM_USER, GETDATE(), SYSTEM_USER
+FROM all_object_insert_script
+CROSS APPLY (SELECT NEXT VALUE FOR core.event_service_identity AS n) seq;
+
+WITH all_object_update_script AS (
+    SELECT id FROM [core].[script] WHERE name = 'all-object update event' AND is_active = 1
+)
+INSERT INTO [core].[event_service](id, txn_id, event_type, objectname_filter, methodname_filter, script_id, is_active, created_by, last_updated, last_updated_by)
+SELECT seq.n, seq.n, 'post', '%', 'update', all_object_update_script.id, 1, SYSTEM_USER, GETDATE(), SYSTEM_USER
+FROM all_object_update_script
+CROSS APPLY (SELECT NEXT VALUE FOR core.event_service_identity AS n) seq;
+=======
 DECLARE @all_object_insert_script_id BIGINT = (SELECT id FROM [core].[script] WHERE name = 'all-object insert event' AND is_active = 1);
 DECLARE @all_object_update_script_id BIGINT = (SELECT id FROM [core].[script] WHERE name = 'all-object update event' AND is_active = 1);
 DECLARE @event_service_id BIGINT;
@@ -183,3 +208,4 @@ BEGIN
     INSERT INTO [core].[event_service](id, txn_id, event_type, objectname_filter, methodname_filter, script_id, is_active, created_by, last_updated, last_updated_by)
     VALUES (@event_service_id, @event_service_id, 'post', '%', 'update', @all_object_update_script_id, 1, SYSTEM_USER, GETDATE(), SYSTEM_USER);
 END
+>>>>>>> main

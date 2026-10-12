@@ -7,6 +7,35 @@ const int StartPort = 5200;
 const int EndPort = 5300;
 const int MaxRetries = 100;
 
+<<<<<<< HEAD
+int boundPort = 0;
+//IPAddress boundIP = Config.getNetworkInterfaceIP();
+IPAddress boundIP = IPAddress.Any; // Listen on all interfaces. The actual IP will be determined by the client when it connects.
+var builder = WebApplication.CreateBuilder(args);
+
+// Try to find an available port
+for (int port = StartPort; port <= EndPort && port < StartPort + MaxRetries; port++)
+{
+    try
+    {
+        // Configure Kestrel to listen on the resolved network interface
+        builder.WebHost.UseUrls($"http://{boundIP}:{port}");
+
+        // Test if port is available by trying to bind
+        using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+        {
+            socket.Bind(new IPEndPoint(boundIP, port));
+        }
+
+        boundPort = port;
+        Console.WriteLine($"API Server will bind to IP: {boundIP}, Port: {boundPort}");
+        break;
+    }
+    catch (SocketException)
+    {
+        // Port is in use, try next port
+        continue;
+=======
 //IPAddress boundIP = Config.getNetworkInterfaceIP();
 IPAddress boundIP = IPAddress.Any; // Listen on all interfaces. The actual IP will be determined by the client when it connects.
 
@@ -27,20 +56,26 @@ if (configuredPort.HasValue)
     {
         Console.WriteLine($"WARNING: configured port {configuredPort.Value} (servers.api.port in ~/.<namespace>.json) is already in use -- possibly a stale process from a previous run. Scanning forward for a free port instead; kill the stale process if clients expect {configuredPort.Value} specifically.");
         boundPort = FindFreePort(configuredPort.Value, configuredPort.Value + (EndPort - StartPort), MaxRetries, boundIP);
+>>>>>>> main
     }
 }
 
 if (boundPort == 0)
 {
+<<<<<<< HEAD
+=======
     boundPort = FindFreePort(StartPort, EndPort, MaxRetries, boundIP);
 }
 
 if (boundPort == 0)
 {
+>>>>>>> main
     Console.WriteLine($"ERROR: Could not find available port in range {StartPort}-{EndPort}");
     Environment.Exit(1);
 }
 
+<<<<<<< HEAD
+=======
 var builder = WebApplication.CreateBuilder(args);
 // Configure Kestrel to listen on the resolved network interface
 builder.WebHost.UseUrls($"http://{boundIP}:{boundPort}");
@@ -69,6 +104,7 @@ static int FindFreePort(int start, int end, int maxRetries, IPAddress ip)
     return 0;
 }
 
+>>>>>>> main
 // ── Auth0 M2M token provider (outbound calls to Scheduler) ──────────────────
 M2MTokenProvider.Initialize(builder.Configuration);
 
@@ -108,9 +144,12 @@ builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer
         options.Audience  =  builder.Configuration["Auth0:Audience"];
     });
 builder.Services.AddAuthorization();
+<<<<<<< HEAD
+=======
 // --noauth: authentication generation suppressed. RBAC checks (OpRoleMemberLogic.Authorized)
 // still run, but CurrentUser falls back to the OS user running this process, exactly as it
 // does today for the Scheduler/ScriptAgent/tests -- see OpRoleMemberLogic.core.cs.
+>>>>>>> main
 
 // Register the SSE notification service (replaces SignalR + the SignalR-backed
 // EventAggregator). Real-time updates are delivered over Server-Sent Events.

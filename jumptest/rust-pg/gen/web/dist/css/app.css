@@ -1,7 +1,77 @@
+/* E*TRADE-inspired palette: Iris purple + Sheen Green, on black/white. */
+:root {
+  --etrade-purple: #6633cc;
+  --etrade-purple-dark: #4a1f99;
+  --etrade-purple-darker: #2a0f5c;
+  --etrade-green: #99cc00;
+  --etrade-green-dark: #7aa300;
+  --etrade-black: #000000;
+  --etrade-gray: #f5f5f7;
+}
+
 html,
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif;
   margin: 0;
+  background-color: #ffffff;
+  color: #1a1a1a;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  color: var(--etrade-black);
+}
+
+a {
+  color: var(--etrade-purple);
+}
+
+a:hover {
+  color: var(--etrade-purple-dark);
+}
+
+/* Buttons: purple primary action, lime-green hover -- the two E*TRADE
+   brand colors used the way their site uses them (purple surfaces, green
+   as the "go" accent). */
+.btn-primary {
+  background-color: var(--etrade-purple) !important;
+  border-color: var(--etrade-purple) !important;
+  color: #ffffff !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--etrade-green) !important;
+  border-color: var(--etrade-green) !important;
+  color: var(--etrade-black) !important;
+}
+
+.btn-secondary {
+  background-color: #ffffff !important;
+  border-color: var(--etrade-purple) !important;
+  color: var(--etrade-purple) !important;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background-color: var(--etrade-gray) !important;
+  color: var(--etrade-purple-dark) !important;
+}
+
+/* Table header -- swap Bootstrap's table-dark black for brand purple. */
+.table-dark {
+  --bs-table-bg: var(--etrade-purple);
+  --bs-table-color: #ffffff;
+  background-color: var(--etrade-purple) !important;
+}
+
+.table-hover > tbody > tr:hover > * {
+  --bs-table-accent-bg: rgba(153, 204, 0, 0.12);
 }
 
 #app-error-ui {

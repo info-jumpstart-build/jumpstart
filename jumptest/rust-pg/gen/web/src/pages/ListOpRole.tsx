@@ -151,8 +151,8 @@ export default function ListOpRole() {
 
   return (
     <>
-      <h1>Operation Role</h1>
-      <p>This page demonstrates fetching Operation Role data from the server.</p>
+      <h1>Role</h1>
+      <p>This page demonstrates fetching Role data from the server.</p>
 
       <DataTable data={list} columns={columns} showActions showAddButton onEdit={onEdit} onAdd={onAdd} />
     </>

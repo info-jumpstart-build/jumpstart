@@ -9,12 +9,16 @@ DECLARE @os_user NVARCHAR(50) =
         THEN RIGHT(SYSTEM_USER, LEN(SYSTEM_USER) - CHARINDEX('\', SYSTEM_USER))
         ELSE SYSTEM_USER
     END;
+<<<<<<< HEAD
+DECLARE @principal_id BIGINT, @password_id BIGINT, @role_member_id BIGINT;
+=======
 -- os_login is passed in from load.ps1 via: sqlcmd -v os_login=$env:USERNAME
 -- (SYSTEM_USER above reflects the *SQL login* used for this connection, which under
 -- SQL authentication is not the same as the Windows account the server components
 -- actually run as -- os_login is the real Windows/OS user, sourced from PowerShell.)
 DECLARE @os_login NVARCHAR(50) = '$(os_login)';
 DECLARE @principal_id BIGINT, @service_principal_id BIGINT, @role_id BIGINT, @role_member_id BIGINT;
+>>>>>>> main
 
 SELECT @principal_id = NEXT VALUE FOR core.principal_identity;
 INSERT INTO core.principal(
@@ -24,7 +28,10 @@ INSERT INTO core.principal(
     last_name,
     username,
     email,
+<<<<<<< HEAD
+=======
     principal_status_id,
+>>>>>>> main
     created_date,
     last_login_date,
     is_active,
@@ -39,7 +46,10 @@ VALUES (
     'Principal',
     @os_user,
     @admin_email,
+<<<<<<< HEAD
+=======
     1,
+>>>>>>> main
     GETDATE(),
     null,
     1,
@@ -48,6 +58,31 @@ VALUES (
     'system'
 );
 
+<<<<<<< HEAD
+SELECT @password_id = NEXT VALUE FOR core.principal_password_identity;
+
+WITH os_user_principal_id AS (
+    SELECT id FROM core.principal WHERE email = @admin_email AND is_active = 1
+)
+INSERT INTO core.principal_password(
+    id, txn_id, principal_id, password_hash, expiry, needs_reset, is_active, created_by, last_updated, last_updated_by)
+SELECT @password_id,
+    @password_id,
+    os_user_principal_id.id,
+    CAST(FLOOR(RAND(CHECKSUM(NEWID())) * 100000 + 1) AS NVARCHAR(10)),
+    GETDATE(),
+    1,
+    1,
+    SYSTEM_USER,
+    GETDATE(),
+    SYSTEM_USER
+FROM os_user_principal_id;
+
+
+
+-- =====================================
+-- 2) Map os_user Principal to Administrator Role
+=======
 -- =====================================
 -- 2) Create Account for OS Login Principal
 --    This is the identity server components (ScriptAgent/Scheduler/ApiServer) will
@@ -112,6 +147,7 @@ VALUES (
 
 -- =====================================
 -- 4) Map os_user Principal to Administrator Role
+>>>>>>> main
 --    Using sub-selects on core.principal (by email)
 --    and core.op_role (by name)
 -- =====================================
@@ -146,6 +182,8 @@ FROM os_user_principal_id
 CROSS JOIN os_user_role_id;
 
 -- =====================================
+<<<<<<< HEAD
+=======
 -- 5) Map OS Login Principal to Administrator Role
 -- =====================================
 SELECT @role_member_id = NEXT VALUE FOR core.op_role_member_identity;
@@ -206,5 +244,6 @@ FROM core.operation op
 WHERE op.is_active = 1;
 
 -- =====================================
+>>>>>>> main
 -- Done!
 -- =====================================

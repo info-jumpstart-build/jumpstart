@@ -366,6 +366,22 @@ namespace jumptest
                 }
             }
             
+<<<<<<< HEAD
+            [ColumnInfo("Principal ID Enabled", "", "", "", "", false)]
+            public int principal_enabled
+            {
+                get
+                {
+                    int _principal_enabled;
+
+                             _principal_enabled = default(int);
+                                                 
+                    try
+                    {
+                        if(this.ContainsKey("principal_enabled"))
+                        {
+                        _principal_enabled = Convert.ToInt32(this["principal_enabled"].ToString());
+=======
             [ColumnInfo("Principal ID Status", "PrincipalStatus", "enum", "principal_status", "principalstatus", false)]
             public int principal_principal_status_id
             {
@@ -380,19 +396,31 @@ namespace jumptest
                         if(this.ContainsKey("principal_principal_status_id"))
                         {
                         _principal_principal_status_id = Convert.ToInt32(this["principal_principal_status_id"].ToString());
+>>>>>>> main
                         }
                     }
                     catch(Exception )
                     {
+<<<<<<< HEAD
+                        //Logger.Error($"Error getting principal_enabled: {e.Message}");
+                        _principal_enabled = default(int);
+                    }
+                    return _principal_enabled;
+=======
                         //Logger.Error($"Error getting principal_principal_status_id: {e.Message}");
                         _principal_principal_status_id = default(int);
                     }
                     return _principal_principal_status_id;
+>>>>>>> main
                 }
                 set
                 {
                    
+<<<<<<< HEAD
+                    this["principal_enabled"] = value;
+=======
                     this["principal_principal_status_id"] = value;
+>>>>>>> main
                 }
             }
                 }

@@ -1,0 +1,2521 @@
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestResultStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+    |
+    = note: `#[warn(unreachable_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestPlanLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestPlan",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronEveryLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronEvery",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMinuteLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronMinute",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronHourLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronHour",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDomLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronDom",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMonthLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronMonth",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDowLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronDow",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/NavMenuLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on NavMenu",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/DataSourceLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on DataSource",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/AgentStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on AgentStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OnFailureLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on OnFailure",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ExecStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ServerNodeStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptTypeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ScriptType",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeTypeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ServerNodeType",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowTypeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on WorkflowType",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestCaseLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestCase",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestRunLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestRun",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/PrincipalOrgLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on PrincipalOrg",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMapLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on OpRoleMap",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMemberLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on OpRoleMember",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScheduleLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Schedule",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/SqlLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Sql",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Script",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ServerNode",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestResult",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/EventServiceLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on EventService",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ProcessLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Process",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Workflow",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecLogLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ExecLog",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestPlanLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronEveryLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMinuteLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronHourLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDomLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMonthLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDowLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/NavMenuLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/DataSourceLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/AgentStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OnFailureLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptTypeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeTypeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowTypeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestCaseLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestRunLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/PrincipalOrgLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMapLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMemberLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScheduleLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/SqlLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/EventServiceLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ProcessLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecLogLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: `logic` (lib) generated 62 warnings (run `cargo fix --lib -p logic` to apply 31 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.42s
+warning: the following packages contain code that will be rejected by a future version of Rust: buf_redux v0.8.4, multipart v0.18.0
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+../../../bin/api: replacing existing signature
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestResultStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+    |
+    = note: `#[warn(unreachable_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestPlanLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestPlan",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronEveryLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronEvery",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMinuteLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronMinute",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronHourLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronHour",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDomLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronDom",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMonthLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronMonth",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDowLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronDow",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/NavMenuLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on NavMenu",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/DataSourceLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on DataSource",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/AgentStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on AgentStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OnFailureLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on OnFailure",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ExecStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ServerNodeStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptTypeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ScriptType",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeTypeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ServerNodeType",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowTypeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on WorkflowType",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestCaseLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestCase",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestRunLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestRun",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/PrincipalOrgLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on PrincipalOrg",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMapLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on OpRoleMap",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMemberLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on OpRoleMember",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScheduleLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Schedule",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/SqlLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Sql",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Script",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ServerNode",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestResult",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/EventServiceLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on EventService",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ProcessLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Process",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Workflow",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecLogLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ExecLog",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestPlanLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronEveryLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMinuteLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronHourLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDomLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMonthLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDowLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/NavMenuLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/DataSourceLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/AgentStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OnFailureLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptTypeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeTypeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowTypeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestCaseLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestRunLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/PrincipalOrgLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMapLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMemberLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScheduleLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/SqlLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/EventServiceLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ProcessLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecLogLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: `logic` (lib) generated 62 warnings (run `cargo fix --lib -p logic` to apply 31 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.19s
+warning: the following packages contain code that will be rejected by a future version of Rust: buf_redux v0.8.4, multipart v0.18.0
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+../../../bin/scheduler: replacing existing signature
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestResultStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+    |
+    = note: `#[warn(unreachable_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestPlanLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestPlan",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronEveryLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronEvery",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMinuteLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronMinute",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronHourLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronHour",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDomLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronDom",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMonthLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronMonth",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDowLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronDow",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/NavMenuLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on NavMenu",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/DataSourceLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on DataSource",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/AgentStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on AgentStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OnFailureLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on OnFailure",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ExecStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ServerNodeStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptTypeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ScriptType",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeTypeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ServerNodeType",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowTypeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on WorkflowType",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestCaseLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestCase",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestRunLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestRun",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/PrincipalOrgLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on PrincipalOrg",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMapLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on OpRoleMap",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMemberLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on OpRoleMember",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScheduleLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Schedule",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/SqlLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Sql",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Script",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ServerNode",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestResult",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/EventServiceLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on EventService",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ProcessLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Process",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Workflow",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecLogLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ExecLog",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestPlanLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronEveryLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMinuteLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronHourLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDomLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMonthLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDowLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/NavMenuLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/DataSourceLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/AgentStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OnFailureLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptTypeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeTypeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowTypeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestCaseLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestRunLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/PrincipalOrgLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMapLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMemberLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScheduleLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/SqlLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/EventServiceLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ProcessLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecLogLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: `logic` (lib) generated 62 warnings (run `cargo fix --lib -p logic` to apply 31 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.25s
+warning: the following packages contain code that will be rejected by a future version of Rust: buf_redux v0.8.4, multipart v0.18.0
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+../../../bin/scriptagent: replacing existing signature
+[33m
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.29s
+../../../bin/export: replacing existing signature
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestResultStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+    |
+    = note: `#[warn(unreachable_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestPlanLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestPlan",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronEveryLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronEvery",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMinuteLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronMinute",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronHourLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronHour",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDomLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronDom",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMonthLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronMonth",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDowLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on CronDow",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/NavMenuLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on NavMenu",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/DataSourceLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on DataSource",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/AgentStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on AgentStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OnFailureLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on OnFailure",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ExecStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeStatusLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ServerNodeStatus",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptTypeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ScriptType",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeTypeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ServerNodeType",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowTypeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on WorkflowType",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestCaseLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestCase",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestRunLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestRun",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/PrincipalOrgLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on PrincipalOrg",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMapLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on OpRoleMap",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMemberLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on OpRoleMember",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScheduleLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Schedule",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/SqlLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Sql",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Script",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ServerNode",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on TestResult",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/EventServiceLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on EventService",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ProcessLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Process",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on Workflow",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unreachable expression
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecLogLogic.generated.rs:150:9
+    |
+141 | /         match map_suffix {
+142 | |             other => {
+143 | |                 return Err(LogicError::Event(format!(
+144 | |                     "unknown map relationship suffix '{}' on ExecLog",
+...   |
+148 | |         }
+    | |_________- any code following this `match` expression is unreachable, as all arms diverge
+149 |
+150 |           Ok(())
+    |           ^^^^^^ unreachable expression
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestPlanLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronEveryLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMinuteLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronHourLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDomLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronMonthLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/CronDowLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/NavMenuLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/DataSourceLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/AgentStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OnFailureLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeStatusLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptTypeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeTypeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowTypeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestCaseLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestRunLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/PrincipalOrgLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMapLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/OpRoleMemberLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScheduleLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/SqlLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ScriptLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ServerNodeLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/TestResultLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/EventServiceLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ProcessLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/WorkflowLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: unused variable: `checked_other_ids`
+   --> /Users/erickohlenberg/src/jumpstart/jumptest/rust-pg/gen/shared/logic/ExecLogLogic.generated.rs:134:9
+    |
+134 |         checked_other_ids: &[i64],
+    |         ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checked_other_ids`
+
+warning: `logic` (lib) generated 62 warnings (run `cargo fix --lib -p logic` to apply 31 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.18s
+../../../bin/import: replacing existing signature

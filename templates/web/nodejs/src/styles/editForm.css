@@ -20,7 +20,7 @@
 }
 
 .form-control:focus {
-  border-color: #80bdff !important;
+  border-color: #6633cc !important;
   outline: 0 !important;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+  box-shadow: 0 0 0 0.2rem rgba(102, 51, 204, 0.25) !important;
 }

@@ -1,4 +1,11 @@
+<<<<<<< HEAD
+executed_at,executed_by,actual_result,notes
+2024-01-01 00:00:00,test_executed_by_1,test_actual_result_1,test_notes_1
+2024-01-02 00:00:00,test_executed_by_2,test_actual_result_2,test_notes_2
+2024-01-03 00:00:00,test_executed_by_3,test_actual_result_3,test_notes_3
+=======
 executed_at,actual_result,notes
 2024-01-01 00:00:00,test_actual_result_1,test_notes_1
 2024-01-02 00:00:00,test_actual_result_2,test_notes_2
 2024-01-03 00:00:00,test_actual_result_3,test_notes_3
+>>>>>>> main

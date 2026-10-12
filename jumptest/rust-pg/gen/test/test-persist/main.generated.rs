@@ -129,10 +129,13 @@ pub use server_node_test::*;
 #[path = "Principal.test.generated.rs"]
 mod principal_test;
 pub use principal_test::*;
+<<<<<<< HEAD
+=======
     
 #[path = "TestResult.test.generated.rs"]
 mod test_result_test;
 pub use test_result_test::*;
+>>>>>>> main
     
 #[path = "EventService.test.generated.rs"]
 mod event_service_test;
@@ -142,6 +145,13 @@ pub use event_service_test::*;
 mod process_test;
 pub use process_test::*;
     
+<<<<<<< HEAD
+#[path = "TestResult.test.generated.rs"]
+mod test_result_test;
+pub use test_result_test::*;
+    
+=======
+>>>>>>> main
 #[path = "PrincipalOrg.test.generated.rs"]
 mod principal_org_test;
 pub use principal_org_test::*;

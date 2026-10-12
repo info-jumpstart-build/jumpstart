@@ -20,7 +20,10 @@ namespace jumptest
 
         List<TBaseObject> children<TBaseObject>(long id, string childSuffix) where TBaseObject : BaseObject, new();
         List<MapOption> maplist(long id, string mapSuffix);
+<<<<<<< HEAD
+=======
         void mapsync(long id, string mapSuffix, List<long> checkedOtherIds);
+>>>>>>> main
         List<CronEveryHistory> history(long id);
         void insert(CronEvery cronevery);
         void update(long id, CronEvery cronevery);
@@ -158,6 +161,8 @@ namespace jumptest
         }
 
         /// <summary>
+<<<<<<< HEAD
+=======
         /// Applies a many-to-many ("map") relationship checklist submitted from
         /// the Edit page: the full set of "other side" ids that should be
         /// mapped to this object after the call (see DBPersist.mapSync). The
@@ -188,6 +193,7 @@ namespace jumptest
         }
 
         /// <summary>
+>>>>>>> main
         /// Retrieves a single domain object by id.
         /// </summary>
         /// <param name="id">The id of the domain object to retrieve.</param>

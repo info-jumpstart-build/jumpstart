@@ -176,6 +176,30 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
         
+<<<<<<< HEAD
+Write-Host "Executing: Principal.table.generated.sql"
+sqlcmd -S $connectionString @authParams -i ".\Principal.table.generated.sql"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to execute: Principal.table.generated.sql"
+    exit $LASTEXITCODE
+}
+        
+Write-Host "Executing: Principal.sequence.generated.sql"
+sqlcmd -S $connectionString @authParams -i ".\Principal.sequence.generated.sql"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to execute: Principal.sequence.generated.sql"
+    exit $LASTEXITCODE
+}
+        
+Write-Host "Executing: Principal.rwkindex.generated.sql"
+sqlcmd -S $connectionString @authParams -i ".\Principal.rwkindex.generated.sql"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to execute: Principal.rwkindex.generated.sql"
+    exit $LASTEXITCODE
+}
+        
+=======
+>>>>>>> main
 Write-Host "Executing: Operation.table.generated.sql"
 sqlcmd -S $connectionString @authParams -i ".\Operation.table.generated.sql"
 if ($LASTEXITCODE -ne 0) {
@@ -533,6 +557,8 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
         
+<<<<<<< HEAD
+=======
 Write-Host "Executing: PrincipalStatus.table.generated.sql"
 sqlcmd -S $connectionString @authParams -i ".\PrincipalStatus.table.generated.sql"
 if ($LASTEXITCODE -ne 0) {
@@ -554,6 +580,7 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
         
+>>>>>>> main
 Write-Host "Executing: TestCase.table.generated.sql"
 sqlcmd -S $connectionString @authParams -i ".\TestCase.table.generated.sql"
 if ($LASTEXITCODE -ne 0) {
@@ -596,6 +623,30 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
         
+<<<<<<< HEAD
+Write-Host "Executing: PrincipalOrg.table.generated.sql"
+sqlcmd -S $connectionString @authParams -i ".\PrincipalOrg.table.generated.sql"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to execute: PrincipalOrg.table.generated.sql"
+    exit $LASTEXITCODE
+}
+        
+Write-Host "Executing: PrincipalOrg.sequence.generated.sql"
+sqlcmd -S $connectionString @authParams -i ".\PrincipalOrg.sequence.generated.sql"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to execute: PrincipalOrg.sequence.generated.sql"
+    exit $LASTEXITCODE
+}
+        
+Write-Host "Executing: PrincipalOrg.rwkindex.generated.sql"
+sqlcmd -S $connectionString @authParams -i ".\PrincipalOrg.rwkindex.generated.sql"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to execute: PrincipalOrg.rwkindex.generated.sql"
+    exit $LASTEXITCODE
+}
+        
+=======
+>>>>>>> main
 Write-Host "Executing: OpRoleMap.table.generated.sql"
 sqlcmd -S $connectionString @authParams -i ".\OpRoleMap.table.generated.sql"
 if ($LASTEXITCODE -ne 0) {
@@ -617,6 +668,30 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
         
+<<<<<<< HEAD
+Write-Host "Executing: OpRoleMember.table.generated.sql"
+sqlcmd -S $connectionString @authParams -i ".\OpRoleMember.table.generated.sql"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to execute: OpRoleMember.table.generated.sql"
+    exit $LASTEXITCODE
+}
+        
+Write-Host "Executing: OpRoleMember.sequence.generated.sql"
+sqlcmd -S $connectionString @authParams -i ".\OpRoleMember.sequence.generated.sql"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to execute: OpRoleMember.sequence.generated.sql"
+    exit $LASTEXITCODE
+}
+        
+Write-Host "Executing: OpRoleMember.rwkindex.generated.sql"
+sqlcmd -S $connectionString @authParams -i ".\OpRoleMember.rwkindex.generated.sql"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to execute: OpRoleMember.rwkindex.generated.sql"
+    exit $LASTEXITCODE
+}
+        
+=======
+>>>>>>> main
 Write-Host "Executing: Schedule.table.generated.sql"
 sqlcmd -S $connectionString @authParams -i ".\Schedule.table.generated.sql"
 if ($LASTEXITCODE -ne 0) {
@@ -701,6 +776,26 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
         
+<<<<<<< HEAD
+Write-Host "Executing: TestResult.table.generated.sql"
+sqlcmd -S $connectionString @authParams -i ".\TestResult.table.generated.sql"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to execute: TestResult.table.generated.sql"
+    exit $LASTEXITCODE
+}
+        
+Write-Host "Executing: TestResult.sequence.generated.sql"
+sqlcmd -S $connectionString @authParams -i ".\TestResult.sequence.generated.sql"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to execute: TestResult.sequence.generated.sql"
+    exit $LASTEXITCODE
+}
+        
+Write-Host "Executing: TestResult.rwkindex.generated.sql"
+sqlcmd -S $connectionString @authParams -i ".\TestResult.rwkindex.generated.sql"
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to execute: TestResult.rwkindex.generated.sql"
+=======
 Write-Host "Executing: Principal.table.generated.sql"
 sqlcmd -S $connectionString @authParams -i ".\Principal.table.generated.sql"
 if ($LASTEXITCODE -ne 0) {
@@ -719,6 +814,7 @@ Write-Host "Executing: Principal.rwkindex.generated.sql"
 sqlcmd -S $connectionString @authParams -i ".\Principal.rwkindex.generated.sql"
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to execute: Principal.rwkindex.generated.sql"
+>>>>>>> main
     exit $LASTEXITCODE
 }
         
@@ -764,6 +860,8 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
         
+<<<<<<< HEAD
+=======
 Write-Host "Executing: TestResult.table.generated.sql"
 sqlcmd -S $connectionString @authParams -i ".\TestResult.table.generated.sql"
 if ($LASTEXITCODE -ne 0) {
@@ -827,6 +925,7 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
         
+>>>>>>> main
 Write-Host "Executing: Workflow.table.generated.sql"
 sqlcmd -S $connectionString @authParams -i ".\Workflow.table.generated.sql"
 if ($LASTEXITCODE -ne 0) {

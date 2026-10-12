@@ -73,6 +73,9 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.principal_status-get-history',
     'SELECT
+<<<<<<< HEAD
+        core.principal_status.*
+=======
         core.principal_status.id,
             principal_status.name,
             principal_status.is_active,
@@ -80,6 +83,7 @@ SELECT n, n,
             principal_status.last_updated,
             principal_status.last_updated_by,
             principal_status.txn_id
+>>>>>>> main
     FROM core.principal_status
     WHERE core.principal_status.id = ^(id)
     ORDER BY core.principal_status.txn_id DESC;',

@@ -6,7 +6,7 @@
 
 use common::*;
 
-/// Operation Role
+/// Role
 #[derive(Debug, Clone, Default)]
 pub struct OpRole {
     pub base: BaseObject,
@@ -101,7 +101,7 @@ impl DomainObject for OpRole {
     }
 
     fn class_label() -> &'static str {
-        "Operation Role"
+        "Role"
     }
 
     fn columns() -> Vec<ColumnInfo> {
@@ -190,7 +190,7 @@ impl DomainObject for OpRoleHistory {
     }
 
     fn class_label() -> &'static str {
-        "Operation Role"
+        "Role"
     }
 
     fn columns() -> Vec<ColumnInfo> {
@@ -243,7 +243,7 @@ impl DomainObject for OpRoleView {
     }
 
     fn class_label() -> &'static str {
-        "Operation Role"
+        "Role"
     }
 
     fn columns() -> Vec<ColumnInfo> {

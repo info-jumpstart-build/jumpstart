@@ -49,9 +49,15 @@ const TABLES: &[&str] = &[
     "script",
     "servernode",
     "principal",
+<<<<<<< HEAD
+    "eventservice",
+    "process",
+    "testresult",
+=======
     "testresult",
     "eventservice",
     "process",
+>>>>>>> main
     "principalorg",
     "oprolemember",
     "workflow",
@@ -139,9 +145,15 @@ fn export_table(table: &str, output: &str) -> Result<usize, String> {
         "script" => export_object::<domain::script::Script>(output),
         "servernode" => export_object::<domain::server_node::ServerNode>(output),
         "principal" => export_object::<domain::principal::Principal>(output),
+<<<<<<< HEAD
+        "eventservice" => export_object::<domain::event_service::EventService>(output),
+        "process" => export_object::<domain::process::Process>(output),
+        "testresult" => export_object::<domain::test_result::TestResult>(output),
+=======
         "testresult" => export_object::<domain::test_result::TestResult>(output),
         "eventservice" => export_object::<domain::event_service::EventService>(output),
         "process" => export_object::<domain::process::Process>(output),
+>>>>>>> main
         "principalorg" => export_object::<domain::principal_org::PrincipalOrg>(output),
         "oprolemember" => export_object::<domain::op_role_member::OpRoleMember>(output),
         "workflow" => export_object::<domain::workflow::Workflow>(output),

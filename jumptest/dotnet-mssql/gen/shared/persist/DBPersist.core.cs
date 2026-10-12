@@ -106,6 +106,8 @@ namespace jumptest
             return t;
         }
 
+<<<<<<< HEAD
+=======
         // ── MAP SYNC (many-to-many checklist save) ───────────────────────────
 
         /// <summary>
@@ -183,6 +185,7 @@ namespace jumptest
             }
         }
 
+>>>>>>> main
         // ── EXEC CMD ─────────────────────────────────────────────────────────
 
         public static void execCmd( BaseObject parameters, string sqlTemplate, string connectionName = "default")
