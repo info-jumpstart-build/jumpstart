@@ -73,7 +73,13 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.script_type-get-history',
     'SELECT
-        core.script_type.*
+        core.script_type.id,
+            script_type.name,
+            script_type.is_active,
+            script_type.created_by,
+            script_type.last_updated,
+            script_type.last_updated_by,
+            script_type.txn_id
     FROM core.script_type
     WHERE core.script_type.id = ^(id)
     ORDER BY core.script_type.txn_id DESC;',

@@ -100,7 +100,19 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.exec_log-get-history',
     'SELECT
-        core.exec_log.*
+        core.exec_log.id,
+            exec_log.token,
+            exec_log.workflow_id,
+            exec_log.start_time,
+            exec_log.end_time,
+            exec_log.exec_status_id,
+            exec_log.stdout,
+            exec_log.stderr,
+            exec_log.is_active,
+            exec_log.created_by,
+            exec_log.last_updated,
+            exec_log.last_updated_by,
+            exec_log.txn_id
     FROM core.exec_log
     WHERE core.exec_log.id = ^(id)
     ORDER BY core.exec_log.txn_id DESC;',

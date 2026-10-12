@@ -73,7 +73,13 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.agent_status-get-history',
     'SELECT
-        core.agent_status.*
+        core.agent_status.id,
+            agent_status.name,
+            agent_status.is_active,
+            agent_status.created_by,
+            agent_status.last_updated,
+            agent_status.last_updated_by,
+            agent_status.txn_id
     FROM core.agent_status
     WHERE core.agent_status.id = ^(id)
     ORDER BY core.agent_status.txn_id DESC;',

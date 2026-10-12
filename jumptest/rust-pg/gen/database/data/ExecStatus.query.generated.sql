@@ -76,7 +76,14 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.exec_status-get-history',
     'SELECT
-        core.exec_status.*
+        core.exec_status.id,
+            exec_status.name,
+            exec_status.image,
+            exec_status.is_active,
+            exec_status.created_by,
+            exec_status.last_updated,
+            exec_status.last_updated_by,
+            exec_status.txn_id
     FROM core.exec_status
     WHERE core.exec_status.id = ^(id)
     ORDER BY core.exec_status.txn_id DESC;',

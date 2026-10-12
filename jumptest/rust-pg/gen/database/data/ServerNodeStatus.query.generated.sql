@@ -73,7 +73,13 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.server_node_status-get-history',
     'SELECT
-        core.server_node_status.*
+        core.server_node_status.id,
+            server_node_status.name,
+            server_node_status.is_active,
+            server_node_status.created_by,
+            server_node_status.last_updated,
+            server_node_status.last_updated_by,
+            server_node_status.txn_id
     FROM core.server_node_status
     WHERE core.server_node_status.id = ^(id)
     ORDER BY core.server_node_status.txn_id DESC;',

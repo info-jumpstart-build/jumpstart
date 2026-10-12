@@ -1,0 +1,4 @@
+event_type,objectname_filter,methodname_filter
+test_event_type_1,test_objectname_filter_1,test_methodname_filter_1
+test_event_type_2,test_objectname_filter_2,test_methodname_filter_2
+test_event_type_3,test_objectname_filter_3,test_methodname_filter_3

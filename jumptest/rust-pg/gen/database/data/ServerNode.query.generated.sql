@@ -118,7 +118,24 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.server_node-get-history',
     'SELECT
-        core.server_node.*
+        core.server_node.id,
+            server_node.server_node_type_id,
+            server_node.hostname,
+            server_node.ip_address,
+            server_node.port,
+            server_node.username,
+            server_node.url,
+            server_node.user_domain,
+            server_node.os_name,
+            server_node.os_version,
+            server_node.architecture,
+            server_node.registered_at,
+            server_node.server_node_status_id,
+            server_node.is_active,
+            server_node.created_by,
+            server_node.last_updated,
+            server_node.last_updated_by,
+            server_node.txn_id
     FROM core.server_node
     WHERE core.server_node.id = ^(id)
     ORDER BY core.server_node.txn_id DESC;',

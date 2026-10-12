@@ -1,0 +1,158 @@
+using System;
+using System.Collections.Concurrent;
+using System.Text.Json;
+using System.Threading.Channels;
+using System.Threading.Tasks;
+using jumptest;
+
+namespace jumptest
+{
+    /// <summary>
+    /// Interface for the object-update event aggregation service.
+    /// </summary>
+    public interface IEventAggregator
+    {
+        /// <summary>
+        /// Publishes an object update event to all connected clients.
+        /// </summary>
+        global::System.Threading.Tasks.Task PublishAsync(string domainObjectName, long instanceId, string jsonData);
+    }
+
+    /// <summary>
+    /// Routes object-update notifications to connected web clients over
+    /// Server-Sent Events. This replaces the SignalR EventAggregator + Hub with a
+    /// transport the Blazor client consumes via the browser's EventSource and
+    /// that both the .NET and Rust API servers serve identically. Each connected
+    /// client holds an unbounded channel; Publish writes the serialized message
+    /// to every channel and the stream endpoint drains it to the socket.
+    /// </summary>
+    public class SseNotificationService : IEventAggregator
+    {
+        private readonly ConcurrentDictionary<Guid, Channel<string>> _clients = new();
+
+        // ── SSE stream tickets: single-use auth for the EventSource connection ──
+        // The browser's native EventSource API cannot set an Authorization header,
+        // so the stream endpoint can't require a normal bearer token. Putting the
+        // JWT itself in the URL would work but is a real credential (same
+        // privileges as any other API call) ending up in access logs and browser
+        // history. Instead: POST api/Notification/stream-ticket (a normal,
+        // Authorization-header-gated endpoint) mints a random, single-use ticket
+        // good for a few seconds; the client opens the stream with `?ticket=`.
+        // Redeeming a ticket removes it immediately, so even one that leaks into
+        // a log is worthless right after; unused ones are pruned by TTL. Mirrors
+        // the Rust API server's stream-ticket mechanism.
+        private readonly ConcurrentDictionary<string, (string User, DateTime ExpiresAt)> _streamTickets = new();
+        private static readonly TimeSpan StreamTicketTtl = TimeSpan.FromSeconds(30);
+
+        /// <summary>
+        /// Mints a ticket for <paramref name="user"/>, good for
+        /// <see cref="StreamTicketTtl"/> and usable exactly once.
+        /// </summary>
+        public string MintStreamTicket(string user)
+        {
+            PruneExpiredStreamTickets();
+            // Two GUIDs (256 bits total) from .NET's CSPRNG-backed Guid.NewGuid() --
+            // no need for a dedicated crypto-random dependency just for this.
+            var ticket = Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N");
+            _streamTickets[ticket] = (user, DateTime.UtcNow.Add(StreamTicketTtl));
+            return ticket;
+        }
+
+        /// <summary>
+        /// Redeems (and invalidates) a ticket, returning the identity it was
+        /// minted for, or null if the ticket is unknown, already used, or expired.
+        /// </summary>
+        public string RedeemStreamTicket(string ticket)
+        {
+            PruneExpiredStreamTickets();
+            if (!string.IsNullOrEmpty(ticket)
+                && _streamTickets.TryRemove(ticket, out var entry)
+                && entry.ExpiresAt > DateTime.UtcNow)
+            {
+                return entry.User;
+            }
+            return null;
+        }
+
+        private void PruneExpiredStreamTickets()
+        {
+            var now = DateTime.UtcNow;
+            foreach (var kv in _streamTickets)
+            {
+                if (kv.Value.ExpiresAt <= now)
+                {
+                    _streamTickets.TryRemove(kv.Key, out _);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Registers a new SSE client and returns its id (for removal on
+        /// disconnect) and the read side of its message channel.
+        /// </summary>
+        public (Guid id, ChannelReader<string> reader) AddClient()
+        {
+            var channel = Channel.CreateUnbounded<string>(new UnboundedChannelOptions
+            {
+                SingleReader = true,
+                SingleWriter = false
+            });
+            var id = Guid.NewGuid();
+            _clients[id] = channel;
+            Logger.Info($"SSE client connected ({_clients.Count} total)");
+            return (id, channel.Reader);
+        }
+
+        /// <summary>
+        /// Removes a disconnected client and completes its channel.
+        /// </summary>
+        public void RemoveClient(Guid id)
+        {
+            if (_clients.TryRemove(id, out var channel))
+            {
+                channel.Writer.TryComplete();
+                Logger.Info($"SSE client disconnected ({_clients.Count} remaining)");
+            }
+        }
+
+        /// <summary>
+        /// Serializes a PropertyUpdateMessage and pushes it to every connected
+        /// client. The client filters by domain object name on arrival.
+        /// </summary>
+        public global::System.Threading.Tasks.Task PublishAsync(string domainObjectName, long instanceId, string jsonData)
+        {
+            if (string.IsNullOrWhiteSpace(domainObjectName))
+            {
+                throw new ArgumentException("Domain object name cannot be null or empty", nameof(domainObjectName));
+            }
+
+            var message = JsonSerializer.Serialize(new PropertyUpdateMessage
+            {
+                DomainObjectName = domainObjectName,
+                InstanceId = instanceId,
+                JsonData = jsonData,
+                Timestamp = DateTime.UtcNow
+            });
+
+            foreach (var kv in _clients)
+            {
+                kv.Value.Writer.TryWrite(message);
+            }
+
+            Logger.Info($"Published object update: {domainObjectName}[{instanceId}] to {_clients.Count} client(s)");
+            return global::System.Threading.Tasks.Task.CompletedTask;
+        }
+    }
+
+    /// <summary>
+    /// Message structure for object update notifications (serialized into the SSE
+    /// data field; the Blazor client deserializes the same shape).
+    /// </summary>
+    public class PropertyUpdateMessage
+    {
+        public string DomainObjectName { get; set; }
+        public long InstanceId { get; set; }
+        public string JsonData { get; set; }
+        public DateTime Timestamp { get; set; }
+    }
+}

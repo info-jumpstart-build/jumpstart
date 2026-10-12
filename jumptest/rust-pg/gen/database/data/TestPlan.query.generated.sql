@@ -76,7 +76,14 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'app.test_plan-get-history',
     'SELECT
-        app.test_plan.*
+        app.test_plan.id,
+            test_plan.name,
+            test_plan.description,
+            test_plan.is_active,
+            test_plan.created_by,
+            test_plan.last_updated,
+            test_plan.last_updated_by,
+            test_plan.txn_id
     FROM app.test_plan
     WHERE app.test_plan.id = ^(id)
     ORDER BY app.test_plan.txn_id DESC;',

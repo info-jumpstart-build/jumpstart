@@ -1,0 +1,219 @@
+using System.Net;
+using System.Net.Sockets;
+using jumptest;
+
+// Configuration for dynamic port binding
+const int StartPort = 5100;
+const int EndPort = 5200;
+const int MaxRetries = 100;
+
+//IPAddress boundIP = Config.getNetworkInterfaceIP();
+IPAddress boundIP = IPAddress.Any; // Listen on all interfaces. The actual IP will be determined by the client when it connects.
+
+int boundPort = 0;
+
+// A fixed port from servers.scriptagent.port in ~/.<namespace>.json (if
+// configured) is tried first, exactly -- not silently skipped if it's busy. A
+// busy configured port is usually a stale process from a previous run;
+// scanning forward from it (with a warning) instead of silently landing
+// elsewhere keeps that mismatch visible in the log rather than surfacing
+// later as misrouted dispatch (a stale process holding the port the
+// Scheduler expects, while a freshly started one is on a different port).
+int? configuredPort = Config.GetServerPort("scriptagent");
+if (configuredPort.HasValue)
+{
+    boundPort = TryBindPort(configuredPort.Value, boundIP);
+    if (boundPort == 0)
+    {
+        Console.WriteLine($"WARNING: configured port {configuredPort.Value} (servers.scriptagent.port in ~/.<namespace>.json) is already in use -- possibly a stale process from a previous run. Scanning forward for a free port instead; kill the stale process if clients expect {configuredPort.Value} specifically.");
+        boundPort = FindFreePort(configuredPort.Value, configuredPort.Value + (EndPort - StartPort), MaxRetries, boundIP);
+    }
+}
+
+if (boundPort == 0)
+{
+    boundPort = FindFreePort(StartPort, EndPort, MaxRetries, boundIP);
+}
+
+if (boundPort == 0)
+{
+    Console.WriteLine($"ERROR: Could not find available port in range {StartPort}-{EndPort}");
+    Environment.Exit(1);
+}
+
+var builder = WebApplication.CreateBuilder(args);
+// Configure Kestrel to listen on the resolved network interface
+builder.WebHost.UseUrls($"http://{boundIP}:{boundPort}");
+Console.WriteLine($"ScriptAgent will bind to IP: {boundIP}, Port: {boundPort}");
+
+static int TryBindPort(int port, IPAddress ip)
+{
+    try
+    {
+        using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        socket.Bind(new IPEndPoint(ip, port));
+        return port;
+    }
+    catch (SocketException)
+    {
+        return 0;
+    }
+}
+
+static int FindFreePort(int start, int end, int maxRetries, IPAddress ip)
+{
+    for (int port = start; port <= end && port < start + maxRetries; port++)
+    {
+        if (TryBindPort(port, ip) != 0) return port;
+    }
+    return 0;
+}
+
+// Add services to the container.
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Access-Control-Allow-Origin",
+                    builder =>
+                    {
+                        builder.WithOrigins("*")
+                           .AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                    });
+
+});
+
+// ── Auth0 JWT Bearer validation (inbound requests from Scheduler) ────────────
+builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = $"https://{builder.Configuration["Auth0:Domain"]}/";
+        options.Audience  =  builder.Configuration["Auth0:Audience"];
+    });
+builder.Services.AddAuthorization();
+
+var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Register notification callback
+NotificationRegistrar.Register();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+app.UseCors("Access-Control-Allow-Origin");
+
+//app.UseHttpsRedirection();
+
+//app.UseAuthorization();
+
+app.MapControllers();
+
+// Register shutdown handler to set server status to offline
+app.Lifetime.ApplicationStopping.Register(() =>
+{
+    try
+    {
+        Console.WriteLine("ScriptAgent: Application is shutting down, setting server status to Offline...");
+        var serverNode = jumptest.core.ScriptAgentLogic.thisServerNode;
+        if (serverNode != null && serverNode.id > 0)
+        {
+            jumptest.core.ScriptAgentLogic.Create().unregister(serverNode.id);
+            Console.WriteLine("ScriptAgent: Server node unregistered, status updated to Offline");
+        }
+        else
+        {
+            Console.WriteLine("ScriptAgent: Server node not registered, skipping status update");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error setting server status to Offline during shutdown: {ex.Message}");
+    }
+});
+
+// Register agent after successful binding
+var registrationTask = Task.Run(async () =>
+{
+    try
+    {
+        // Wait a moment for the server to fully start
+        await Task.Delay(1000);
+        
+        // Call registration callback
+        await RegisterScriptAgent(boundIP, boundPort);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error during scriptagent registration: {ex.Message}");
+    }
+});
+
+app.Run();
+
+// Registration callback function
+static async Task RegisterScriptAgent(IPAddress boundIP, int port)
+{
+    // Get SessionInfo singleton and populate it with system information
+    var sessionInfo = SessionInfo.Instance;
+    Util.PopulateSessionInfo(sessionInfo);
+    var computerName   = sessionInfo.GetValue("ComputerName", Environment.MachineName);
+
+    // Add agent-specific information to the session
+    sessionInfo.SetValue("ScriptAgentIPAddress", boundIP.ToString());
+    sessionInfo.SetValue("ScriptAgentPort", port.ToString());
+    sessionInfo.SetValue("ScriptAgentURL", $"http://{computerName}:{port}");
+    
+    // Set ServerNode keys that are used in registration
+    sessionInfo.SetValue("ServerNodeIPAddress", boundIP.ToString());
+    sessionInfo.SetValue("ServerNodeURL", $"http://{computerName}:{port}");
+    
+
+    var scriptAgentId = $"{computerName}:{port}";
+    
+    Console.WriteLine($"==============================================");
+    Console.WriteLine($"ScriptAgent Registration");
+    Console.WriteLine($"==============================================");
+    Console.WriteLine($"ScriptAgent ID: {scriptAgentId}");
+    Console.WriteLine($"Computer Name: {computerName}");
+    Console.WriteLine($"IP Address: {boundIP}");
+    Console.WriteLine($"Port: {port}");
+    Console.WriteLine($"URL: {sessionInfo.GetValue("ServerNodeURL")}");
+    Console.WriteLine($"User: {sessionInfo.GetValue("UserName", "Unknown")}");
+    Console.WriteLine($"Domain: {sessionInfo.GetValue("UserDomain", "Unknown")}");
+    Console.WriteLine($"==============================================");
+    
+
+    
+    
+    var registrationData = new ServerNode        {
+            
+            hostname = computerName,
+            server_node_type_id = (long)ServerNode.ServerNodeType.Agent,
+            ip_address = sessionInfo.GetValue("ServerNodeIPAddress"),
+            port = port,
+            url = sessionInfo.GetValue("ServerNodeURL"),
+            username = sessionInfo.GetValue("UserName"),
+            user_domain = sessionInfo.GetValue("UserDomain"),
+            os_name = sessionInfo.GetValue("OSName"),
+            os_version = sessionInfo.GetValue("OSVersion"),
+            architecture = sessionInfo.GetValue("Architecture"),
+            registered_at = DateTime.UtcNow,
+            server_node_status_id = (long)ServerNode.ServerNodeStatus.Online,
+            is_active = 1,
+            created_by = Environment.UserName,
+            
+        };
+
+        jumptest.core.ScriptAgentLogic.Create().register(registrationData);
+        
+    
+}

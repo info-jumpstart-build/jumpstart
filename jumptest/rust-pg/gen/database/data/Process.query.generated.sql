@@ -85,7 +85,14 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.process-get-history',
     'SELECT
-        core.process.*
+        core.process.id,
+            process.name,
+            process.script_id,
+            process.is_active,
+            process.created_by,
+            process.last_updated,
+            process.last_updated_by,
+            process.txn_id
     FROM core.process
     WHERE core.process.id = ^(id)
     ORDER BY core.process.txn_id DESC;',

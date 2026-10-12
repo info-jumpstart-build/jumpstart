@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>setup-auth0</AssemblyName>
+    <OutputPath>..\..\..\bin\tools\setup-auth0</OutputPath>
+  </PropertyGroup>
+
+  <!-- Standalone tool: no shared project references required.
+       All Auth0 Management API calls use System.Net.Http.Json
+       which is included in net9.0 by default. -->
+
+</Project>

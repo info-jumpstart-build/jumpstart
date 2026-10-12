@@ -73,7 +73,13 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.org-get-history',
     'SELECT
-        core.org.*
+        core.org.id,
+            org.name,
+            org.is_active,
+            org.created_by,
+            org.last_updated,
+            org.last_updated_by,
+            org.txn_id
     FROM core.org
     WHERE core.org.id = ^(id)
     ORDER BY core.org.txn_id DESC;',

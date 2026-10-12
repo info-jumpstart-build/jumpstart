@@ -1,0 +1,16 @@
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\bin\Debug\net9.0\persist.deps.json
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\bin\Debug\net9.0\persist.dll
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\bin\Debug\net9.0\persist.pdb
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\bin\Debug\net9.0\common.dll
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\bin\Debug\net9.0\common.pdb
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\obj\Debug\net9.0\persist.csproj.AssemblyReference.cache
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\obj\Debug\net9.0\persist.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\obj\Debug\net9.0\persist.AssemblyInfoInputs.cache
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\obj\Debug\net9.0\persist.AssemblyInfo.cs
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\obj\Debug\net9.0\persist.csproj.CoreCompileInputs.cache
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\obj\Debug\net9.0\persist.sourcelink.json
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\obj\Debug\net9.0\persist.csproj.Up2Date
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\obj\Debug\net9.0\persist.dll
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\obj\Debug\net9.0\refint\persist.dll
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\obj\Debug\net9.0\persist.pdb
+C:\Users\eric\src\jumpstart.build\jumpstart\jumptest\dotnet-mssql\gen\shared\persist\obj\Debug\net9.0\ref\persist.dll

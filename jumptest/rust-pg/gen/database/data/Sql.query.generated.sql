@@ -88,7 +88,16 @@ INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, las
 SELECT n, n,
     'core.sql-get-history',
     'SELECT
-        core.sql.*
+        core.sql.id,
+            sql.name,
+            sql.data_source_id,
+            sql.sql_text,
+            sql.description,
+            sql.is_active,
+            sql.created_by,
+            sql.last_updated,
+            sql.last_updated_by,
+            sql.txn_id
     FROM core.sql
     WHERE core.sql.id = ^(id)
     ORDER BY core.sql.txn_id DESC;',

@@ -1,0 +1,159 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using jumptest;
+
+namespace jumptest.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class NotificationController : ControllerBase
+    {
+        private readonly SseNotificationService _sse;
+        private readonly IConfiguration _configuration;
+
+        public NotificationController(SseNotificationService sse, IConfiguration configuration)
+        {
+            _sse = sse;
+            _configuration = configuration;
+        }
+
+        // POST api/Notification/stream-ticket
+        // Mints a short-lived, single-use ticket for opening the SSE stream (see
+        // SseNotificationService.MintStreamTicket for why: EventSource can't send
+        // an Authorization header). If Auth0 is configured for this app, the
+        // caller must already be authenticated -- same "configured means
+        // required" rule the Rust API server applies; if Auth0 isn't configured,
+        // this falls back to OpRoleMemberLogic.CurrentUser (the OS user), same as
+        // every other endpoint in an Auth0-unconfigured (local dev) setup.
+        [HttpPost("stream-ticket")]
+        public ActionResult<StreamTicketResponse> MintStreamTicket()
+        {
+            var auth0Domain = _configuration["Auth0:Domain"];
+            if (!string.IsNullOrWhiteSpace(auth0Domain) && User?.Identity?.IsAuthenticated != true)
+            {
+                return Unauthorized("missing or invalid bearer token");
+            }
+
+            var ticket = _sse.MintStreamTicket(OpRoleMemberLogic.CurrentUser);
+            return Ok(new StreamTicketResponse { Ticket = ticket });
+        }
+
+        // POST api/Notification/publish
+        // A node's logic layer (NotificationRegistrar) posts object changes here;
+        // the change is then fanned out to connected SSE clients.
+        [HttpPost("publish")]
+        public async Task<ActionResult> Publish([FromBody] NotificationRequest request)
+        {
+            try
+            {
+                if (request == null)
+                {
+                    return BadRequest("Notification request cannot be null");
+                }
+                if (string.IsNullOrWhiteSpace(request.DomainObjectName))
+                {
+                    return BadRequest("DomainObjectName is required");
+                }
+                if (string.IsNullOrWhiteSpace(request.JsonData))
+                {
+                    return BadRequest("JsonData is required");
+                }
+
+                await _sse.PublishAsync(request.DomainObjectName, request.InstanceId, request.JsonData);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error publishing notification: {ex.Message}", ex);
+                return StatusCode(500, "Internal server error while publishing notification");
+            }
+        }
+
+        // GET api/Notification/stream?ticket=...
+        // Server-Sent Events stream. Replaces the SignalR /notificationHub; the
+        // Blazor client connects via EventSource and filters by domain object.
+        // Authenticated via a single-use ticket (see MintStreamTicket above and
+        // SseNotificationService.RedeemStreamTicket) instead of a bearer token,
+        // since EventSource can't attach an Authorization header.
+        [HttpGet("stream")]
+        public async Task Stream([FromQuery] string ticket)
+        {
+            var user = _sse.RedeemStreamTicket(ticket);
+            if (user == null)
+            {
+                Response.StatusCode = 401;
+                await Response.WriteAsync("missing or expired stream ticket");
+                return;
+            }
+            OpRoleMemberLogic.SetCurrentUser(user);
+
+            Response.ContentType = "text/event-stream";
+            Response.Headers.Append("Cache-Control", "no-cache");
+            Response.Headers.Append("X-Accel-Buffering", "no");
+            HttpContext.Features.Get<IHttpResponseBodyFeature>()?.DisableBuffering();
+
+            var cancellation = HttpContext.RequestAborted;
+            var (id, reader) = _sse.AddClient();
+            try
+            {
+                // Prime the connection so the client opens immediately.
+                await Response.WriteAsync(": connected\n\n", cancellation);
+                await Response.Body.FlushAsync(cancellation);
+
+                while (!cancellation.IsCancellationRequested)
+                {
+                    using var heartbeat = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
+                    heartbeat.CancelAfter(TimeSpan.FromSeconds(20));
+                    try
+                    {
+                        if (await reader.WaitToReadAsync(heartbeat.Token))
+                        {
+                            while (reader.TryRead(out var msg))
+                            {
+                                await Response.WriteAsync($"event: PropertyUpdated\ndata: {msg}\n\n", cancellation);
+                            }
+                            await Response.Body.FlushAsync(cancellation);
+                        }
+                    }
+                    catch (OperationCanceledException) when (!cancellation.IsCancellationRequested)
+                    {
+                        // Heartbeat tick: keep the connection alive through proxies.
+                        await Response.WriteAsync(": keepalive\n\n", cancellation);
+                        await Response.Body.FlushAsync(cancellation);
+                    }
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // Client disconnected; fall through to cleanup.
+            }
+            finally
+            {
+                _sse.RemoveClient(id);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Request model for publishing object updates.
+    /// </summary>
+    public class NotificationRequest
+    {
+        public string DomainObjectName { get; set; }
+        public long InstanceId { get; set; }
+        public string JsonData { get; set; }
+    }
+
+    /// <summary>
+    /// Response for POST api/Notification/stream-ticket.
+    /// </summary>
+    public class StreamTicketResponse
+    {
+        public string Ticket { get; set; }
+    }
+}
