@@ -47,13 +47,22 @@
                 }
             }
 
-            // Build the SELECT clause for child table attributes (excluding foreign key columns)
+            // Build the SELECT clause for child table attributes (excluding foreign key columns).
+            // MONEY columns are cast to numeric and re-aliased to their own name -- the
+            // `postgres` crate's row decoder (db_connection.core.rs) has no FromSql path
+            // for Postgres's `money` wire type and panics on it (same fix as
+            // template.query.generated.sql.cshtml / templateLogic.generated.rs.cshtml).
             var childSelectColumns = new List<string>();
             foreach(var attr in childAttributes)
             {
                 if (attr.Name != "id")
                 {
-                    childSelectColumns.Add(childTableName + "." + attr.Name);
+                    var childColRef = childTableName + "." + attr.Name;
+                    if (attr.SqlDataType != null && attr.SqlDataType.ToUpper() == "MONEY")
+                    {
+                        childColRef = childColRef + "::numeric AS " + attr.Name;
+                    }
+                    childSelectColumns.Add(childColRef);
                 }
             }
 
@@ -104,7 +113,12 @@
                     {
                         if (fkObjectAttr.RWK == "1")
                         {
-                            childFkSelectColumns.Add(alias + "." + fkObjectAttr.Name + " AS " + alias + "_" + fkObjectAttr.Name);
+                            var fkColRef = alias + "." + fkObjectAttr.Name;
+                            if (fkObjectAttr.SqlDataType != null && fkObjectAttr.SqlDataType.ToUpper() == "MONEY")
+                            {
+                                fkColRef = fkColRef + "::numeric";
+                            }
+                            childFkSelectColumns.Add(fkColRef + " AS " + alias + "_" + fkObjectAttr.Name);
                         }
                     }
 

@@ -325,5 +325,20 @@ INSERT INTO [core].[operation] ([id], [txn_id], [objectname], [methodname], [is_
 		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'children', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
 		</text>
 
+		if (metaObject.MapRelationships.Count > 0)
+		{
+			// 'maplist'/'mapsync' (the many-to-many checklist tab) need their
+			// own registered operations same as every other method here --
+			// Administrator's grant is built by copying every row currently
+			// in core.operation, so an operation never inserted here can
+			// never be granted to anyone, ever, regardless of role.
+			<text>
+		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
+		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'maplist', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
+		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
+		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'mapsync', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
+			</text>
+		}
+
 	}
 }
