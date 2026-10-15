@@ -4525,49 +4525,42 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\eric\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/erickohlenberg/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\tools\\export\\export.csproj",
+      "projectUniqueName": "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/tools/export/export.csproj",
       "projectName": "export",
-      "projectPath": "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\tools\\export\\export.csproj",
-      "packagesPath": "C:\\Users\\eric\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\tools\\export\\obj\\",
+      "projectPath": "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/tools/export/export.csproj",
+      "packagesPath": "/Users/erickohlenberg/.nuget/packages/",
+      "outputPath": "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/tools/export/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\eric\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/erickohlenberg/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
+        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\shared\\common\\common.csproj": {
-              "projectPath": "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\shared\\common\\common.csproj"
+            "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/shared/common/common.csproj": {
+              "projectPath": "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/shared/common/common.csproj"
             },
-            "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\shared\\domain\\domain.csproj": {
-              "projectPath": "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\shared\\domain\\domain.csproj"
+            "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/shared/domain/domain.csproj": {
+              "projectPath": "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/shared/domain/domain.csproj"
             },
-            "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\shared\\logic\\logic.csproj": {
-              "projectPath": "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\shared\\logic\\logic.csproj"
+            "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/shared/logic/logic.csproj": {
+              "projectPath": "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/shared/logic/logic.csproj"
             },
-            "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\shared\\persist\\persist.csproj": {
-              "projectPath": "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\shared\\persist\\persist.csproj"
+            "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/shared/persist/persist.csproj": {
+              "projectPath": "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/shared/persist/persist.csproj"
             }
           }
         }
@@ -4582,7 +4575,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net9.0": {
@@ -4613,7 +4606,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.317/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -44,7 +44,7 @@ impl ScriptLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<Script>, LogicError> {
         Logger::debug(format!("Processing ScriptLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.script WHERE id = {} AND is_active = 1",
+            "SELECT id, name, source, script_type_id, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.script WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<Script>(&sql, "default")?
@@ -67,7 +67,7 @@ impl ScriptLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<ScriptHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.script WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, name, source, script_type_id, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.script WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<ScriptHistory>(&sql, "default")?)

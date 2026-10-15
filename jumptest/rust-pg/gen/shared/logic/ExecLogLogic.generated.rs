@@ -44,7 +44,7 @@ impl ExecLogLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<ExecLog>, LogicError> {
         Logger::debug(format!("Processing ExecLogLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.exec_log WHERE id = {} AND is_active = 1",
+            "SELECT id, token, workflow_id, start_time, end_time, exec_status_id, stdout, stderr, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.exec_log WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<ExecLog>(&sql, "default")?
@@ -67,7 +67,7 @@ impl ExecLogLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<ExecLogHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.exec_log WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, token, workflow_id, start_time, end_time, exec_status_id, stdout, stderr, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.exec_log WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<ExecLogHistory>(&sql, "default")?)

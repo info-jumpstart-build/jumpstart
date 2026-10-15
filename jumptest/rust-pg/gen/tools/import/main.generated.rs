@@ -40,6 +40,7 @@ const TABLES: &[&str] = &[
     "testresultstatus",
     "testplan",
     "org",
+    "",
     "operation",
     "oprole",
     "cronevery",
@@ -66,15 +67,9 @@ const TABLES: &[&str] = &[
     "script",
     "servernode",
     "principal",
-<<<<<<< HEAD
     "eventservice",
     "process",
     "testresult",
-=======
-    "testresult",
-    "eventservice",
-    "process",
->>>>>>> main
     "principalorg",
     "oprolemember",
     "workflow",

@@ -97,6 +97,12 @@ pub mod org_logic {
 }
 pub use org_logic::*;
     
+pub mod _logic {
+    include!("Logic.generated.rs");
+    include!("../../../usr/shared/logic/Logic.user.rs");
+}
+pub use _logic::*;
+    
 pub mod operation_logic {
     include!("OperationLogic.generated.rs");
     include!("../../../usr/shared/logic/OperationLogic.user.rs");

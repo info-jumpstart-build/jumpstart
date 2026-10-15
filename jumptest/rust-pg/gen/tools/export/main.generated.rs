@@ -23,6 +23,7 @@ const TABLES: &[&str] = &[
     "testresultstatus",
     "testplan",
     "org",
+    "",
     "operation",
     "oprole",
     "cronevery",
@@ -49,15 +50,9 @@ const TABLES: &[&str] = &[
     "script",
     "servernode",
     "principal",
-<<<<<<< HEAD
     "eventservice",
     "process",
     "testresult",
-=======
-    "testresult",
-    "eventservice",
-    "process",
->>>>>>> main
     "principalorg",
     "oprolemember",
     "workflow",
@@ -119,6 +114,7 @@ fn export_table(table: &str, output: &str) -> Result<usize, String> {
         "testresultstatus" => export_object::<domain::test_result_status::TestResultStatus>(output),
         "testplan" => export_object::<domain::test_plan::TestPlan>(output),
         "org" => export_object::<domain::org::Org>(output),
+        "" => export_object::<domain::::>(output),
         "operation" => export_object::<domain::operation::Operation>(output),
         "oprole" => export_object::<domain::op_role::OpRole>(output),
         "cronevery" => export_object::<domain::cron_every::CronEvery>(output),
@@ -145,15 +141,9 @@ fn export_table(table: &str, output: &str) -> Result<usize, String> {
         "script" => export_object::<domain::script::Script>(output),
         "servernode" => export_object::<domain::server_node::ServerNode>(output),
         "principal" => export_object::<domain::principal::Principal>(output),
-<<<<<<< HEAD
         "eventservice" => export_object::<domain::event_service::EventService>(output),
         "process" => export_object::<domain::process::Process>(output),
         "testresult" => export_object::<domain::test_result::TestResult>(output),
-=======
-        "testresult" => export_object::<domain::test_result::TestResult>(output),
-        "eventservice" => export_object::<domain::event_service::EventService>(output),
-        "process" => export_object::<domain::process::Process>(output),
->>>>>>> main
         "principalorg" => export_object::<domain::principal_org::PrincipalOrg>(output),
         "oprolemember" => export_object::<domain::op_role_member::OpRoleMember>(output),
         "workflow" => export_object::<domain::workflow::Workflow>(output),
@@ -170,8 +160,26 @@ fn export_object<T: DomainObject + Default>(output: &str) -> Result<usize, Strin
     let qualified = probe.base().table_name.clone();
     let columns: Vec<&'static str> = T::columns().iter().map(|c| c.name).collect();
 
-    let rows = DBPersist::select(&format!("SELECT * FROM {}", qualified), "default")
-        .map_err(|e| e.to_string())?;
+    // MONEY columns are cast to numeric and re-aliased to their own name --
+    // the `postgres` crate's row decoder (db_connection.core.rs) has no
+    // FromSql path for Postgres's `money` wire type and panics on it (same
+    // fix as template.query.generated.sql.cshtml / templateLogic.generated.rs.cshtml).
+    let select_list: Vec<String> = T::columns()
+        .iter()
+        .map(|c| {
+            if c.data_type.eq_ignore_ascii_case("money") {
+                format!("{}::numeric AS {}", c.name, c.name)
+            } else {
+                c.name.to_string()
+            }
+        })
+        .collect();
+
+    let rows = DBPersist::select(
+        &format!("SELECT {} FROM {}", select_list.join(", "), qualified),
+        "default",
+    )
+    .map_err(|e| e.to_string())?;
 
     let mut writer = csv::Writer::from_path(output).map_err(|e| e.to_string())?;
     writer.write_record(&columns).map_err(|e| e.to_string())?;

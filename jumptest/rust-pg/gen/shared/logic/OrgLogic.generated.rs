@@ -44,7 +44,7 @@ impl OrgLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<Org>, LogicError> {
         Logger::debug(format!("Processing OrgLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.org WHERE id = {} AND is_active = 1",
+            "SELECT id, name, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.org WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<Org>(&sql, "default")?
@@ -67,7 +67,7 @@ impl OrgLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<OrgHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.org WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, name, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.org WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<OrgHistory>(&sql, "default")?)

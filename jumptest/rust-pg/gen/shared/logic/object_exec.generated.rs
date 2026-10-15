@@ -25,6 +25,8 @@ pub fn object_exec(
         
         "org" => crate::OrgLogic::exec(method, ctx),
         
+        "" => crate::Logic::exec(method, ctx),
+        
         "operation" => crate::OperationLogic::exec(method, ctx),
         
         "oprole" | "op_role" => crate::OpRoleLogic::exec(method, ctx),
@@ -110,6 +112,8 @@ pub fn object_exec_unchecked(
         "testplan" | "test_plan" => crate::TestPlanLogic::exec_unchecked(method, ctx),
         
         "org" => crate::OrgLogic::exec_unchecked(method, ctx),
+        
+        "" => crate::Logic::exec_unchecked(method, ctx),
         
         "operation" => crate::OperationLogic::exec_unchecked(method, ctx),
         

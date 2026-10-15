@@ -120,6 +120,7 @@ def main():
     sql_files = [
         './app.schema.create.generated.sql',
         './core.schema.create.generated.sql',
+        './.schema.create.generated.sql',
         './TestResultStatus.table.generated.sql',
         './TestResultStatus.sequence.generated.sql',
         './TestResultStatus.rwkindex.generated.sql',
@@ -129,6 +130,9 @@ def main():
         './Org.table.generated.sql',
         './Org.sequence.generated.sql',
         './Org.rwkindex.generated.sql',
+        './.table.generated.sql',
+        './.sequence.generated.sql',
+        './.rwkindex.generated.sql',
         './Operation.table.generated.sql',
         './Operation.sequence.generated.sql',
         './Operation.rwkindex.generated.sql',

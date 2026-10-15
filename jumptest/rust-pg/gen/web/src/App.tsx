@@ -21,6 +21,8 @@ import ListTestPlan from "./pages/ListTestPlan";
 import EditTestPlan from "./pages/EditTestPlan";
 import ListOrg from "./pages/ListOrg";
 import EditOrg from "./pages/EditOrg";
+import List from "./pages/List";
+import Edit from "./pages/Edit";
 import ListOperation from "./pages/ListOperation";
 import EditOperation from "./pages/EditOperation";
 import ListOpRole from "./pages/ListOpRole";
@@ -112,6 +114,10 @@ export default function App() {
                 <Route path="/org" element={<ListOrg />} />
                 <Route path="/edit-org" element={<EditOrg />} />
                 <Route path="/edit-org/:id" element={<EditOrg />} />
+          
+                <Route path="/" element={<List />} />
+                <Route path="/edit-" element={<Edit />} />
+                <Route path="/edit-/:id" element={<Edit />} />
           
                 <Route path="/operation" element={<ListOperation />} />
                 <Route path="/edit-operation" element={<EditOperation />} />

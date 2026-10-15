@@ -44,7 +44,7 @@ impl EventServiceLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<EventService>, LogicError> {
         Logger::debug(format!("Processing EventServiceLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.event_service WHERE id = {} AND is_active = 1",
+            "SELECT id, event_type, objectname_filter, methodname_filter, script_id, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.event_service WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<EventService>(&sql, "default")?
@@ -67,7 +67,7 @@ impl EventServiceLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<EventServiceHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.event_service WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, event_type, objectname_filter, methodname_filter, script_id, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.event_service WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<EventServiceHistory>(&sql, "default")?)

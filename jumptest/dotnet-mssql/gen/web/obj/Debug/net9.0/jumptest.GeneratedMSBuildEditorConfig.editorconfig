@@ -1,0 +1,353 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = jumptest
+build_property.RootNamespace = jumptest
+build_property.ProjectDir = /Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = /Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Auth/Authentication.razor]
+build_metadata.AdditionalFiles.TargetPath = QXV0aC9BdXRoZW50aWNhdGlvbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Auth/LoginDisplay.razor]
+build_metadata.AdditionalFiles.TargetPath = QXV0aC9Mb2dpbkRpc3BsYXkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Auth/RedirectToLogin.razor]
+build_metadata.AdditionalFiles.TargetPath = QXV0aC9SZWRpcmVjdFRvTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/components/DataTable.razor]
+build_metadata.AdditionalFiles.TargetPath = Y29tcG9uZW50cy9EYXRhVGFibGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/components/DataTableContextMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = Y29tcG9uZW50cy9EYXRhVGFibGVDb250ZXh0TWVudS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/components/TabControl.razor]
+build_metadata.AdditionalFiles.TargetPath = Y29tcG9uZW50cy9UYWJDb250cm9sLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditAgentStatus.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdEFnZW50U3RhdHVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditCronDom.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdENyb25Eb20ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditCronDow.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdENyb25Eb3cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditCronEvery.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdENyb25FdmVyeS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditCronHour.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdENyb25Ib3VyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditCronMinute.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdENyb25NaW51dGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditCronMonth.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdENyb25Nb250aC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditDataSource.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdERhdGFTb3VyY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditEventService.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdEV2ZW50U2VydmljZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditExecLog.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdEV4ZWNMb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditExecStatus.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdEV4ZWNTdGF0dXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditNavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditOnFailure.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdE9uRmFpbHVyZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditOperation.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdE9wZXJhdGlvbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditOpRole.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdE9wUm9sZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditOpRoleMap.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdE9wUm9sZU1hcC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditOpRoleMember.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdE9wUm9sZU1lbWJlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditOrg.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdE9yZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditPrincipal.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFByaW5jaXBhbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditPrincipalOrg.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFByaW5jaXBhbE9yZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditProcess.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFByb2Nlc3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditSchedule.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFNjaGVkdWxlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditScript.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFNjcmlwdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditScriptType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFNjcmlwdFR5cGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditServerNode.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFNlcnZlck5vZGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditServerNodeStatus.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFNlcnZlck5vZGVTdGF0dXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditServerNodeType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFNlcnZlck5vZGVUeXBlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditSql.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFNxbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditTestCase.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFRlc3RDYXNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditTestPlan.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFRlc3RQbGFuLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditTestResult.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFRlc3RSZXN1bHQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditTestResultStatus.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFRlc3RSZXN1bHRTdGF0dXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditTestRun.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFRlc3RSdW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditWorkflow.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFdvcmtmbG93LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditWorkflowType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFdvcmtmbG93VHlwZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListAgentStatus.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdEFnZW50U3RhdHVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListCronDom.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdENyb25Eb20ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListCronDow.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdENyb25Eb3cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListCronEvery.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdENyb25FdmVyeS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListCronHour.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdENyb25Ib3VyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListCronMinute.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdENyb25NaW51dGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListCronMonth.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdENyb25Nb250aC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListDataSource.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdERhdGFTb3VyY2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListEventService.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdEV2ZW50U2VydmljZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListExecLog.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdEV4ZWNMb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListExecStatus.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdEV4ZWNTdGF0dXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListNavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListOnFailure.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdE9uRmFpbHVyZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListOperation.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdE9wZXJhdGlvbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListOpRole.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdE9wUm9sZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListOpRoleMap.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdE9wUm9sZU1hcC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListOpRoleMember.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdE9wUm9sZU1lbWJlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListOrg.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdE9yZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListPrincipal.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFByaW5jaXBhbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListPrincipalOrg.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFByaW5jaXBhbE9yZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListProcess.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFByb2Nlc3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListSchedule.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFNjaGVkdWxlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListScript.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFNjcmlwdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListScriptType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFNjcmlwdFR5cGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListServerNode.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFNlcnZlck5vZGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListServerNodeStatus.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFNlcnZlck5vZGVTdGF0dXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListServerNodeType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFNlcnZlck5vZGVUeXBlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListSql.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFNxbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListTestCase.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFRlc3RDYXNlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListTestPlan.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFRlc3RQbGFuLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListTestResult.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFRlc3RSZXN1bHQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListTestResultStatus.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFRlc3RSZXN1bHRTdGF0dXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListTestRun.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFRlc3RSdW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListWorkflow.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFdvcmtmbG93LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListWorkflowCore.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFdvcmtmbG93Q29yZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListWorkflowType.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFdvcmtmbG93VHlwZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0L01haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-aocl17jwhn
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Layout/NavMenuLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0L05hdk1lbnVMYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-y5ew62mzmq

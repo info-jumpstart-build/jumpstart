@@ -4248,32 +4248,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\eric\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/erickohlenberg/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\shared\\common\\common.csproj",
+      "projectUniqueName": "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/shared/common/common.csproj",
       "projectName": "common",
-      "projectPath": "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\shared\\common\\common.csproj",
-      "packagesPath": "C:\\Users\\eric\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\shared\\common\\obj\\",
+      "projectPath": "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/shared/common/common.csproj",
+      "packagesPath": "/Users/erickohlenberg/.nuget/packages/",
+      "outputPath": "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/shared/common/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\eric\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/erickohlenberg/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
+        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4292,7 +4285,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net9.0": {
@@ -4347,7 +4340,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.317/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

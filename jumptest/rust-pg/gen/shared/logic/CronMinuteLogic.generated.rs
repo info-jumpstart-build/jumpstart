@@ -44,7 +44,7 @@ impl CronMinuteLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<CronMinute>, LogicError> {
         Logger::debug(format!("Processing CronMinuteLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.cron_minute WHERE id = {} AND is_active = 1",
+            "SELECT id, name, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.cron_minute WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<CronMinute>(&sql, "default")?
@@ -67,7 +67,7 @@ impl CronMinuteLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<CronMinuteHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.cron_minute WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, name, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.cron_minute WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<CronMinuteHistory>(&sql, "default")?)

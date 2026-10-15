@@ -44,7 +44,7 @@ impl NavMenuLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<NavMenu>, LogicError> {
         Logger::debug(format!("Processing NavMenuLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.nav_menu WHERE id = {} AND is_active = 1",
+            "SELECT id, parent_id, ordinal, name, link, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.nav_menu WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<NavMenu>(&sql, "default")?
@@ -67,7 +67,7 @@ impl NavMenuLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<NavMenuHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.nav_menu WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, parent_id, ordinal, name, link, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.nav_menu WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<NavMenuHistory>(&sql, "default")?)

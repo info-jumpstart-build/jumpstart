@@ -44,7 +44,7 @@ impl OperationLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<Operation>, LogicError> {
         Logger::debug(format!("Processing OperationLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.operation WHERE id = {} AND is_active = 1",
+            "SELECT id, objectname, methodname, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.operation WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<Operation>(&sql, "default")?
@@ -67,7 +67,7 @@ impl OperationLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<OperationHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.operation WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, objectname, methodname, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.operation WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<OperationHistory>(&sql, "default")?)

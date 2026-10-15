@@ -44,7 +44,7 @@ impl PrincipalStatusLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<PrincipalStatus>, LogicError> {
         Logger::debug(format!("Processing PrincipalStatusLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.principal_status WHERE id = {} AND is_active = 1",
+            "SELECT id, name, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.principal_status WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<PrincipalStatus>(&sql, "default")?
@@ -67,7 +67,7 @@ impl PrincipalStatusLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<PrincipalStatusHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.principal_status WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, name, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.principal_status WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<PrincipalStatusHistory>(&sql, "default")?)

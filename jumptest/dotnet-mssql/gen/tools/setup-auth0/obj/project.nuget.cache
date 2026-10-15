@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "KCU0ISrRT1I=",
+  "dgSpecHash": "Ao29m3nnni4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\eric\\src\\jumpstart.build\\jumpstart\\jumptest\\dotnet-mssql\\gen\\tools\\setup-auth0\\setup-auth0.csproj",
+  "projectFilePath": "/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/tools/setup-auth0/setup-auth0.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

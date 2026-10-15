@@ -44,7 +44,7 @@ impl OnFailureLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<OnFailure>, LogicError> {
         Logger::debug(format!("Processing OnFailureLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.on_failure WHERE id = {} AND is_active = 1",
+            "SELECT id, action, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.on_failure WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<OnFailure>(&sql, "default")?
@@ -67,7 +67,7 @@ impl OnFailureLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<OnFailureHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.on_failure WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, action, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.on_failure WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<OnFailureHistory>(&sql, "default")?)

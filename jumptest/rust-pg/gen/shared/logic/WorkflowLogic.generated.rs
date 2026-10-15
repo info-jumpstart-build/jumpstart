@@ -44,7 +44,7 @@ impl WorkflowLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<Workflow>, LogicError> {
         Logger::debug(format!("Processing WorkflowLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.workflow WHERE id = {} AND is_active = 1",
+            "SELECT id, workflow_type_id, parent_id, name, seq, server_node_id, process_id, exec_status_id, last_start_time, last_end_time, schedule_id, on_failure_action_id, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.workflow WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<Workflow>(&sql, "default")?
@@ -67,7 +67,7 @@ impl WorkflowLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<WorkflowHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.workflow WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, workflow_type_id, parent_id, name, seq, server_node_id, process_id, exec_status_id, last_start_time, last_end_time, schedule_id, on_failure_action_id, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.workflow WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<WorkflowHistory>(&sql, "default")?)

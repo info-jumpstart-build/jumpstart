@@ -26,6 +26,10 @@ pub use test_plan_test::*;
 mod org_test;
 pub use org_test::*;
     
+#[path = ".test.generated.rs"]
+mod _test;
+pub use _test::*;
+    
 #[path = "Operation.test.generated.rs"]
 mod operation_test;
 pub use operation_test::*;
@@ -129,13 +133,6 @@ pub use server_node_test::*;
 #[path = "Principal.test.generated.rs"]
 mod principal_test;
 pub use principal_test::*;
-<<<<<<< HEAD
-=======
-    
-#[path = "TestResult.test.generated.rs"]
-mod test_result_test;
-pub use test_result_test::*;
->>>>>>> main
     
 #[path = "EventService.test.generated.rs"]
 mod event_service_test;
@@ -145,13 +142,10 @@ pub use event_service_test::*;
 mod process_test;
 pub use process_test::*;
     
-<<<<<<< HEAD
 #[path = "TestResult.test.generated.rs"]
 mod test_result_test;
 pub use test_result_test::*;
     
-=======
->>>>>>> main
 #[path = "PrincipalOrg.test.generated.rs"]
 mod principal_org_test;
 pub use principal_org_test::*;
@@ -259,6 +253,12 @@ fn run() -> Result<(), LogicError> {
     OrgTest::test_update()?;
     OrgTest::test_insert()?;
     OrgTest::test_update()?;
+    
+    Logger::info("Testing ");
+    Test::test_insert()?;
+    Test::test_update()?;
+    Test::test_insert()?;
+    Test::test_update()?;
     
     Logger::info("Testing TestCase");
     TestCaseTest::test_insert()?;

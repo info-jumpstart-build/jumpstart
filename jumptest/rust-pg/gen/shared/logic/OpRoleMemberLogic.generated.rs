@@ -44,7 +44,7 @@ impl OpRoleMemberLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<OpRoleMember>, LogicError> {
         Logger::debug(format!("Processing OpRoleMemberLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.op_role_member WHERE id = {} AND is_active = 1",
+            "SELECT id, principal_id, op_role_id, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.op_role_member WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<OpRoleMember>(&sql, "default")?
@@ -67,7 +67,7 @@ impl OpRoleMemberLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<OpRoleMemberHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.op_role_member WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, principal_id, op_role_id, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.op_role_member WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<OpRoleMemberHistory>(&sql, "default")?)

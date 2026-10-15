@@ -44,7 +44,7 @@ impl TestResultLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<TestResult>, LogicError> {
         Logger::debug(format!("Processing TestResultLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM app.test_result WHERE id = {} AND is_active = 1",
+            "SELECT id, test_run_id, test_case_id, test_result_status_id, executed_at, executed_by_id, actual_result, notes, is_active, created_by, last_updated, last_updated_by, txn_id FROM app.test_result WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<TestResult>(&sql, "default")?
@@ -67,7 +67,7 @@ impl TestResultLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<TestResultHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM app.test_result WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, test_run_id, test_case_id, test_result_status_id, executed_at, executed_by_id, actual_result, notes, is_active, created_by, last_updated, last_updated_by, txn_id FROM app.test_result WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<TestResultHistory>(&sql, "default")?)

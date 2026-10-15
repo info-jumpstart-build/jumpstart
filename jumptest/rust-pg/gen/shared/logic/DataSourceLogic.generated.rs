@@ -44,7 +44,7 @@ impl DataSourceLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<DataSource>, LogicError> {
         Logger::debug(format!("Processing DataSourceLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.data_source WHERE id = {} AND is_active = 1",
+            "SELECT id, name, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.data_source WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<DataSource>(&sql, "default")?
@@ -67,7 +67,7 @@ impl DataSourceLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<DataSourceHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.data_source WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, name, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.data_source WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<DataSourceHistory>(&sql, "default")?)

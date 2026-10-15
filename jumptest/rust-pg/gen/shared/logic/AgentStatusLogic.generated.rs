@@ -44,7 +44,7 @@ impl AgentStatusLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<AgentStatus>, LogicError> {
         Logger::debug(format!("Processing AgentStatusLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.agent_status WHERE id = {} AND is_active = 1",
+            "SELECT id, name, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.agent_status WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<AgentStatus>(&sql, "default")?
@@ -67,7 +67,7 @@ impl AgentStatusLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<AgentStatusHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.agent_status WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, name, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.agent_status WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<AgentStatusHistory>(&sql, "default")?)

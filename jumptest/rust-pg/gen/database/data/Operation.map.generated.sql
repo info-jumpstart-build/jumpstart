@@ -8,11 +8,7 @@
 -- =====================================
 
         
-<<<<<<< HEAD
 -- Map relationship: Role (op_role), via core.op_role_map
-=======
--- Map relationship: Operation Role (op_role), via core.op_role_map
->>>>>>> main
 INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, last_updated_by, is_active, data_source_id)
 SELECT n, n,
     'core.operation-map-oprole-op_role',
@@ -24,11 +20,7 @@ SELECT n, n,
     LEFT JOIN core.op_role_map ON op_role_map.op_role_id = op_role.id AND op_role_map.op_id = ^(id) AND op_role_map.is_active = 1
     WHERE op_role.is_active = 1
     ORDER BY op_role.id;',
-<<<<<<< HEAD
     'Select Role options for Operation, flagged as mapped where a op_role_map row already links them',
-=======
-    'Select Operation Role options for Operation, flagged as mapped where a op_role_map row already links them',
->>>>>>> main
     NOW(),
     CURRENT_USER,
     1,

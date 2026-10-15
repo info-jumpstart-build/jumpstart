@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("test-impexp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b25f320572a2fd32c0f96bff5cd25564c016981")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0c4d66684138874d2a08dc30d48317bb913146b9")]
 [assembly: System.Reflection.AssemblyProductAttribute("test-impexp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("test-impexp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

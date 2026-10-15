@@ -44,7 +44,7 @@ impl OpRoleMapLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<OpRoleMap>, LogicError> {
         Logger::debug(format!("Processing OpRoleMapLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.op_role_map WHERE id = {} AND is_active = 1",
+            "SELECT id, op_id, op_role_id, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.op_role_map WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<OpRoleMap>(&sql, "default")?
@@ -67,7 +67,7 @@ impl OpRoleMapLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<OpRoleMapHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.op_role_map WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, op_id, op_role_id, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.op_role_map WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<OpRoleMapHistory>(&sql, "default")?)

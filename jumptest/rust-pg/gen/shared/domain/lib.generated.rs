@@ -32,6 +32,13 @@ pub mod org {
 }
 pub use org::*;
     
+pub mod  {
+    // `use common::*;` is provided by the included generated file.
+    include!(".generated.rs");
+    include!("../../../usr/shared/domain/.user.rs");
+}
+pub use ::*;
+    
 pub mod operation {
     // `use common::*;` is provided by the included generated file.
     include!("Operation.generated.rs");

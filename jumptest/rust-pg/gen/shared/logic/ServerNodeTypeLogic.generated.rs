@@ -44,7 +44,7 @@ impl ServerNodeTypeLogic {
     pub(crate) fn get(&self, id: i64) -> Result<Option<ServerNodeType>, LogicError> {
         Logger::debug(format!("Processing ServerNodeTypeLogic get ID={}", id));
         let sql = format!(
-            "SELECT * FROM core.server_node_type WHERE id = {} AND is_active = 1",
+            "SELECT id, name, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.server_node_type WHERE id = {} AND is_active = 1",
             id
         );
         Ok(DBPersist::select_into::<ServerNodeType>(&sql, "default")?
@@ -67,7 +67,7 @@ impl ServerNodeTypeLogic {
 
     pub(crate) fn history(&self, id: i64) -> Result<Vec<ServerNodeTypeHistory>, LogicError> {
         let sql = format!(
-            "SELECT * FROM core.server_node_type WHERE id = {} ORDER BY txn_id DESC",
+            "SELECT id, name, is_active, created_by, last_updated, last_updated_by, txn_id FROM core.server_node_type WHERE id = {} ORDER BY txn_id DESC",
             id
         );
         Ok(DBPersist::select_into::<ServerNodeTypeHistory>(&sql, "default")?)
