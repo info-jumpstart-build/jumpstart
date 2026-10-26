@@ -309,30 +309,6 @@ INSERT INTO [core].[operation] ([id], [txn_id], [objectname], [methodname], [is_
 	foreach( var metaObject in Model.Objects)
 	{
 		<text>
-<<<<<<< HEAD
-		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
-		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'select', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
-		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
-		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'get', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
-		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
-		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'view', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
-		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
-		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'insert', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
-		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
-		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'put', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
-		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
-		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'update', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
-		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
-		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'delete', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
-		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
-		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'history', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
-		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
-		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'children', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
-		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
-		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'maplist', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
-		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
-		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'mapsync', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
-=======
 		SELECT @@operation_id = NEXT VALUE FOR core.operation_identity;
 		INSERT INTO core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'select', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
 		SELECT @@operation_id = NEXT VALUE FOR core.operation_identity;
@@ -351,7 +327,6 @@ INSERT INTO [core].[operation] ([id], [txn_id], [objectname], [methodname], [is_
 		INSERT INTO core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'history', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
 		SELECT @@operation_id = NEXT VALUE FOR core.operation_identity;
 		INSERT INTO core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'children', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
->>>>>>> main
 		</text>
 
 		if (metaObject.MapRelationships.Count > 0)
@@ -362,10 +337,10 @@ INSERT INTO [core].[operation] ([id], [txn_id], [objectname], [methodname], [is_
 			// in core.operation, so an operation never inserted here can
 			// never be granted to anyone, ever, regardless of role.
 			<text>
-		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
-		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'maplist', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
-		SELECT @@operation_id = NEXT VALUE FOR sec.operation_identity;
-		INSERT INTO sec.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'mapsync', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
+		SELECT @@operation_id = NEXT VALUE FOR core.operation_identity;
+		INSERT INTO core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'maplist', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
+		SELECT @@operation_id = NEXT VALUE FOR core.operation_identity;
+		INSERT INTO core.operation (id, txn_id, objectname, methodname, is_active, last_updated, created_by, last_updated_by) VALUES (@@operation_id, @@operation_id, '@metaObject.DomainObj', 'mapsync', 1, GETDATE(), SYSTEM_USER, SYSTEM_USER);
 			</text>
 		}
 
