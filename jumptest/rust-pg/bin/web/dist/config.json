@@ -1,8 +1,0 @@
-{
-  "apiBaseUrl": "http://localhost:5200",
-  "auth0": {
-    "domain": "",
-    "clientId": "",
-    "audience": ""
-  }
-}
