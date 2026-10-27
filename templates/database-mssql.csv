@@ -5,11 +5,13 @@ sqlserver database-create app tables,object,database/mssql/ddl/template.table.ge
 sqlserver database-create sequences,object,database/mssql/ddl/template.sequence.generated.sql.cshtml,./gen/database/ddl,true
 sqlserver database-create rwk indexes,object,database/mssql/ddl/template.rwkindex.generated.sql.cshtml,./gen/database/ddl,true
 sqlserver database-cmd build script,build, database/mssql/ddl/build.ps1.cshtml,./gen/database/ddl,true
+sqlserver database-cmd build wrapper,model,database/mssql/ddl/build.cmd.cshtml,./gen/database/ddl,true
 sqlserver database-static data,model,database/mssql/data/template.static.generated.sql.cshtml,./gen/database/data,true
 sqlserver database-static data,model,database/mssql/data/template.nav_menu.sql.cshtml,./gen/database/data,true
 sqlserver database-current user initial data,model,database/mssql/data/template.currentuser.generated.sql.cshtml,./gen/database/data,true
 sqlserver database-current user initial data,model,database/mssql/data/template.event.test.sql.cshtml,./gen/database/data,true
 sqlserver database-bash load script,build, database/mssql/data/load.ps1.cshtml,./gen/database/data,true
+sqlserver database-cmd load wrapper,model,database/mssql/data/load.cmd.cshtml,./gen/database/data,true
 sqlserver database-query generation,object,database/mssql/data/template.query.generated.sql.cshtml,./gen/database/data,true
 sqlserver database-children query generation,object,database/mssql/data/template.children.generated.sql.cshtml,./gen/database/data,true
 sqlserver database-map query generation,object,database/mssql/data/template.map.generated.sql.cshtml,./gen/database/data,true
