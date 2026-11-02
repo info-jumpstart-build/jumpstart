@@ -44,7 +44,7 @@ INSERT INTO core.sql (
 );
 
 			
--- Map relationship: Operation Role (op_role), via core.op_role_member
+-- Map relationship: Role (op_role), via core.op_role_member
 SET @sql_id = NEXT VALUE FOR core.sql_identity;
 INSERT INTO core.sql (
 	id,
@@ -69,7 +69,7 @@ INSERT INTO core.sql (
 	LEFT JOIN core.op_role_member ON op_role_member.op_role_id = op_role.id AND op_role_member.principal_id = ^(id) AND op_role_member.is_active = 1
 	WHERE op_role.is_active = 1
 	ORDER BY op_role.id;',
-	'Select Operation Role options for Principal, flagged as mapped where a op_role_member row already links them',
+	'Select Role options for Principal, flagged as mapped where a op_role_member row already links them',
 	SYSTEM_USER,
 	GETDATE(),
 	SYSTEM_USER,

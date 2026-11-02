@@ -69,6 +69,7 @@ else
 
 	// Map data for principal_principal
 	private MapOption[]? principal_principal_Options;
+	private HashSet<long> principal_principal_Checked = new();
 			
 	// Dictionary to store enum data for dropdowns
 	private Dictionary<string, List<EnumHelper>> enumData = new Dictionary<string, List<EnumHelper>>();
@@ -163,8 +164,17 @@ else
 			editBuilder.OpenElement(6, "table");
 			editBuilder.AddAttribute(7, "class", "table table-borderless");
 			
-			// Generate dynamic form fields
+			// Generate dynamic form fields. The "id" column (primary key) is
+			// dropped entirely while creating a new record (there's no id
+			// yet -- id is the [Parameter] route id, null on the create
+			// route) and rendered read-only below while editing an existing
+			// one. Mirrors the isId filtering in
+			// web/nodejs/src/pages/Edittemplate.tsx.cshtml.
 			var properties = GetEditableProperties();
+			if (id is null)
+			{
+				properties = properties.Where(p => p.Name.ToLower() != "id").ToArray();
+			}
 			var propertiesPerRow = 3;
 			
 			for (int i = 0; i < properties.Length; i += propertiesPerRow)
@@ -190,12 +200,15 @@ else
 					// Input field based on type
 					var underlyingType = Nullable.GetUnderlyingType(propInfo.PropertyType) ?? propInfo.PropertyType;
 
-					if (ReflectionHelper.IsGlobalProperty(propInfo))
+					if (ReflectionHelper.IsGlobalProperty(propInfo) || propInfo.Name.ToLower() == "id")
 					{
 						// Global/audit column (is_active, created_by, last_updated,
 						// last_updated_by, txn_id) -- managed by the persistence
-						// layer, so render as a read-only label instead of an
-						// editable input. Mirrors field.isGlobal in
+						// layer -- or the "id" primary key column (only reached here
+						// when editing an existing record, since the create route
+						// filters it out of `properties` above) -- render as a
+						// read-only label instead of an editable input. Mirrors
+						// field.isGlobal || field.isId in
 						// web/nodejs/src/pages/Edittemplate.tsx.cshtml.
 						editBuilder.OpenElement(17 + i + j, "div");
 						editBuilder.AddAttribute(18 + i + j, "id", propInfo.Name);
@@ -388,6 +401,8 @@ else
 		builder.AddContent(4, $"Principal mapped: {mappedCount} of {options.Length}");
 		builder.CloseElement(); // div
 
+		var checkedSet = principal_principal_Checked;
+
 		int seq = 5;
 		foreach (var option in options)
 		{
@@ -399,9 +414,13 @@ else
 			builder.AddAttribute(seq++, "type", "checkbox");
 			builder.AddAttribute(seq++, "class", "form-check-input");
 			builder.AddAttribute(seq++, "id", $"principal_principal_{optionId}");
-			builder.AddAttribute(seq++, "checked", option.mapped);
-			// Read-only for now -- no onchange handler, no save/sync wiring yet.
-			builder.AddAttribute(seq++, "readonly", true);
+			builder.AddAttribute(seq++, "checked", checkedSet.Contains(optionId));
+			// Entity-escaped generic (EventCallback.Factory.Create<ChangeEventArgs>)
+			// -- same RazorLight markup-excursion tag-parsing risk as the
+			// HashSet<long>/MapOption[] fields above; no proven-safe
+			// precedent for a generic method call at this exact spot, so
+			// escaping defensively rather than relying on luck.
+			builder.AddAttribute(seq++, "onchange", EventCallback.Factory.Create<ChangeEventArgs>(this, async (e) => await ToggleMapChecked(checkedSet, optionId, bool.TryParse(e.Value?.ToString(), out var v) && v)));
 			builder.CloseElement(); // input
 
 			builder.OpenElement(seq++, "label");
@@ -509,6 +528,7 @@ else
 		try
 		{
 			principal_principal_Options = await remoteClient.GetFromJsonAsync<MapOption[]>($"api/org/{id}/map/principal_principal");
+			principal_principal_Checked = new HashSet<long>((principal_principal_Options ?? new MapOption[0]).Where(o => o.mapped).Select(o => o.id));
 		}
 		catch (Exception ex)
 		{
@@ -529,6 +549,22 @@ else
 	{
 		activeChildTabIndex = tabIndex;
 		StateHasChanged();
+	}
+
+	// Flips one option's checked state within a map-relationship checklist --
+	// shared by every Create{other}_{role}_MapTabContent() above. Mirrors
+	// toggleMapChecked in web/nodejs/src/pages/Edittemplate.tsx.cshtml.
+	private async Task ToggleMapChecked(HashSet<long> checkedSet, long optionId, bool isChecked)
+	{
+		if (isChecked)
+		{
+			checkedSet.Add(optionId);
+		}
+		else
+		{
+			checkedSet.Remove(optionId);
+		}
+		await InvokeAsync(StateHasChanged);
 	}
 
 	async Task HandleSubmit(EditContext context)
@@ -555,7 +591,22 @@ else
 				{
 					// Update existing record
 					await remoteClient.PutAsJsonAsync($"api/org/{id}", org);
-				}
+
+					// Apply every map-relationship checklist alongside the object
+					// save -- only meaningful for an existing record, since a
+					// brand-new record has no checklist to have edited yet
+					// (mirrors the Delete button, and the child-relationship
+					// tabs, which are likewise only loaded once id is known).
+
+					try
+					{
+						await remoteClient.PutAsJsonAsync($"api/org/{id}/map/principal_principal", principal_principal_Checked.ToList());
+					}
+					catch (Exception mapEx)
+					{
+						Console.WriteLine($"Error saving Principal map: {mapEx.Message}");
+					}
+						}
 			}
 			catch (Exception ex)
 			{

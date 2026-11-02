@@ -118,14 +118,14 @@
         }
     }
 
+    public void Dispose()
+    {
+        AuthStateProvider.AuthenticationStateChanged -= OnAuthStateChanged;
+    }
+
     private void SelectParent(string parent)
     {
         selectedParent = parent;
         selectedParentId = navMenuList?.FirstOrDefault(n => n.name == parent)?.id;
-    }
-
-    public void Dispose()
-    {
-        AuthStateProvider.AuthenticationStateChanged -= OnAuthStateChanged;
     }
 }

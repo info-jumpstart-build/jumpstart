@@ -33,6 +33,30 @@ pub fn update<T: DomainObject>(obj: &mut T, connection_name: &str) -> Result<(),
     let provider = DatabaseProviderFactory::create_provider(connection_name);
     let existing_id = obj.base().get("id").as_i64().unwrap_or_default();
 
+    // The new version row is built from what the caller sent, and only the
+    // last_updated* columns are re-stamped below -- so a body without
+    // created_by (any PUT that didn't round-trip it) would write a version
+    // with created_by NULL, which the NOT NULL audit column rejects. Carry
+    // it over from the row being replaced, before that row is deactivated.
+    let has_created_by = matches!(obj.base().get("created_by"), Value::String(ref s) if !s.is_empty());
+    if !has_created_by {
+        let current_sql = format!(
+            "SELECT {} FROM {} WHERE {} = {} AND {} = 1",
+            provider.format_column_name("created_by"),
+            provider.format_table_name(&obj.base().table_name),
+            provider.format_column_name("id"),
+            existing_id,
+            provider.format_column_name("is_active"),
+        );
+        let created_by = DBPersist::select(&current_sql, connection_name)?
+            .into_iter()
+            .next()
+            .and_then(|row| row.get("created_by").cloned())
+            .filter(|v| !v.is_null())
+            .unwrap_or_else(|| Value::String(user_name()));
+        obj.base_mut().set("created_by", created_by);
+    }
+
     let deactivate_sql = format!(
         "UPDATE {} SET {} = 0 WHERE {} = {} AND {} = 1",
         provider.format_table_name(&obj.base().table_name),

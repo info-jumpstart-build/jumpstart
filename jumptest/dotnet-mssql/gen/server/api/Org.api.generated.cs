@@ -158,8 +158,6 @@ namespace jumptest.Controllers
 
             return options;
         }
-<<<<<<< HEAD
-=======
 
         // Applies the "Principal" checklist submitted from the Edit page: the full set of
         // Principal ids that should be mapped to this Org after the call.
@@ -170,6 +168,5 @@ namespace jumptest.Controllers
 
             OrgLogic.Create().mapsync(id, "principal-principal", checkedIds ?? new List<long>());
         }
->>>>>>> main
             }
 }

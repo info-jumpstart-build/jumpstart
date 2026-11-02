@@ -3,11 +3,11 @@ TARGETDIR=./bin/Debug/net9.0
 default: generate
 
 generate:
-	@jumpstart ./jumptest.csv database-pgsql
-	@jumpstart ./jumptest.csv server-rust
-	@jumpstart ./jumptest.csv web-nodejs
-	@jumpstart ./jumptest.csv tools-rust
-	@jumpstart ./jumptest.csv test-rust
+	@jumpstart --noauth ./jumptest.csv database-pgsql
+	@jumpstart --noauth ./jumptest.csv server-rust
+	@jumpstart --noauth ./jumptest.csv web-nodejs
+	@jumpstart --noauth ./jumptest.csv tools-rust
+	@jumpstart --noauth ./jumptest.csv test-rust
 
 build:
 	@$(MAKE) -C ./gen/server/api

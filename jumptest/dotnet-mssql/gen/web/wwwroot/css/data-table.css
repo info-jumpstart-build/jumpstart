@@ -1,0 +1,9 @@
+/* Font settings for the DataTable component (Components/DataTable.razor).
+   Kept separate from app.css so table typography can be tuned independently
+   of the rest of the app's font stack. */
+
+.table th,
+.table td {
+    font-family: Consolas, "Courier New", Courier, monospace;
+    font-size: 0.8125rem;
+}

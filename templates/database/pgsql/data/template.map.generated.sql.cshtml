@@ -57,7 +57,7 @@
 
             <text>
 -- Map relationship: @(otherLabel) (@(role)), via @(mapSchema).@(mapTable)
-INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, last_updated_by, is_active, data_source_id)
+INSERT INTO core.sql (id, txn_id, name, sql_text, description, created_by, last_updated, last_updated_by, is_active, data_source_id)
 SELECT n, n,
     '@(schemaName).@(tableName)-map-@(otherDomainVar)-@(role)',
     'SELECT
@@ -69,6 +69,7 @@ SELECT n, n,
     WHERE @(otherTable).is_active = 1
     ORDER BY @(otherTable).id;',
     'Select @(otherLabel) options for @(domainObj), flagged as mapped where a @(mapTable) row already links them',
+    CURRENT_USER,
     NOW(),
     CURRENT_USER,
     1,

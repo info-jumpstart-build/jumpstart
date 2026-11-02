@@ -31,11 +31,7 @@ namespace jumptest
             csv.WriteField("last_name");
             csv.WriteField("username");
             csv.WriteField("email");
-<<<<<<< HEAD
-            csv.WriteField("enabled");
-=======
             csv.WriteField("principal_status_id");
->>>>>>> main
             csv.WriteField("created_date");
             csv.WriteField("last_login_date");
             csv.WriteField("is_active");
@@ -53,11 +49,7 @@ namespace jumptest
                 csv.WriteField(record.last_name);
                 csv.WriteField(record.username);
                 csv.WriteField(record.email);
-<<<<<<< HEAD
-                csv.WriteField(record.enabled);
-=======
                 csv.WriteField(record.principal_status_id);
->>>>>>> main
                 csv.WriteField(record.created_date);
                 csv.WriteField(record.last_login_date);
                 csv.WriteField(record.is_active);

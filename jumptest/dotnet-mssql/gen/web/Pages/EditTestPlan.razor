@@ -172,8 +172,17 @@ else
 			editBuilder.OpenElement(6, "table");
 			editBuilder.AddAttribute(7, "class", "table table-borderless");
 			
-			// Generate dynamic form fields
+			// Generate dynamic form fields. The "id" column (primary key) is
+			// dropped entirely while creating a new record (there's no id
+			// yet -- id is the [Parameter] route id, null on the create
+			// route) and rendered read-only below while editing an existing
+			// one. Mirrors the isId filtering in
+			// web/nodejs/src/pages/Edittemplate.tsx.cshtml.
 			var properties = GetEditableProperties();
+			if (id is null)
+			{
+				properties = properties.Where(p => p.Name.ToLower() != "id").ToArray();
+			}
 			var propertiesPerRow = 3;
 			
 			for (int i = 0; i < properties.Length; i += propertiesPerRow)
@@ -199,12 +208,15 @@ else
 					// Input field based on type
 					var underlyingType = Nullable.GetUnderlyingType(propInfo.PropertyType) ?? propInfo.PropertyType;
 
-					if (ReflectionHelper.IsGlobalProperty(propInfo))
+					if (ReflectionHelper.IsGlobalProperty(propInfo) || propInfo.Name.ToLower() == "id")
 					{
 						// Global/audit column (is_active, created_by, last_updated,
 						// last_updated_by, txn_id) -- managed by the persistence
-						// layer, so render as a read-only label instead of an
-						// editable input. Mirrors field.isGlobal in
+						// layer -- or the "id" primary key column (only reached here
+						// when editing an existing record, since the create route
+						// filters it out of `properties` above) -- render as a
+						// read-only label instead of an editable input. Mirrors
+						// field.isGlobal || field.isId in
 						// web/nodejs/src/pages/Edittemplate.tsx.cshtml.
 						editBuilder.OpenElement(17 + i + j, "div");
 						editBuilder.AddAttribute(18 + i + j, "id", propInfo.Name);
@@ -401,10 +413,22 @@ else
 		builder.AddAttribute(7, "DataType", typeof(TestCase));
 		builder.AddAttribute(8, "ShowActions", false);
 		builder.AddAttribute(9, "ShowAddButton", false);
+		builder.AddAttribute(10, "OnEdit", EventCallback.Factory.Create<object>(this, OnEdittestcase_test_plan));
 		builder.CloseComponent(); // DataTable
-		
+
 		builder.CloseElement(); // div
 	};
+
+	// Navigates to the edit page for a "Test Plan" child row -- mirrors
+	// OnEditTestPlan in web/blazor/Pages/Listtemplate.razor.cshtml,
+	// wired into DataTable's OnEdit above (rendered as an id-column hyperlink
+	// by DataTable.razor.cshtml whenever OnEdit.HasDelegate).
+	void OnEdittestcase_test_plan(object item)
+	{
+		var childItem = (TestCase)item;
+		var currentPath = new Uri(Navigation.Uri).AbsolutePath;
+		Navigation.NavigateTo($"edit-testcase/{childItem.id}?returnUrl={Uri.EscapeDataString(currentPath)}");
+	}
 
 			
 	private RenderFragment Createtestrun_test_planTabContent() => builder =>
@@ -424,10 +448,22 @@ else
 		builder.AddAttribute(7, "DataType", typeof(TestRun));
 		builder.AddAttribute(8, "ShowActions", false);
 		builder.AddAttribute(9, "ShowAddButton", false);
+		builder.AddAttribute(10, "OnEdit", EventCallback.Factory.Create<object>(this, OnEdittestrun_test_plan));
 		builder.CloseComponent(); // DataTable
-		
+
 		builder.CloseElement(); // div
 	};
+
+	// Navigates to the edit page for a "Test Plan" child row -- mirrors
+	// OnEditTestPlan in web/blazor/Pages/Listtemplate.razor.cshtml,
+	// wired into DataTable's OnEdit above (rendered as an id-column hyperlink
+	// by DataTable.razor.cshtml whenever OnEdit.HasDelegate).
+	void OnEdittestrun_test_plan(object item)
+	{
+		var childItem = (TestRun)item;
+		var currentPath = new Uri(Navigation.Uri).AbsolutePath;
+		Navigation.NavigateTo($"edit-testrun/{childItem.id}?returnUrl={Uri.EscapeDataString(currentPath)}");
+	}
 
 			
 	// A foreign key renders as an rwk-string dropdown (display = rwk string,
@@ -544,6 +580,22 @@ else
 		StateHasChanged();
 	}
 
+	// Flips one option's checked state within a map-relationship checklist --
+	// shared by every Create{other}_{role}_MapTabContent() above. Mirrors
+	// toggleMapChecked in web/nodejs/src/pages/Edittemplate.tsx.cshtml.
+	private async Task ToggleMapChecked(HashSet<long> checkedSet, long optionId, bool isChecked)
+	{
+		if (isChecked)
+		{
+			checkedSet.Add(optionId);
+		}
+		else
+		{
+			checkedSet.Remove(optionId);
+		}
+		await InvokeAsync(StateHasChanged);
+	}
+
 	async Task HandleSubmit(EditContext context)
 	{
 		if (context.Validate())
@@ -568,6 +620,12 @@ else
 				{
 					// Update existing record
 					await remoteClient.PutAsJsonAsync($"api/testplan/{id}", testplan);
+
+					// Apply every map-relationship checklist alongside the object
+					// save -- only meaningful for an existing record, since a
+					// brand-new record has no checklist to have edited yet
+					// (mirrors the Delete button, and the child-relationship
+					// tabs, which are likewise only loaded once id is known).
 				}
 			}
 			catch (Exception ex)

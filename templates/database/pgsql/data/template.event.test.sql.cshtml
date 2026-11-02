@@ -152,8 +152,8 @@ WHERE s.name = 'test hello-world script' AND s.is_active = 1;
 
 
 -- Insert workflow record for test workflow (type=Process, link to hello-world process)
-INSERT INTO core.workflow(id, txn_id, workflow_type_id, parent_id, name, process_id, is_active, created_by, last_updated, last_updated_by)
-SELECT n, n, 2, null, 'test workflow', p.id, 1, current_user, current_timestamp, current_user
+INSERT INTO core.workflow(id, txn_id, workflow_type_id, parent_id, name, process_id, is_active, created_by, last_updated, last_updated_by, last_start_time, last_end_time)
+SELECT n, n, 2, null, 'test workflow', p.id, 1, current_user, current_timestamp, current_user, '1900-01-01', '1900-01-01'
 FROM core.process p
 CROSS JOIN LATERAL (SELECT nextval('core.workflow_identity') AS n) seq
 WHERE p.name = 'test hello world process' AND p.is_active = 1;

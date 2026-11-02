@@ -1,10 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-<<<<<<< HEAD
-=======
 using Microsoft.Extensions.Configuration;
->>>>>>> main
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,12 +14,6 @@ namespace jumptest.Controllers
     public class NotificationController : ControllerBase
     {
         private readonly SseNotificationService _sse;
-<<<<<<< HEAD
-
-        public NotificationController(SseNotificationService sse)
-        {
-            _sse = sse;
-=======
         private readonly IConfiguration _configuration;
 
         public NotificationController(SseNotificationService sse, IConfiguration configuration)
@@ -50,7 +41,6 @@ namespace jumptest.Controllers
 
             var ticket = _sse.MintStreamTicket(OpRoleMemberLogic.CurrentUser);
             return Ok(new StreamTicketResponse { Ticket = ticket });
->>>>>>> main
         }
 
         // POST api/Notification/publish
@@ -84,14 +74,6 @@ namespace jumptest.Controllers
             }
         }
 
-<<<<<<< HEAD
-        // GET api/Notification/stream
-        // Server-Sent Events stream. Replaces the SignalR /notificationHub; the
-        // Blazor client connects via EventSource and filters by domain object.
-        [HttpGet("stream")]
-        public async Task Stream()
-        {
-=======
         // GET api/Notification/stream?ticket=...
         // Server-Sent Events stream. Replaces the SignalR /notificationHub; the
         // Blazor client connects via EventSource and filters by domain object.
@@ -110,7 +92,6 @@ namespace jumptest.Controllers
             }
             OpRoleMemberLogic.SetCurrentUser(user);
 
->>>>>>> main
             Response.ContentType = "text/event-stream";
             Response.Headers.Append("Cache-Control", "no-cache");
             Response.Headers.Append("X-Accel-Buffering", "no");
@@ -167,8 +148,6 @@ namespace jumptest.Controllers
         public long InstanceId { get; set; }
         public string JsonData { get; set; }
     }
-<<<<<<< HEAD
-=======
 
     /// <summary>
     /// Response for POST api/Notification/stream-ticket.
@@ -177,5 +156,4 @@ namespace jumptest.Controllers
     {
         public string Ticket { get; set; }
     }
->>>>>>> main
 }

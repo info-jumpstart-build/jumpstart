@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace jumptest
 {
-    [ClassInfo("Server Node Status")]
+    [ClassInfo("Principal Status")]
     public partial class PrincipalStatus : BaseObject
     {
         public PrincipalStatus(BaseObject baseObject) : base(baseObject)

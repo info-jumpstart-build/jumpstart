@@ -47,19 +47,6 @@ namespace jumptest
                     string sql = @"select 1 from
 core.operation op
 inner join core.op_role_map orm on
-<<<<<<< HEAD
-    orm.op_id=op.id
-inner join core.op_role r on
-    r.id=orm.op_role_id
-inner join core.op_role_member m on
-    m.op_role_id=r.id
-inner join core.""principal"" p on
-    p.id=m.principal_id
-where
-    op.objectname = '^(objectname)' and
-    op.methodname = '^(methodname)' and
-    (p.email = '^(email)' OR p.username = '^(username)')";
-=======
     orm.op_id=op.id 
 	and orm.is_active=1
 inner join core.op_role r on
@@ -75,7 +62,6 @@ inner join core.principal p on
 where op.objectname = '^(objectname)' 
     and op.methodname = '^(methodname)'
     and (p.email = '^(email)' OR p.username = '^(username)')";
->>>>>>> main
 
                     BaseObject filter = new();
                     filter["objectname"] = objectName;
@@ -97,8 +83,6 @@ where op.objectname = '^(objectname)'
             return result;
         }
 
-<<<<<<< HEAD
-=======
         // Busts the entire authorization cache. Entries never expire on their
         // own (see Authorized above), so a permission/operation-seed change
         // (e.g. reloading the database with a newly generated core.operation
@@ -114,7 +98,6 @@ where op.objectname = '^(objectname)'
             }
         }
 
->>>>>>> main
     }
 }
 

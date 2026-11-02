@@ -32,6 +32,13 @@ use serde_json::Value;
 
 use crate::config::{Config, M2MClientSettings};
 
+/// Baked in from the generator's --noauth flag. When true, Auth0 is treated
+/// as unconfigured for every service regardless of ~/.<namespace>.json:
+/// inbound checks report `Unconfigured` (so the Scheduler/ScriptAgent M2M
+/// gates let requests through) and `m2m_token` returns `Ok(None)` (so
+/// inter-server calls go out without a token, and no Auth0 round trip).
+const NO_AUTH: bool = @(Model.NoAuth ? "true" : "false");
+
 // ── Inbound: validate a bearer token against this service's own audience ───
 
 /// Outcome of authenticating one inbound request for a given service
@@ -56,6 +63,9 @@ pub enum AuthOutcome {
 /// Authenticate one inbound request for `service` (`"api"` | `"scheduler"` |
 /// `"scriptagent"`) against that service's own configured Auth0 audience.
 pub fn authenticate_inbound(service: &str, auth_header: Option<&str>) -> AuthOutcome {
+    if NO_AUTH {
+        return AuthOutcome::Unconfigured;
+    }
     let settings = match Config::auth0_settings(service) {
         Some(s) => s,
         None => return AuthOutcome::Unconfigured,
@@ -220,6 +230,9 @@ fn m2m_cache() -> &'static Mutex<HashMap<String, CachedToken>> {
 /// failure (network error, bad credentials, ...); callers should log and
 /// still attempt the call, same as the .NET provider swallowing the error.
 pub fn m2m_token(target_service: &str) -> Result<Option<String>, String> {
+    if NO_AUTH {
+        return Ok(None);
+    }
     let settings = match Config::m2m_client_settings(target_service) {
         Some(s) => s,
         None => return Ok(None),

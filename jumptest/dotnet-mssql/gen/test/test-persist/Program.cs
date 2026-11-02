@@ -71,29 +71,17 @@ var currentPrincipal = principals.Find(principal => principal.username == Enviro
                 TestRunTest.testInsert();            
                 TestRunTest.testUpdate();            
                 
-<<<<<<< HEAD
-                Logger.Info("Testing PrincipalOrg");
-                PrincipalOrgTest.testInsert();            
-                PrincipalOrgTest.testUpdate(); 
-                PrincipalOrgTest.testInsert();            
-                PrincipalOrgTest.testUpdate();            
-                
-=======
->>>>>>> main
                 Logger.Info("Testing TestResult");
                 TestResultTest.testInsert();            
                 TestResultTest.testUpdate(); 
                 TestResultTest.testInsert();            
                 TestResultTest.testUpdate();            
-<<<<<<< HEAD
-=======
                 
                 Logger.Info("Testing PrincipalOrg");
                 PrincipalOrgTest.testInsert();            
                 PrincipalOrgTest.testUpdate(); 
                 PrincipalOrgTest.testInsert();            
                 PrincipalOrgTest.testUpdate();            
->>>>>>> main
                             }
             catch( Exception x)
             {

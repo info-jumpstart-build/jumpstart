@@ -29,12 +29,6 @@ namespace jumptest
                 Logger.Info("--- Testing Org ---");
                 OrgImpExpTest.Run(dataDir, compareDir);
 
-<<<<<<< HEAD
-                Logger.Info("--- Testing Principal ---");
-                PrincipalImpExpTest.Run(dataDir, compareDir);
-
-=======
->>>>>>> main
                 Logger.Info("--- Testing Operation ---");
                 OperationImpExpTest.Run(dataDir, compareDir);
 
@@ -86,33 +80,18 @@ namespace jumptest
                 Logger.Info("--- Testing WorkflowType ---");
                 WorkflowTypeImpExpTest.Run(dataDir, compareDir);
 
-<<<<<<< HEAD
-=======
                 Logger.Info("--- Testing PrincipalStatus ---");
                 PrincipalStatusImpExpTest.Run(dataDir, compareDir);
 
->>>>>>> main
                 Logger.Info("--- Testing TestCase ---");
                 TestCaseImpExpTest.Run(dataDir, compareDir);
 
                 Logger.Info("--- Testing TestRun ---");
                 TestRunImpExpTest.Run(dataDir, compareDir);
 
-<<<<<<< HEAD
-                Logger.Info("--- Testing PrincipalOrg ---");
-                PrincipalOrgImpExpTest.Run(dataDir, compareDir);
-
                 Logger.Info("--- Testing OpRoleMap ---");
                 OpRoleMapImpExpTest.Run(dataDir, compareDir);
 
-                Logger.Info("--- Testing OpRoleMember ---");
-                OpRoleMemberImpExpTest.Run(dataDir, compareDir);
-
-=======
-                Logger.Info("--- Testing OpRoleMap ---");
-                OpRoleMapImpExpTest.Run(dataDir, compareDir);
-
->>>>>>> main
                 Logger.Info("--- Testing Schedule ---");
                 ScheduleImpExpTest.Run(dataDir, compareDir);
 
@@ -125,13 +104,8 @@ namespace jumptest
                 Logger.Info("--- Testing ServerNode ---");
                 ServerNodeImpExpTest.Run(dataDir, compareDir);
 
-<<<<<<< HEAD
-                Logger.Info("--- Testing TestResult ---");
-                TestResultImpExpTest.Run(dataDir, compareDir);
-=======
                 Logger.Info("--- Testing Principal ---");
                 PrincipalImpExpTest.Run(dataDir, compareDir);
->>>>>>> main
 
                 Logger.Info("--- Testing EventService ---");
                 EventServiceImpExpTest.Run(dataDir, compareDir);
@@ -139,8 +113,6 @@ namespace jumptest
                 Logger.Info("--- Testing Process ---");
                 ProcessImpExpTest.Run(dataDir, compareDir);
 
-<<<<<<< HEAD
-=======
                 Logger.Info("--- Testing TestResult ---");
                 TestResultImpExpTest.Run(dataDir, compareDir);
 
@@ -150,7 +122,6 @@ namespace jumptest
                 Logger.Info("--- Testing OpRoleMember ---");
                 OpRoleMemberImpExpTest.Run(dataDir, compareDir);
 
->>>>>>> main
                 Logger.Info("--- Testing Workflow ---");
                 WorkflowImpExpTest.Run(dataDir, compareDir);
 

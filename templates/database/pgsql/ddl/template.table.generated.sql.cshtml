@@ -158,7 +158,13 @@ CREATE TABLE @(Model.SchemaName).@(Model.TableName) (
         len = "(18,4)";
     }
 
+    // Same rule as the mssql template: IS_NULLABLE=NO in the model -> NOT NULL.
+    // (No FOREIGN KEY constraints: id isn't unique -- history versions share
+    // it and txn_id is the PK -- so there is nothing for a reference to target.)
     var nullable = "";
+    if (column.IsNullable == false) {
+        nullable = " not null";
+    }
 
     var comma = ",";
     if (i == Model.Attributes.Count - 1) {

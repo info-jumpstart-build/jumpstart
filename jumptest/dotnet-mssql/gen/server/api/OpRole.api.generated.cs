@@ -158,8 +158,6 @@ namespace jumptest.Controllers
 
             return options;
         }
-<<<<<<< HEAD
-=======
 
         // Applies the "Operations" checklist submitted from the Edit page: the full set of
         // Operations ids that should be mapped to this OpRole after the call.
@@ -170,7 +168,6 @@ namespace jumptest.Controllers
 
             OpRoleLogic.Create().mapsync(id, "operation-op", checkedIds ?? new List<long>());
         }
->>>>>>> main
         
        // Retrieves the "Principal" checklist (id/label/mapped rows) for a given OpRole id.
         [HttpGet("{id}/map/principal_principal")]
@@ -182,8 +179,6 @@ namespace jumptest.Controllers
 
             return options;
         }
-<<<<<<< HEAD
-=======
 
         // Applies the "Principal" checklist submitted from the Edit page: the full set of
         // Principal ids that should be mapped to this OpRole after the call.
@@ -194,6 +189,5 @@ namespace jumptest.Controllers
 
             OpRoleLogic.Create().mapsync(id, "principal-principal", checkedIds ?? new List<long>());
         }
->>>>>>> main
             }
 }

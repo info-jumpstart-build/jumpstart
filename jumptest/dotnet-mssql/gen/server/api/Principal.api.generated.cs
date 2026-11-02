@@ -158,8 +158,6 @@ namespace jumptest.Controllers
 
             return options;
         }
-<<<<<<< HEAD
-=======
 
         // Applies the "Organization" checklist submitted from the Edit page: the full set of
         // Organization ids that should be mapped to this Principal after the call.
@@ -170,30 +168,26 @@ namespace jumptest.Controllers
 
             PrincipalLogic.Create().mapsync(id, "org-org", checkedIds ?? new List<long>());
         }
->>>>>>> main
         
-       // Retrieves the "Operation Role" checklist (id/label/mapped rows) for a given Principal id.
+       // Retrieves the "Role" checklist (id/label/mapped rows) for a given Principal id.
         [HttpGet("{id}/map/oprole_op_role")]
         public IEnumerable<MapOption> Getoprole_op_role_Map(long id)
         {
-            //Console.WriteLine($"Processing GET Operation Role map for Principal ID={id}");
+            //Console.WriteLine($"Processing GET Role map for Principal ID={id}");
 
             List<MapOption> options = PrincipalLogic.Create().maplist(id, "oprole-op_role");
 
             return options;
         }
-<<<<<<< HEAD
-=======
 
-        // Applies the "Operation Role" checklist submitted from the Edit page: the full set of
-        // Operation Role ids that should be mapped to this Principal after the call.
+        // Applies the "Role" checklist submitted from the Edit page: the full set of
+        // Role ids that should be mapped to this Principal after the call.
         [HttpPut("{id}/map/oprole_op_role")]
         public void Putoprole_op_role_Map(long id, [FromBody] List<long> checkedIds)
         {
-            //Console.WriteLine($"Processing PUT Operation Role map for Principal ID={id}");
+            //Console.WriteLine($"Processing PUT Role map for Principal ID={id}");
 
             PrincipalLogic.Create().mapsync(id, "oprole-op_role", checkedIds ?? new List<long>());
         }
->>>>>>> main
             }
 }

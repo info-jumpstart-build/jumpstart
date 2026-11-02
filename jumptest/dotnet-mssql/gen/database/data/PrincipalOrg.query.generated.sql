@@ -36,11 +36,7 @@ INSERT INTO core.sql (
             principal_org.txn_id,
             org.name AS org_name,
             principal.email AS principal_email,
-<<<<<<< HEAD
-            principal.enabled AS principal_enabled
-=======
             principal.principal_status_id AS principal_principal_status_id
->>>>>>> main
 	FROM core.principal_org
         LEFT JOIN core.org org ON principal_org.org_id = org.id AND org.is_active = 1
         LEFT JOIN core.principal principal ON principal_org.principal_id = principal.id AND principal.is_active = 1
@@ -81,11 +77,7 @@ INSERT INTO core.sql (
             principal_org.txn_id,
             org.name AS org_name,
             principal.email AS principal_email,
-<<<<<<< HEAD
-            principal.enabled AS principal_enabled
-=======
             principal.principal_status_id AS principal_principal_status_id
->>>>>>> main
 	FROM core.principal_org
         LEFT JOIN core.org org ON principal_org.org_id = org.id AND org.is_active = 1
         LEFT JOIN core.principal principal ON principal_org.principal_id = principal.id AND principal.is_active = 1
@@ -125,11 +117,7 @@ INSERT INTO core.sql (
             principal_org.txn_id,
             org.name AS org_name,
             principal.email AS principal_email,
-<<<<<<< HEAD
-            principal.enabled AS principal_enabled
-=======
             principal.principal_status_id AS principal_principal_status_id
->>>>>>> main
 	FROM core.principal_org
         LEFT JOIN core.org org ON principal_org.org_id = org.id AND org.is_active = 1
         LEFT JOIN core.principal principal ON principal_org.principal_id = principal.id AND principal.is_active = 1

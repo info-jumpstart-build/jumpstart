@@ -132,6 +132,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFByaW5jaXBhbE9yZy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditPrincipalStatus.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFByaW5jaXBhbFN0YXR1cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/EditProcess.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFByb2Nlc3MucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -274,6 +278,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListPrincipalOrg.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFByaW5jaXBhbE9yZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListPrincipalStatus.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdFByaW5jaXBhbFN0YXR1cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/erickohlenberg/src/jumpstart.build/jumpstart/jumptest/dotnet-mssql/gen/web/Pages/ListProcess.razor]

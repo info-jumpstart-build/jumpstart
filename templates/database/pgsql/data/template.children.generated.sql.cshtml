@@ -129,7 +129,7 @@
 
             <text>
 -- Child relationship: @(childLabel) (@(childRole))
-INSERT INTO core.sql (id, txn_id, name, sql_text, description, last_updated, last_updated_by, is_active, data_source_id)
+INSERT INTO core.sql (id, txn_id, name, sql_text, description, created_by, last_updated, last_updated_by, is_active, data_source_id)
 SELECT n, n,
     '@(schemaName).@(tableName)-children-@(childDomainVar)-@(childRole)',
     'SELECT
@@ -138,6 +138,7 @@ SELECT n, n,
     WHERE @(childSchemaName).@(childTableName).@(childRole)_id = ^(id) AND @(childSchemaName).@(childTableName).is_active = 1
     ORDER BY @(childSchemaName).@(childTableName).id;',
     'Select all @(childLabel) records for @(domainObj) with related @(string.Join(", ", childFkTableNames)) information',
+    CURRENT_USER,
     NOW(),
     CURRENT_USER,
     1,

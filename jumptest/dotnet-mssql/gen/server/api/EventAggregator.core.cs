@@ -30,8 +30,6 @@ namespace jumptest
     {
         private readonly ConcurrentDictionary<Guid, Channel<string>> _clients = new();
 
-<<<<<<< HEAD
-=======
         // ── SSE stream tickets: single-use auth for the EventSource connection ──
         // The browser's native EventSource API cannot set an Authorization header,
         // so the stream endpoint can't require a normal bearer token. Putting the
@@ -88,7 +86,6 @@ namespace jumptest
             }
         }
 
->>>>>>> main
         /// <summary>
         /// Registers a new SSE client and returns its id (for removal on
         /// disconnect) and the read side of its message channel.

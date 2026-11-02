@@ -46,7 +46,7 @@ VALUES (@nav_id, @nav_id, (SELECT id FROM core.nav_menu WHERE parent_id = 0 AND 
         
 SET @nav_id = NEXT VALUE FOR core.nav_menu_identity;
 INSERT INTO core.nav_menu(id, txn_id, parent_id, ordinal, name, link, is_active, created_by, last_updated, last_updated_by)
-VALUES (@nav_id, @nav_id, (SELECT id FROM core.nav_menu WHERE parent_id = 0 AND name = 'Admin' AND is_active = 1), 3, 'Operation Role', '/oprole', 1, SYSTEM_USER, GETDATE(), SYSTEM_USER);
+VALUES (@nav_id, @nav_id, (SELECT id FROM core.nav_menu WHERE parent_id = 0 AND name = 'Admin' AND is_active = 1), 3, 'Role', '/oprole', 1, SYSTEM_USER, GETDATE(), SYSTEM_USER);
         
 -- Insert parent menu item
 SET @nav_id = NEXT VALUE FOR core.nav_menu_identity;

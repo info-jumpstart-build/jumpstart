@@ -27,11 +27,7 @@ namespace jumptest
 
             rwk.Add("email");
             
-<<<<<<< HEAD
-            rwk.Add("enabled");
-=======
             rwk.Add("principal_status_id");
->>>>>>> main
             
 
             _defaults["id"] = default(long);
@@ -44,11 +40,7 @@ namespace jumptest
             
             _defaults["email"] = default(string);
             
-<<<<<<< HEAD
-            _defaults["enabled"] = default(int);
-=======
             _defaults["principal_status_id"] = default(int);
->>>>>>> main
             
             _defaults["created_date"] = default(DateTime);
             
@@ -216,22 +208,6 @@ namespace jumptest
                 }
             }
             
-<<<<<<< HEAD
-            [ColumnInfo("Enabled", "", "", "", "", false)]
-            public int enabled
-            {
-                get
-                {
-                    int _enabled;
-
-                             _enabled = default(int);
-                                                 
-                    try
-                    {
-                        if(this.ContainsKey("enabled"))
-                        {
-                        _enabled = Convert.ToInt32(this["enabled"].ToString());
-=======
             [ColumnInfo("Status", "PrincipalStatus", "enum", "principal_status", "principalstatus", false)]
             public int principal_status_id
             {
@@ -246,31 +222,19 @@ namespace jumptest
                         if(this.ContainsKey("principal_status_id"))
                         {
                         _principal_status_id = Convert.ToInt32(this["principal_status_id"].ToString());
->>>>>>> main
                         }
                     }
                     catch(Exception )
                     {
-<<<<<<< HEAD
-                        //Logger.Error($"Error getting enabled: {e.Message}");
-                        _enabled = default(int);
-                    }
-                    return _enabled;
-=======
                         //Logger.Error($"Error getting principal_status_id: {e.Message}");
                         _principal_status_id = default(int);
                     }
                     return _principal_status_id;
->>>>>>> main
                 }
                 set
                 {
                    
-<<<<<<< HEAD
-                    this["enabled"] = value;
-=======
                     this["principal_status_id"] = value;
->>>>>>> main
                 }
             }
             
@@ -501,9 +465,6 @@ namespace jumptest
     // View class that extends the base domain object with RWK columns from foreign key joins
     public class PrincipalView : Principal
     {
-<<<<<<< HEAD
-    }
-=======
 
             [ColumnInfo("Status", "", "", "", "", false)]
             public string principal_status_name
@@ -535,5 +496,4 @@ namespace jumptest
                 }
             }
                 }
->>>>>>> main
         }

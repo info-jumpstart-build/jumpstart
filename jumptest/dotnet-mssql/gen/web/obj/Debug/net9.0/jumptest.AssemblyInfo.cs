@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("jumptest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0c4d66684138874d2a08dc30d48317bb913146b9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7774b7da1dc317f3e05ea4bc30a328a1854f6652")]
 [assembly: System.Reflection.AssemblyProductAttribute("jumptest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("jumptest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

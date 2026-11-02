@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace jumptest
 {
-    [ClassInfo("Operation Role")]
+    [ClassInfo("Role")]
     public partial class OpRole : BaseObject
     {
         public OpRole(BaseObject baseObject) : base(baseObject)
