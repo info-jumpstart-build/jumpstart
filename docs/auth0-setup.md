@@ -212,6 +212,20 @@ If `domain`/`audience` are absent (no `auth0` section, or either field left empt
 
 This is deliberately **not** sourced from `~/.jumpstart.json`: that file is the generator's own shared config, used across every application you generate, so it's the wrong place for one specific app's Auth0 tenant.
 
+#### MCP Server (`~/.<namespace>.json`)
+
+The same shared `auth0.audience` above also covers the MCP server's streamable-HTTP/SSE transport (service name `"mcp"`) — no separate audience is needed unless you use the legacy per-service `audiences` map, in which case add an `"mcp"` entry alongside `"api"`. The MCP server's **stdio** transport carries no bearer token at all (there is no HTTP request), so it instead runs as one fixed, trusted local principal for its whole session, configured separately:
+
+```json
+{
+  "servers": {
+    "mcp": { "principal": "mcp-service@my-app" }
+  }
+}
+```
+
+If `servers.mcp.principal` is unset, stdio tool calls run with no principal, and RBAC denies them exactly as it would an anonymous REST call — see [MCP Server](rust/mcp-server.md).
+
 ---
 
 ## Step 9 — Add a User to the Principal Table

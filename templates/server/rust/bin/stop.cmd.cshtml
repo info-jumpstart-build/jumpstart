@@ -18,6 +18,9 @@ taskkill /FI "WINDOWTITLE eq scheduler" /T /F >nul 2>&1
 echo Stopping scriptagent...
 taskkill /FI "WINDOWTITLE eq scriptagent" /T /F >nul 2>&1
 
+echo Stopping mcp...
+taskkill /FI "WINDOWTITLE eq mcp" /T /F >nul 2>&1
+
 echo Stopping web...
 taskkill /FI "WINDOWTITLE eq web" /T /F >nul 2>&1
 

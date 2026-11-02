@@ -25,6 +25,7 @@ Generated output is a Cargo workspace of path-dependent crates, layered lowest t
 | `logic` | `gen/shared/logic` | `shared/logic` | The dispatch model and interception (`LogicExec`, `LogicDispatch`, `LogicContext`, the hook registry), authorization, notifications |
 | `script` | `gen/shared/script` | script host in `common` | `ScriptHost` running database-stored scripts on the **Rhai** engine |
 | `api`, `scheduler`, `scriptagent` | `gen/server/*` | `server/*` | The three servers (rouille REST / cron dispatch / script execution) |
+| `mcp` | `gen/server/mcp` | -- (Rust only) | MCP server: domain model as tools (`rmcp`), stdio + streamable-HTTP/SSE |
 | `test-*` | `gen/test/*` | `test/*` | Test harnesses |
 | `import`, `export` | `gen/tools/*` | `tools/*` | CSV data tools |
 
@@ -108,4 +109,5 @@ Each generated crate is an ordinary Cargo crate with a `makefile` wrapping `carg
 
 - [Logic & the dispatch model](logic-dispatch.md) — how interception, authorization, and the hook pipeline work, and how to extend the model from `usr/` code.
 - [Scripting with Rhai](scripting.md) — running database-stored scripts in process, the capabilities exposed to them, and sample calls.
+- [MCP Server](mcp-server.md) — the domain model as MCP tools, transports, and authentication.
 - [Operations Notes](../operations.md) — Rust-specific build/run gotchas (code signing, launchers, ports).

@@ -35,11 +35,12 @@ The generator produces a complete, layered application in your choice of backend
 |     Server       |
 +------------------+
 
-+------------------+     +------------------+
-|   Scheduler      |     |  Script Agent(s) |
-|  (5000-5100)     |<--->|   (5100-5200)    |
-+------------------+     +------------------+
-  Workflow orchestration    Script execution
++------------------+     +------------------+     +------------------+
+|   Scheduler      |     |  Script Agent(s) |     |   MCP Server     |
+|  (5000-5100)     |<--->|   (5100-5200)    |     |  (5300-5400)     |
++------------------+     +------------------+     +------------------+
+  Workflow orchestration    Script execution        MCP tool calls
+                                                      (Rust only)
 ```
 
 ## Layers
@@ -55,6 +56,7 @@ The generator produces a complete, layered application in your choice of backend
 | **API** | `gen/server/api/` | ASP.NET Core | rouille binary | REST endpoints, SSE notifications, JWT auth |
 | **Scheduler** | `gen/server/scheduler/` | worker service | binary (cron crate) | Workflow dispatch and cron scheduling |
 | **Script agent** | `gen/server/scriptagent/` | worker service | binary | Script execution node |
+| **MCP server** | `gen/server/mcp/` | -- | binary (`rmcp`) | Domain model as MCP tools (Rust only) |
 | **Web** | `gen/web/` | Blazor WASM | React + Vite | Pages, components, navigation, live updates |
 | **Tests** | `gen/test/` | console apps | binaries | Per-layer integration test harnesses |
 | **Tools** | `gen/tools/` | console apps | binaries | CSV import/export |
@@ -84,4 +86,5 @@ The same pattern applies to logic classes (`CustomerLogic.*`), custom API routes
 - [Application Server](application-server.md) -- API, logic, persistence, interception, auth — both backends
 - [Scheduling Server](scheduling-server.md) -- Workflow orchestration and dispatch
 - [Agent Server](agent-server.md) -- Script execution and real-time notifications
+- [MCP Server](mcp-server.md) -- Domain model as MCP tools (Rust only)
 - [Web Client](web-client.md) -- Blazor and React frontends

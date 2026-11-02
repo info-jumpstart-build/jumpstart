@@ -15,14 +15,16 @@
   "servers": {
     "api": { "port": "5200" },
     "scheduler": { "port": "5000" },
-    "scriptagent": { "port": "5100" }
+    "scriptagent": { "port": "5100" },
+    "mcp": { "port": "5300", "principal": "mcp-service@my-app" }
   },
   "auth0": {
     "domain": "your-tenant.us.auth0.com",
     "audiences": {
       "api": "https://my-app-api",
       "scheduler": "https://my-app-scheduler",
-      "scriptagent": "https://my-app-scriptagent"
+      "scriptagent": "https://my-app-scriptagent",
+      "mcp": "https://my-app-mcp"
     },
     "m2m_clients": {
       "scheduler": {

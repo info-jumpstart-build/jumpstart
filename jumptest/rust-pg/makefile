@@ -1,21 +1,26 @@
-TARGETDIR=./bin/Debug/net9.0
+default: build
 
-default: generate
-
+# Regenerates from whichever registries are configured in ~/.jumpstart.json's
+# "templatedefs" list for this project (this list itself, including "root").
+# Everything below this point is stack-independent: every server/web/database/
+# test/tools registry pair writes to the same ./gen/... layout, so the rest of
+# this makefile never needs to change when you swap technologies.
 generate:
-	@jumpstart --noauth ./jumptest.csv database-pgsql
-	@jumpstart --noauth ./jumptest.csv server-rust
-	@jumpstart --noauth ./jumptest.csv web-nodejs
-	@jumpstart --noauth ./jumptest.csv tools-rust
-	@jumpstart --noauth ./jumptest.csv test-rust
 
+# Each step is guarded on its ./gen subdirectory actually existing -- not
+# every generated app has every registry (tests/tools are optional add-ons,
+# and a download that only ran a subset of template-defs won't have the
+# rest) -- so `build` never hard-fails on a target that was simply never
+# generated. Compare `database:` below, which already does the same for
+# usr/database/data.
 build:
-	@$(MAKE) -C ./gen/server/api
-	@$(MAKE) -C ./gen/server/scheduler
-	@$(MAKE) -C ./gen/server/scriptagent
-	@$(MAKE) -C ./gen/web
-	@$(MAKE) -C ./gen/tools/export
-	@$(MAKE) -C ./gen/tools/import
+	@if [ -d ./gen/server/api ]; then $(MAKE) -C ./gen/server/api; fi
+	@if [ -d ./gen/server/scheduler ]; then $(MAKE) -C ./gen/server/scheduler; fi
+	@if [ -d ./gen/server/scriptagent ]; then $(MAKE) -C ./gen/server/scriptagent; fi
+	@if [ -d ./gen/server/mcp ]; then $(MAKE) -C ./gen/server/mcp; fi
+	@if [ -d ./gen/web ]; then $(MAKE) -C ./gen/web; fi
+	@if [ -d ./gen/tools/export ]; then $(MAKE) -C ./gen/tools/export; fi
+	@if [ -d ./gen/tools/import ]; then $(MAKE) -C ./gen/tools/import; fi
 
 database:
 	@chmod +x ./gen/database/ddl/build.sh
@@ -36,6 +41,7 @@ server:
 	@$(MAKE) -C ./gen/server/api
 	@$(MAKE) -C ./gen/server/scheduler
 	@$(MAKE) -C ./gen/server/scriptagent
+	@$(MAKE) -C ./gen/server/mcp
 
 api:
 	@$(MAKE) -C ./gen/server/api
@@ -46,16 +52,19 @@ scheduler:
 scriptagent:
 	@$(MAKE) -C ./gen/server/scriptagent
 
+mcp:
+	@$(MAKE) -C ./gen/server/mcp
+
 web:
 	@$(MAKE) -C ./gen/web
 
 test:
-	@$(MAKE) -C ./gen/test/test-persist
-	
+	@if [ -d ./gen/test/test-persist ]; then $(MAKE) -C ./gen/test/test-persist; fi
+
 tools:
-	@$(MAKE) -C ./gen/tools/export
-	@$(MAKE) -C ./gen/tools/import
-	
+	@if [ -d ./gen/tools/export ]; then $(MAKE) -C ./gen/tools/export; fi
+	@if [ -d ./gen/tools/import ]; then $(MAKE) -C ./gen/tools/import; fi
+
 cleangen:
 	@rm -rf ./gen
 

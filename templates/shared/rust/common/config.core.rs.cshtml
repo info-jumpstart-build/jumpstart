@@ -28,12 +28,19 @@ pub struct DataSourceConfig {
 }
 
 /// One entry of the `servers` section of `~/.<namespace>.json`: the fixed port
-/// a named service (`"api"`, `"scheduler"`, `"scriptagent"`) should bind on
-/// startup, instead of scanning its default port range. See `Config::server_port`.
+/// a named service (`"api"`, `"scheduler"`, `"scriptagent"`, `"mcp"`) should
+/// bind on startup, instead of scanning its default port range. See
+/// `Config::server_port`.
 #[derive(Debug, Clone, Deserialize, Default)]
 pub struct ServerConfig {
     #[serde(default)]
     pub port: String,
+    /// Trusted local principal this service runs as when it has no per-request
+    /// identity of its own (e.g. the MCP server's stdio transport, which has no
+    /// bearer token to authenticate). Set once at startup and used for every
+    /// logic-layer call made under that transport. See `Config::server_principal`.
+    #[serde(default)]
+    pub principal: String,
 }
 
 #[derive(Debug, Clone, Deserialize, Default)]
@@ -229,6 +236,18 @@ impl Config {
             } else {
                 trimmed.parse::<u16>().ok()
             }
+        })
+    }
+
+    /// Trusted local principal configured for `service` (currently only the
+    /// MCP server's stdio transport uses this -- see `Config::server_principal`'s
+    /// callers). `None` when the section, the service's entry, or its
+    /// `principal` is absent or empty.
+    pub fn server_principal(service: &str) -> Option<String> {
+        let cfg = Self::load_namespace_config();
+        cfg.servers.get(service).and_then(|s| {
+            let trimmed = s.principal.trim();
+            if trimmed.is_empty() { None } else { Some(trimmed.to_string()) }
         })
     }
 

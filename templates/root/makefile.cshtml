@@ -22,6 +22,7 @@ build:
 	@@if [ -d ./gen/server/api ]; then $(MAKE) -C ./gen/server/api; fi
 	@@if [ -d ./gen/server/scheduler ]; then $(MAKE) -C ./gen/server/scheduler; fi
 	@@if [ -d ./gen/server/scriptagent ]; then $(MAKE) -C ./gen/server/scriptagent; fi
+	@@if [ -d ./gen/server/mcp ]; then $(MAKE) -C ./gen/server/mcp; fi
 	@@if [ -d ./gen/web ]; then $(MAKE) -C ./gen/web; fi
 	@@if [ -d ./gen/tools/export ]; then $(MAKE) -C ./gen/tools/export; fi
 	@@if [ -d ./gen/tools/import ]; then $(MAKE) -C ./gen/tools/import; fi
@@ -45,6 +46,7 @@ server:
 	@@$(MAKE) -C ./gen/server/api
 	@@$(MAKE) -C ./gen/server/scheduler
 	@@$(MAKE) -C ./gen/server/scriptagent
+	@@$(MAKE) -C ./gen/server/mcp
 
 api:
 	@@$(MAKE) -C ./gen/server/api
@@ -54,6 +56,9 @@ scheduler:
 
 scriptagent:
 	@@$(MAKE) -C ./gen/server/scriptagent
+
+mcp:
+	@@$(MAKE) -C ./gen/server/mcp
 
 web:
 	@@$(MAKE) -C ./gen/web
