@@ -69,6 +69,13 @@ rust server templates-scheduler,model,server/rust/scheduler/makefile.cshtml,./ge
 rust server templates-scheduler,model,server/rust/scheduler/appsettings.json.cshtml,./gen/server/scheduler,TRUE
 rust server templates-scheduler,model,server/rust/scheduler/scheduler.sh.cshtml,./gen/server/scheduler,TRUE
 rust server templates-scheduler,model,server/rust/scheduler/scheduler.cmd.cshtml,./gen/server/scheduler,TRUE
+rust server templates-mcp,model,server/rust/mcp/main.generated.rs.cshtml,./gen/server/mcp,TRUE
+rust server templates-mcp,model,server/rust/mcp/Cargo.toml.cshtml,./gen/server/mcp,TRUE
+rust server templates-mcp,model,server/rust/mcp/makefile.cshtml,./gen/server/mcp,TRUE
+rust server templates-mcp,model,server/rust/mcp/appsettings.json.cshtml,./gen/server/mcp,TRUE
+rust server templates-mcp,model,server/rust/mcp/user_mcp_tools.rs.cshtml,./usr/server/mcp,FALSE
+rust server templates-mcp,model,server/rust/mcp/mcp.sh.cshtml,./gen/server/mcp,TRUE
+rust server templates-mcp,model,server/rust/mcp/mcp.cmd.cshtml,./gen/server/mcp,TRUE
 rust server templates-bin,model,server/rust/bin/start.sh.cshtml,./bin,TRUE
 rust server templates-bin,model,server/rust/bin/start.cmd.cshtml,./bin,TRUE
 rust server templates-bin,model,server/rust/bin/stop.sh.cshtml,./bin,TRUE

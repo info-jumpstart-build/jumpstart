@@ -1,7 +1,7 @@
 #!/bin/bash
 # Stop all backend components started by start.sh, using the PID+TTY
 # breadcrumb files it leaves behind (api.pid, scheduler.pid, scriptagent.pid,
-# web.pid -- each line is "PID TTY"). For each entry: kill the recorded
+# mcp.pid, web.pid -- each line is "PID TTY"). For each entry: kill the recorded
 # process, sweep up anything else still attached to the same terminal (e.g.
 # web's npm wrapper alongside the vite process it spawned), and -- on macOS
 # -- close the actual Terminal.app window/tab so it doesn't just sit there
@@ -71,12 +71,15 @@ _stop_component "scheduler" "$DIR/scheduler.pid"
 echo "Stopping scriptagent..."
 _stop_component "scriptagent" "$DIR/scriptagent.pid"
 
+echo "Stopping mcp..."
+_stop_component "mcp" "$DIR/mcp.pid"
+
 echo "Stopping web..."
 _stop_component "web" "$DIR/web.pid"
 
 # Give everything a moment to shut down cleanly, then force-kill stragglers.
 sleep 1
-for pidfile in "$DIR/api.pid" "$DIR/scheduler.pid" "$DIR/scriptagent.pid" "$DIR/web.pid"; do
+for pidfile in "$DIR/api.pid" "$DIR/scheduler.pid" "$DIR/scriptagent.pid" "$DIR/mcp.pid" "$DIR/web.pid"; do
     [[ -s "$pidfile" ]] || { rm -f "$pidfile"; continue; }
     while read -r pid tty; do
         [[ -z "$pid" ]] && continue

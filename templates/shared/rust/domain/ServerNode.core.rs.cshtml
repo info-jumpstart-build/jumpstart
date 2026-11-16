@@ -8,6 +8,7 @@ pub enum ServerNodeType {
     Agent = 1,
     Scheduler = 2,
     ApiServer = 3,
+    McpServer = 4,
 }
 
 impl ServerNodeType {
@@ -16,6 +17,7 @@ impl ServerNodeType {
             ServerNodeType::Agent => "Agent",
             ServerNodeType::Scheduler => "Scheduler",
             ServerNodeType::ApiServer => "ApiServer",
+            ServerNodeType::McpServer => "McpServer",
         }
     }
 
@@ -24,6 +26,7 @@ impl ServerNodeType {
             "agent" => Some(ServerNodeType::Agent),
             "scheduler" => Some(ServerNodeType::Scheduler),
             "apiserver" => Some(ServerNodeType::ApiServer),
+            "mcpserver" => Some(ServerNodeType::McpServer),
             _ => None,
         }
     }
@@ -33,6 +36,7 @@ impl ServerNodeType {
             1 => Some(ServerNodeType::Agent),
             2 => Some(ServerNodeType::Scheduler),
             3 => Some(ServerNodeType::ApiServer),
+            4 => Some(ServerNodeType::McpServer),
             _ => None,
         }
     }

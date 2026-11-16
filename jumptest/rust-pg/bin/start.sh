@@ -1,5 +1,5 @@
 #!/bin/bash
-# Launch all backend components (api, scheduler, scriptagent, web) and leave
+# Launch all backend components (api, scheduler, scriptagent, mcp, web) and leave
 # a PID breadcrumb file behind for each one, so stop.sh can find and stop
 # them later. This works whether a component ended up running in its own
 # Terminal window (macOS/gnome-terminal/xterm) or backgrounded via nohup,
@@ -58,6 +58,14 @@ _capture_pids "scheduler" "$DIR" "$DIR/scheduler.pid" || echo "  warning: could 
 echo "Starting scriptagent..."
 ./scriptagent.sh
 _capture_pids "scriptagent" "$DIR" "$DIR/scriptagent.pid" || echo "  warning: could not find scriptagent's pid"
+
+echo "Starting mcp..."
+# Runs over the http transport (not the default stdio) since this script is
+# for standing the component up as an always-on background service, same as
+# api/scheduler/scriptagent -- stdio is for an MCP client to launch the mcp
+# binary directly itself, bypassing start.sh/stop.sh entirely.
+./mcp.sh --transport http
+_capture_pids "mcp" "$DIR" "$DIR/mcp.pid" || echo "  warning: could not find mcp's pid"
 
 echo "Starting web..."
 ./web.sh

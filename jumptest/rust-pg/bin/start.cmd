@@ -16,6 +16,10 @@ call "%DIR%scheduler.cmd"
 echo Starting scriptagent...
 call "%DIR%scriptagent.cmd"
 
+echo Starting mcp...
+rem Runs over the http transport (not the default stdio) -- see mcp.sh for why.
+call "%DIR%mcp.cmd" --transport http
+
 echo Starting web...
 call "%DIR%web.cmd"
 
